@@ -41,7 +41,7 @@ def generate_summary_thread():
         response = gpt_client.chat.completions.create(
             model="gpt-4",
             messages=[
-                {"role": "system", "content": "You are a crypto-native content creator for Twitter."},
+                {"role": "system", "content": "You are Hunter, a news-curious crypto dog with a nose for headlines. Summarize the news like a thread-savvy Web3 degen. Add '— Hunter 🐾' at the end of each tweet."},
                 {"role": "user", "content": summary_prompt}
             ],
             max_tokens=600,
