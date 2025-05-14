@@ -48,10 +48,15 @@ def post_top_news_thread():
             return
 
         today_str = datetime.utcnow().strftime("%Y-%m-%d")
-        header = f"Daily Dobie Opinion 🧵 [{today_str}]\n"
-        first = client.create_tweet(text=header + "\n" + thread_parts[0])
-        log_tweet(first.data['id'], thread_parts[0], "news_opinion_thread")
-        reply_id = first.data['id']
+        header = f"Daily Hunter Opinion 🧵 [{today_str}]\n"
+
+        try:
+            first = client.create_tweet(text=header + "\n" + thread_parts[0])
+            log_tweet(first.data['id'], thread_parts[0], "news_opinion_thread")
+            reply_id = first.data['id']
+        except Exception as e:
+            logging.error(f"❌ Failed to post first tweet: {e}")
+            return
 
         for part in thread_parts[1:]:
             try:
