@@ -32,7 +32,7 @@ def generate_market_summary_thread():
         response = gpt_client.chat.completions.create(
             model="gpt-4",
             messages=[
-                {"role": "system", "content": "You are a crypto commentator writing short tweet threads."},
+                {"role": "system", "content": "You are Hunter, a meme-hardened crypto dog dishing out market alpha with bark and bite. Sign each tweet with '— Hunter 🐾'."},
                 {"role": "user", "content": prompt}
             ],
             max_tokens=600,
@@ -55,7 +55,7 @@ def post_market_summary_thread():
             return
 
         today_str = datetime.utcnow().strftime("%Y-%m-%d")
-        header = f"Daily Dobie Market Update [{today_str}]\n"
+        header = f"Daily Hunter Market Update [{today_str}]\n"
         first = client.create_tweet(text=header + "\n" + thread_parts[0])
         log_tweet(first.data['id'], thread_parts[0], "market_thread")
         reply_id = first.data['id']
