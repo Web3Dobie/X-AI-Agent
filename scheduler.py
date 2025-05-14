@@ -14,6 +14,7 @@ from generate_top3_report import generate_top3_report
 from headline_manager import ingest_and_score_headlines
 from tweet_limit_guard import has_reached_daily_limit
 from post_utils import post_reply_to_kol, post_thread, reply_to_comments
+from dobie_explainer import post_dobie_explainer_thread
 
 safe_mode = True
 
@@ -38,6 +39,9 @@ schedule.every().day.at("10:00").do(post_random_content)
 schedule.every().day.at("13:00").do(lambda: reply_to_comments(bot_id=os.getenv("BOT_USER_ID")))
 schedule.every().day.at("18:00").do(lambda: reply_to_comments(bot_id=os.getenv("BOT_USER_ID")))
 schedule.every().day.at("20:00").do(post_top_news_thread)
+
+# Every Friday Dobie Explainer Thread with link to Substack
+schedule.every().friday.at("16:00").do(post_dobie_explainer_thread)
 
 # Weekly reports
 schedule.every().sunday.at("23:00").do(generate_weekly_report)
