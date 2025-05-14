@@ -34,7 +34,8 @@ schedule.every().day.at("07:00").do(lambda: logging.info("📊 Engagement score 
 schedule.every().day.at("08:00").do(post_news_thread)
 schedule.every().day.at("09:00").do(post_market_summary_thread)
 schedule.every().day.at("10:00").do(post_random_content)
-schedule.every().day.at("14:00").do(post_reply_to_kol)
+# schedule.every().day.at("14:00").do(post_reply_to_kol) temp de-activated until we have paid API
+schedule.every().day.at("13:00").do(lambda: reply_to_comments(bot_id=os.getenv("BOT_USER_ID")))
 schedule.every().day.at("18:00").do(lambda: reply_to_comments(bot_id=os.getenv("BOT_USER_ID")))
 schedule.every().day.at("20:00").do(post_top_news_thread)
 
