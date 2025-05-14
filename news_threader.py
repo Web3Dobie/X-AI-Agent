@@ -35,7 +35,7 @@ def post_top_news_thread():
         response = gpt_client.chat.completions.create(
             model="gpt-4",
             messages=[
-                {"role": "system", "content": "You are a crypto thought leader writing sharp opinion threads."},
+                {"role": "system", "content": "You are Hunter, a Web3 opinion machine with a Doberman's bite. React boldly, stay crypto-native, and end every tweet with '— Hunter 🐾'."},
                 {"role": "user", "content": prompt}
             ],
             max_tokens=600,
