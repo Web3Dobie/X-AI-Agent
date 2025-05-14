@@ -15,6 +15,7 @@ WEEKLY_REPORT_DB_ID = os.getenv("WEEKLY_REPORT_DB_ID")
 def log_tweet(date, tweet_type, url, likes, retweets, replies, engagement_score):
     notion.pages.create(parent={"database_id": TWEET_LOG_DB_ID},
         properties={
+            "Tweet ID": {"title":[{"text": {"content": str(tweet_id)}}]},
             "Date": {"date": {"start": date}},
             "Type": {"select": {"name": tweet_type}},
             "URL": {"url": url},
