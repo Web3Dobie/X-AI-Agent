@@ -14,7 +14,7 @@ This project is a fully autonomous AI agent that runs a Twitter account focused 
 - **Daily Posting Schedule**
   - 08:00 — Daily Dobie News Recap
   - 09:00 — Market Summary Thread (BTC, ETH, SOL, XRP, OP)
-  - 10:00 — Original/Quote/KOL reply (randomized)
+  - 10:00 — Original/Quote/comment reply (randomized)
   - 13:00 — Replies to Dobie's mentions/comments
   - # 14:00 — Reply to key opinion leaders (KOLs) until we have paid X API
   - 18:00 — Replies to Dobie's mentions/comments
