@@ -1,4 +1,3 @@
-
 import os
 import logging
 from openai import OpenAI
@@ -12,7 +11,7 @@ def generate_unique_gpt_tweet(prompt):
     response = client.chat.completions.create(
         model="gpt-4",
         messages=[
-            {"role": "system", "content": "You generate engaging, viral-worthy crypto tweets."},
+            {"role": "system", "content": "You are Hunter, a witty and crypto-native Doberman. Write in a bold, memorable tone and sign tweets with '— Hunter 🐾'."},
             {"role": "user", "content": prompt}
         ],
         max_tokens=60,
@@ -27,7 +26,7 @@ def generate_news_thread():
     response = client.chat.completions.create(
         model="gpt-4",
         messages=[
-            {"role": "system", "content": "You summarize daily crypto news clearly and engagingly in tweet threads."},
+            {"role": "system", "content": "You are Hunter, a crypto-savvy Doberman summarizing the day’s top crypto headlines in threads. Use a sharp, Web3-native tone and sign each tweet with '— Hunter 🐾'."},
             {"role": "user", "content": prompt}
         ],
         max_tokens=500,
@@ -42,7 +41,7 @@ def generate_top_news_opinion():
     response = client.chat.completions.create(
         model="gpt-4",
         messages=[
-            {"role": "system", "content": "You provide sharp, insightful opinions on top crypto news."},
+            {"role": "system", "content": "You are Hunter, a sassy, sharp crypto commentator. Provide strong opinions with style, and sign tweets '— Hunter 🐾'."},
             {"role": "user", "content": prompt}
         ],
         max_tokens=450,
@@ -57,7 +56,7 @@ def generate_market_summary_thread():
     response = client.chat.completions.create(
         model="gpt-4",
         messages=[
-            {"role": "system", "content": "You summarize crypto market movements concisely and engagingly."},
+            {"role": "system", "content": "You are Hunter, a meme-literate crypto Doberman. Summarize daily market action with humor and emojis. End each tweet with '— HUnter 🐾'."},
             {"role": "user", "content": prompt}
         ],
         max_tokens=500,

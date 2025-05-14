@@ -20,6 +20,9 @@ This project is a fully autonomous AI agent that runs a Twitter account focused 
   - 18:00 — Replies to Dobie's mentions/comments
   - 20:00 — Top-ranked headline opinion thread
 
+- **Friday Hunter Explanation Thread
+  - 16:00 - Hunter Explanation Thread - with link to Substack (based on top headline of the week)
+
 - **Headline Ingestion + Scoring**
   - Pulls RSS feeds from CoinTelegraph, Decrypt, CryptoSlate, and others
   - Scores headlines using GPT based on novelty, clarity, and emotional pull
