@@ -12,7 +12,7 @@ TWEET_LOG_DB_ID = os.getenv("TWEET_LOG_DB_ID")
 HEADLINE_VAULT_DB_ID = os.getenv("HEADLINE_VAULT_DB_ID")
 WEEKLY_REPORT_DB_ID = os.getenv("WEEKLY_REPORT_DB_ID")
 
-def log_tweet(date, tweet_type, url, likes, retweets, replies, engagement_score):
+def log_tweet(tweet_id, date, tweet_type, url, likes, retweets, replies, engagement_score):
     notion.pages.create(parent={"database_id": TWEET_LOG_DB_ID},
         properties={
             "Tweet ID": {"title":[{"text": {"content": str(tweet_id)}}]},
