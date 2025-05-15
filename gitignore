@@ -1,26 +1,28 @@
-# Python cache files
+# Python
 __pycache__/
 *.py[cod]
-*.pyo
+*.so
+*.egg-info/
+*.pyd
 
-# Environment and secrets
-.env
-*.env
-
-# Logs
-logs/
+# Logs and data
 *.log
 *.csv
+*.db
+data/*.csv
+logs/
 
-# Output files
-*.zip
-*.bat
-
-# Notebooks and IDE config
-.ipynb_checkpoints/
-.vscode/
+# Environment
+.env
+.venv/
+env/
+venv/
 .idea/
-
-# macOS and system files
 .DS_Store
+
+# Jupyter/IPython
+.ipynb_checkpoints
+
+# System
 Thumbs.db
+ehthumbs.db

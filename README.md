@@ -1,125 +1,83 @@
-# Web3 Dobie X Agent
+# 🧠 Hunter X-AI Agent
 
-This project is a fully autonomous AI agent that runs a Twitter account focused on crypto/Web3 content. It generates posts, replies, and threads, monitors engagement, and logs metrics to CSV and Notion.
+Hunter is a fully autonomous AI-powered Twitter agent built to run a Web3-themed social media presence. It posts daily crypto commentary, market updates, threads, and replies — all powered by GPT-4 and real-time crypto news feeds.
 
----
+## 🚀 Features
 
-### 🔒 Free X API Limitations
-- 500 posts / month
-- 100 reads / month (very limited!)
-- KOL replies require reads → disabled for now
+- ✅ **GPT-powered tweets**: Generates original, quote, and reply content in Hunter's distinct voice
+- ✅ **Dynamic news ingestion**: Pulls headlines from CoinDesk, Decrypt, Cointelegraph, and more
+- ✅ **Thread generation**: Posts 5-part market updates and 3-part opinion threads daily
+- ✅ **Metrics logging**: Tracks likes, retweets, replies, and stores logs in CSV and Notion
+- ✅ **Follower growth tracking**: Logs followers over time for monetization goals
+- ✅ **Rate limit safe**: Built-in protection against X API limits with toggles and fallback logic
+- ✅ **Substack-ready**: Weekly “Hunter Explains” threads with optional long-form article links
 
-## Features
+## 📅 Posting Schedule
 
-- **Daily Posting Schedule**
-  - 08:00 — Daily Dobie News Recap
-  - 09:00 — Market Summary Thread (BTC, ETH, SOL, XRP, OP)
-  - 10:00 — Original/Quote/comment reply (randomized)
-  - 13:00 — Replies to Dobie's mentions/comments
-  - # 14:00 — Reply to key opinion leaders (KOLs) until we have paid X API
-  - 18:00 — Replies to Dobie's mentions/comments
-  - 20:00 — Top-ranked headline opinion thread
+- **07:00 UTC** — Daily News Recap (3-part thread)
+- **09:00 UTC** — Market Summary (5-part thread)
+- **10:00 UTC** — Dynamic content (original/quote/reply)
+- **13:00 + 18:00 UTC** — Replies to followers' comments
+- **20:00 UTC** — GPT Opinion thread on top crypto headline
+- **Friday** — "Hunter Explains" thread (optional Substack)
 
-- **Friday Hunter Explanation Thread
-  - 16:00 - Hunter Explanation Thread - with link to Substack (based on top headline of the week)
+## 🗂 Project Structure
 
-- **Headline Ingestion + Scoring**
-  - Pulls RSS feeds from CoinTelegraph, Decrypt, CryptoSlate, and others
-  - Scores headlines using GPT based on novelty, clarity, and emotional pull
-  - Stores to `scored_headlines.csv`
+```
+/content/
+    market_summary.py         # 5-token market threads
+    news_recap.py             # Daily news summary thread
+    opinion_thread.py         # Hunter reacts to top headline
+    random_post.py            # Original, quote, or reply tweets
 
-- **GPT-Generated Content**
-  - Threads (news, market, opinion)
-  - Quotes and originals
-  - Replies to tweets or KOLs
+/utils/
+    gpt.py                    # GPT-4 tweet/thread generation
+    x_post.py                 # All tweet/thread posting logic
+    limit_guard.py            # Daily tweet limit tracker
+    logger.py                 # CSV + Notion logging
+    rss_fetch.py              # News ingestion via RSS
+    headline_pipeline.py      # Score + store news
 
-- **Logging**
-  - Tweets to `tweet_log.csv`
-  - Followers to `follower_log.csv`
-  - Engagement metrics to `performance_log.csv`
-
-- **Dashboard**
-  - Built with Streamlit (`dobie_dashboard.py`)
-  - Visualizes tweet volume, top tweets, follower growth
-
----
-
-## Setup Instructions
-
-### 1. Clone the Repo
-
-Unzip the archive and `cd` into the project folder.
-
-### 2. Environment
-
-Install dependencies using `pip` or `conda`:
-
-```bash
-pip install -r requirements.txt
+scheduler.py                 # Main execution scheduler
+README.md
+.gitignore
 ```
 
-Recommended packages:
+## 📦 Dependencies
+
 - `openai`
 - `tweepy`
 - `python-dotenv`
-- `feedparser`
-- `streamlit`
+- `notion-client`
+- `pandas`, `schedule`, `feedparser`
 
-### 3. Configure .env
+## 🔐 Secrets & API Keys
 
-Edit the `.env` file with your own credentials:
-
+Create a `.env` file with:
 ```
 OPENAI_API_KEY=...
-BEARER_TOKEN=...
-API_KEY=...
-API_SECRET=...
-ACCESS_TOKEN=...
-ACCESS_TOKEN_SECRET=...
-BOT_USER_ID=...
+X_API_KEY=...
+X_API_KEY_SECRET=...
+X_ACCESS_TOKEN=...
+X_ACCESS_TOKEN_SECRET=...
+X_USERNAME=Web3_Dobie
+NOTION_TOKEN=...
+TWEET_LOG_DB=...
 ```
 
-### 4. Start the Agent
+## 🧠 Voice & Personality
 
-Run the scheduler:
-
-```bash
-python scheduler.py
+Hunter is a snarky, loyal, crypto-native Doberman with a Web3 sixth sense.
+All content is signed:
+```
+— Hunter 🐾
 ```
 
-To run individual functions for testing:
+## ✅ Status
 
-```bash
-python run_news_thread.py
-python test_all_functions.py
-```
-
-To launch the dashboard:
-
-```bash
-streamlit run dobie_dashboard.py
-```
+🟢 Fully operational.  
+🐾 Let the dog tweet.
 
 ---
 
-## Structure Overview
-
-- `scheduler.py` — master scheduler
-- `content_engine.py` — randomized tweet selector
-- `post_utils.py` — all post and reply functions
-- `news_fetcher.py` — RSS ingestion
-- `headline_manager.py` — GPT scoring
-- `news_poster.py`, `market_threader.py`, `news_threader.py` — GPT thread logic
-- `metrics_logger.py`, `log_follower_count.py` — CSV logging
-- `notion_logger.py`, `poster.py` — integration with Notion
-- `dobie_dashboard.py` — Streamlit frontend
-
----
-
-## Credits
-
-Built by [your name]. Inspired by the idea that a Doberman can outpost half of Crypto Twitter.
-
-For questions, reach out at [your Twitter handle].#   X - A I - A g e n t 
- 
- 
+Made with 🧠 by AI, trained by a human, and voiced by Hunter.
