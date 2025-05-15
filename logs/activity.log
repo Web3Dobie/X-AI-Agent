@@ -2122,3 +2122,773 @@ Too Many Requests
 2025-05-14 11:05:18,910 - \u23e9 Skipping duplicate headline (already scored today): Global Financial Powerhouse Multibank Launches Multi-Billion Dollar Digital Asset Ecosystem
 2025-05-14 11:05:18,913 - \u23e9 Skipping duplicate headline (already scored today): All 12 Bitcoin ETFs See Red as Market Shrugs Off $96 Million Exit | ETF News
 2025-05-14 11:05:18,924 - \u2705 Stored 4 scored headlines.
+2025-05-14 12:05:09,204 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 12:05:09,863 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 12:05:10,629 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 12:05:11,139 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 12:05:11,722 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 12:05:12,515 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 12:05:12,519 - \u23e9 Skipping duplicate headline (already scored today): Asia’s wealthy shifting from US dollar to crypto, gold, China: UBS
+2025-05-14 12:05:12,522 - \u23e9 Skipping duplicate headline (already scored today): Bitcoin miners halt sales as BTC gains 20% since hash ribbon &#039;buy&#039; signal
+2025-05-14 12:05:12,525 - \u23e9 Skipping duplicate headline (already scored today): Standard Chartered Will Provide Banking Services for FalconX to Enhance Cross-Border Settlement
+2025-05-14 12:05:12,529 - \u23e9 Skipping duplicate headline (already scored today): Synthetix Considers Purchase of Options Platform Derive in $27M Token-Swap Deal
+2025-05-14 12:05:12,532 - \u23e9 Skipping duplicate headline (already scored today): Ether Nears $2.7K, Dogecoin Zooms 9% as Crypto Market Remains Cheery
+2025-05-14 12:05:12,535 - \u23e9 Skipping duplicate headline (already scored today): Slow Blockchain Governance Leaves Crypto Exposed to Quantum Threats
+2025-05-14 12:05:12,539 - \u23e9 Skipping duplicate headline (already scored today): eToro Goes Public at $52 a Share, Far Exceeding Marketed Range
+2025-05-14 12:05:13,181 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 12:05:16,756 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 12:05:16,760 - \u23e9 Skipping duplicate headline (already scored today): Ex-Cred Executives Plead Guilty to $150M Crypto Fraud Scheme
+2025-05-14 12:05:16,764 - \u23e9 Skipping duplicate headline (already scored today): FalconX Taps Standard Chartered in Institutional Crypto Investor Tie-Up
+2025-05-14 12:05:16,767 - \u23e9 Skipping duplicate headline (already scored today): Senators Urge Treasury to Rethink Tax on Unrealized Crypto Gains
+2025-05-14 12:05:16,770 - \u23e9 Skipping duplicate headline (already scored today): Paris Kidnapping Attempt Highlights Growing Threat to Crypto Figures
+2025-05-14 12:05:17,433 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 12:05:18,005 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 12:05:18,009 - \u23e9 Skipping duplicate headline (already scored today): Coinbase to launch wrapped XRP, ADA, DOGE, and LTC on Base network
+2025-05-14 12:05:18,012 - \u23e9 Skipping duplicate headline (already scored today): VanEck to compete with BlackRock in tokenized US Treasuries race, launching on Ethereum, BNB, Solana, Avalanche
+2025-05-14 12:05:18,015 - \u23e9 Skipping duplicate headline (already scored today): Tron strengthens grip on USDT, claiming nearly half of its $150B supply
+2025-05-14 12:05:18,018 - \u23e9 Skipping duplicate headline (already scored today): Curve Finance moves to new domain after DNS attack exposes security risks
+2025-05-14 12:05:18,603 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 12:05:19,095 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 12:05:19,712 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 12:05:20,207 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 12:05:20,766 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 12:05:21,230 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 12:05:21,233 - \u23e9 Skipping duplicate headline (already scored today): Crypto Experts Split on Internet Capital Market Tokens: A Breakthrough or Just Another Crypto Bubble?
+2025-05-14 12:05:21,237 - \u23e9 Skipping duplicate headline (already scored today): Sui TVL Tops $2 Billion All-Time High — Here’s What’s Powering the Growth
+2025-05-14 12:05:21,245 - \u2705 Stored 8 scored headlines.
+2025-05-14 13:05:08,216 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 13:05:08,830 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 13:05:09,302 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 13:05:10,483 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 13:05:10,487 - \u23e9 Skipping duplicate headline (already scored today): Strategy will beat all public equities with Bitcoin, analyst says
+2025-05-14 13:05:10,490 - \u23e9 Skipping duplicate headline (already scored today): Kazakhstan to become ‘Central Asia’s crypto hub’ with reforms: Minister
+2025-05-14 13:05:10,494 - \u23e9 Skipping duplicate headline (already scored today): SEC delays Solana ETF as decisions for Polkadot, XRP loom
+2025-05-14 13:05:10,497 - \u23e9 Skipping duplicate headline (already scored today): Standard Chartered Will Provide Banking Services for FalconX to Enhance Cross-Border Settlement
+2025-05-14 13:05:10,500 - \u23e9 Skipping duplicate headline (already scored today): Synthetix Considers Purchase of Options Platform Derive in $27M Token-Swap Deal
+2025-05-14 13:05:10,503 - \u23e9 Skipping duplicate headline (already scored today): Ether Nears $2.7K, Dogecoin Zooms 9% as Crypto Market Remains Cheery
+2025-05-14 13:05:10,506 - \u23e9 Skipping duplicate headline (already scored today): Slow Blockchain Governance Leaves Crypto Exposed to Quantum Threats
+2025-05-14 13:05:10,510 - \u23e9 Skipping duplicate headline (already scored today): eToro Goes Public at $52 a Share, Far Exceeding Marketed Range
+2025-05-14 13:05:11,069 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 13:05:11,872 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 13:05:12,385 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 13:05:13,413 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 13:05:13,418 - \u23e9 Skipping duplicate headline (already scored today): Cartel Bosses Charged With Narco-Terrorism Amid Crypto Ties
+2025-05-14 13:05:13,424 - \u23e9 Skipping duplicate headline (already scored today): Ex-Cred Executives Plead Guilty to $150M Crypto Fraud Scheme
+2025-05-14 13:05:13,428 - \u23e9 Skipping duplicate headline (already scored today): FalconX Taps Standard Chartered in Institutional Crypto Investor Tie-Up
+2025-05-14 13:05:13,953 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 13:05:14,533 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 13:05:14,540 - \u23e9 Skipping duplicate headline (already scored today): Chinese-linked firm raises $300M from private investor to buy TRUMP memecoin
+2025-05-14 13:05:14,545 - \u23e9 Skipping duplicate headline (already scored today): Coinbase to launch wrapped XRP, ADA, DOGE, and LTC on Base network
+2025-05-14 13:05:14,549 - \u23e9 Skipping duplicate headline (already scored today): VanEck to compete with BlackRock in tokenized US Treasuries race, launching on Ethereum, BNB, Solana, Avalanche
+2025-05-14 13:05:14,554 - \u23e9 Skipping duplicate headline (already scored today): Tron strengthens grip on USDT, claiming nearly half of its $150B supply
+2025-05-14 13:05:15,172 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 13:05:17,775 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 13:05:18,344 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 13:05:19,284 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 13:05:19,844 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 13:05:20,230 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 13:05:20,233 - \u23e9 Skipping duplicate headline (already scored today): Dubai Hosts Groundbreaking First Edition of Unchained Summit
+2025-05-14 13:05:20,236 - \u23e9 Skipping duplicate headline (already scored today): Raydium (RAY) Leads the Market With 20% Jump, Eyes $4 Reclaim
+2025-05-14 13:05:20,244 - \u2705 Stored 8 scored headlines.
+2025-05-14 14:00:00,590 - \u274c Error in post_reply_to_kol: 429 Too Many Requests
+Too Many Requests
+2025-05-14 14:05:09,005 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 14:05:09,765 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 14:05:09,769 - \u23e9 Skipping duplicate headline (already scored today): Bitcoin more of a ‘diversifier’ than safe-haven asset: Report
+2025-05-14 14:05:09,772 - \u23e9 Skipping duplicate headline (already scored today): How to spot a fake crypto investment platform: 10 red flags
+2025-05-14 14:05:09,775 - \u23e9 Skipping duplicate headline (already scored today): Strategy will beat all public equities with Bitcoin, analyst says
+2025-05-14 14:05:09,779 - \u23e9 Skipping duplicate headline (already scored today): Kazakhstan to become ‘Central Asia’s crypto hub’ with reforms: Minister
+2025-05-14 14:05:10,658 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 14:05:11,053 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 14:05:11,417 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 14:05:12,061 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 14:05:13,054 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 14:05:13,441 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 14:05:14,138 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 14:05:14,609 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 14:05:14,617 - \u23e9 Skipping duplicate headline (already scored today): Standard Chartered Will Provide Banking Services for FalconX to Enhance Cross-Border Settlement
+2025-05-14 14:05:15,569 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 14:05:15,989 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 14:05:15,992 - \u23e9 Skipping duplicate headline (already scored today): AI Sports Betting Agent Aims to Disrupt Tipster Industry Using Crypto
+2025-05-14 14:05:15,996 - \u23e9 Skipping duplicate headline (already scored today): Brian Armstrong Makes ‘Open Call’ For Ex-DOGE Staff to Join Coinbase
+2025-05-14 14:05:15,999 - \u23e9 Skipping duplicate headline (already scored today): Cartel Bosses Charged With Narco-Terrorism Amid Crypto Ties
+2025-05-14 14:05:16,002 - \u23e9 Skipping duplicate headline (already scored today): Ex-Cred Executives Plead Guilty to $150M Crypto Fraud Scheme
+2025-05-14 14:05:16,480 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 14:05:16,882 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 14:05:16,886 - \u23e9 Skipping duplicate headline (already scored today): BlackRock’s IBIT 20-day inflow streak broken as Bitcoin ETFs see outflows of $96 million
+2025-05-14 14:05:16,890 - \u23e9 Skipping duplicate headline (already scored today): Chinese-linked firm raises $300M from private investor to buy TRUMP memecoin
+2025-05-14 14:05:16,894 - \u23e9 Skipping duplicate headline (already scored today): Coinbase to launch wrapped XRP, ADA, DOGE, and LTC on Base network
+2025-05-14 14:05:16,897 - \u23e9 Skipping duplicate headline (already scored today): VanEck to compete with BlackRock in tokenized US Treasuries race, launching on Ethereum, BNB, Solana, Avalanche
+2025-05-14 14:05:17,462 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 14:05:18,040 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 14:05:18,582 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 14:05:19,035 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 14:05:19,738 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 14:05:20,758 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 14:05:21,191 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 14:05:25,478 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 14:05:25,486 - \u23e9 Skipping duplicate headline (already scored today): Shiba Inu (SHIB) Rallies 24%, But Profit-Taking Signals a Possible Retreat
+2025-05-14 14:05:25,494 - \u2705 Stored 11 scored headlines.
+2025-05-14 15:05:07,386 - \u23e9 Skipping duplicate headline (already scored today): Here’s what happened in crypto today
+2025-05-14 15:05:09,866 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 15:05:12,138 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 15:05:12,653 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 15:05:15,707 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 15:05:15,711 - \u23e9 Skipping duplicate headline (already scored today): Decentralized OORT AI data hits top ranks on Google Kaggle
+2025-05-14 15:05:15,715 - \u23e9 Skipping duplicate headline (already scored today): Bitcoin more of a ‘diversifier’ than safe-haven asset: Report
+2025-05-14 15:05:15,718 - \u23e9 Skipping duplicate headline (already scored today): Surge in XRP, Dogecoin Futures Bets Signals Speculative Froth
+2025-05-14 15:05:15,722 - \u23e9 Skipping duplicate headline (already scored today): Bitcoin Boom Likely as Bond Yields Surge - Yes, You Read That Correctly
+2025-05-14 15:05:15,725 - \u23e9 Skipping duplicate headline (already scored today): Bitcoin May Be Headed Towards a 2021-Like Double Top
+2025-05-14 15:05:15,728 - \u23e9 Skipping duplicate headline (already scored today): Crypto Daybook Americas: Altcoins Rally as ‘Complacent’ Bitcoin Points to Renewed Volatility
+2025-05-14 15:05:15,732 - \u23e9 Skipping duplicate headline (already scored today): Standard Chartered Will Provide Banking Services for FalconX to Enhance Cross-Border Settlement
+2025-05-14 15:05:16,220 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 15:05:16,932 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 15:05:16,936 - \u23e9 Skipping duplicate headline (already scored today): 'Pixelmon' to Launch 'Warden's Ascent' RPG and Idle Mobile Games on Avalanche—Here’s Why
+2025-05-14 15:05:16,940 - \u23e9 Skipping duplicate headline (already scored today): AI Sports Betting Agent Aims to Disrupt Tipster Industry Using Crypto
+2025-05-14 15:05:16,944 - \u23e9 Skipping duplicate headline (already scored today): Brian Armstrong Makes ‘Open Call’ For Ex-DOGE Staff to Join Coinbase
+2025-05-14 15:05:16,948 - \u23e9 Skipping duplicate headline (already scored today): Cartel Bosses Charged With Narco-Terrorism Amid Crypto Ties
+2025-05-14 15:05:16,952 - \u23e9 Skipping duplicate headline (already scored today): Polygon’s co-founder warns of deepfake video scam using his likeness targeting startups
+2025-05-14 15:05:16,957 - \u23e9 Skipping duplicate headline (already scored today): BlackRock’s IBIT 20-day inflow streak broken as Bitcoin ETFs see outflows of $96 million
+2025-05-14 15:05:16,962 - \u23e9 Skipping duplicate headline (already scored today): Chinese-linked firm raises $300M from private investor to buy TRUMP memecoin
+2025-05-14 15:05:16,965 - \u23e9 Skipping duplicate headline (already scored today): Coinbase to launch wrapped XRP, ADA, DOGE, and LTC on Base network
+2025-05-14 15:05:16,969 - \u23e9 Skipping duplicate headline (already scored today): VanEck to compete with BlackRock in tokenized US Treasuries race, launching on Ethereum, BNB, Solana, Avalanche
+2025-05-14 15:05:18,630 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 15:05:19,146 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 15:05:19,769 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 15:05:20,706 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 15:05:21,216 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 15:05:22,018 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 15:05:22,499 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 15:05:23,409 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 15:05:23,415 - \u23e9 Skipping duplicate headline (already scored today): Binance Opens Privasea AI (PRAI) TGE to Select Users—Here’s What to Know
+2025-05-14 15:05:23,424 - \u2705 Stored 7 scored headlines.
+2025-05-14 16:05:08,203 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 16:05:08,854 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 16:05:08,858 - \u23e9 Skipping duplicate headline (already scored today): Here’s what happened in crypto today
+2025-05-14 16:05:08,862 - \u23e9 Skipping duplicate headline (already scored today): Ethereum retakes 10% market share, but ETH bulls shouldn&#039;t celebrate yet
+2025-05-14 16:05:08,865 - \u23e9 Skipping duplicate headline (already scored today): Top South Korean presidential hopefuls support legalizing Bitcoin ETFs
+2025-05-14 16:05:08,868 - \u23e9 Skipping duplicate headline (already scored today): Decentralized OORT AI data hits top ranks on Google Kaggle
+2025-05-14 16:05:09,589 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 16:05:09,983 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 16:05:10,423 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 16:05:15,905 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 16:05:16,487 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 16:05:17,602 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 16:05:17,606 - \u23e9 Skipping duplicate headline (already scored today): Surge in XRP, Dogecoin Futures Bets Signals Speculative Froth
+2025-05-14 16:05:17,609 - \u23e9 Skipping duplicate headline (already scored today): Bitcoin Boom Likely as Bond Yields Surge - Yes, You Read That Correctly
+2025-05-14 16:05:17,613 - \u23e9 Skipping duplicate headline (already scored today): Anthropic Accused of Citing AI ‘Hallucination’ in Song Lyrics Lawsuit
+2025-05-14 16:05:17,616 - \u23e9 Skipping duplicate headline (already scored today): 'Pixelmon' to Launch 'Warden's Ascent' RPG and Idle Mobile Games on Avalanche—Here’s Why
+2025-05-14 16:05:17,619 - \u23e9 Skipping duplicate headline (already scored today): AI Sports Betting Agent Aims to Disrupt Tipster Industry Using Crypto
+2025-05-14 16:05:17,623 - \u23e9 Skipping duplicate headline (already scored today): Brian Armstrong Makes ‘Open Call’ For Ex-DOGE Staff to Join Coinbase
+2025-05-14 16:05:17,626 - \u23e9 Skipping duplicate headline (already scored today): Cartel Bosses Charged With Narco-Terrorism Amid Crypto Ties
+2025-05-14 16:05:18,288 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 16:05:18,738 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 16:05:18,748 - \u23e9 Skipping duplicate headline (already scored today): Polygon’s co-founder warns of deepfake video scam using his likeness targeting startups
+2025-05-14 16:05:18,751 - \u23e9 Skipping duplicate headline (already scored today): BlackRock’s IBIT 20-day inflow streak broken as Bitcoin ETFs see outflows of $96 million
+2025-05-14 16:05:18,754 - \u23e9 Skipping duplicate headline (already scored today): Chinese-linked firm raises $300M from private investor to buy TRUMP memecoin
+2025-05-14 16:05:18,758 - \u23e9 Skipping duplicate headline (already scored today): Coinbase to launch wrapped XRP, ADA, DOGE, and LTC on Base network
+2025-05-14 16:05:19,373 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 16:05:20,146 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 16:05:20,703 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 16:05:21,078 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 16:05:21,082 - \u23e9 Skipping duplicate headline (already scored today): Why These Altcoins Are Trending Today — May 14
+2025-05-14 16:05:21,085 - \u23e9 Skipping duplicate headline (already scored today): 3 US Crypto Stocks to Watch Today
+2025-05-14 16:05:21,088 - \u23e9 Skipping duplicate headline (already scored today): 5 Reasons Why Bitcoin Could Hit a New All-Time High in May
+2025-05-14 16:05:21,098 - \u2705 Stored 7 scored headlines.
+2025-05-14 17:05:07,449 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 17:05:08,705 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 17:05:09,280 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 17:05:09,765 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 17:05:10,184 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 17:05:10,592 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 17:05:10,597 - \u23e9 Skipping duplicate headline (already scored today): French minister to meet crypto firms after kidnapping attempt
+2025-05-14 17:05:10,600 - \u23e9 Skipping duplicate headline (already scored today): Here’s what happened in crypto today
+2025-05-14 17:05:11,014 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 17:05:11,478 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 17:05:11,940 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 17:05:12,411 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 17:05:12,809 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 17:05:13,715 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 17:05:14,309 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 17:05:14,777 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 17:05:15,273 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 17:05:17,809 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 17:05:17,813 - \u23e9 Skipping duplicate headline (already scored today): Anthropic Accused of Citing AI ‘Hallucination’ in Song Lyrics Lawsuit
+2025-05-14 17:05:17,816 - \u23e9 Skipping duplicate headline (already scored today): 'Pixelmon' to Launch 'Warden's Ascent' RPG and Idle Mobile Games on Avalanche—Here’s Why
+2025-05-14 17:05:17,820 - \u23e9 Skipping duplicate headline (already scored today): AI Sports Betting Agent Aims to Disrupt Tipster Industry Using Crypto
+2025-05-14 17:05:17,823 - \u23e9 Skipping duplicate headline (already scored today): Brian Armstrong Makes ‘Open Call’ For Ex-DOGE Staff to Join Coinbase
+2025-05-14 17:05:17,826 - \u23e9 Skipping duplicate headline (already scored today): Cartel Bosses Charged With Narco-Terrorism Amid Crypto Ties
+2025-05-14 17:05:17,830 - \u23e9 Skipping duplicate headline (already scored today): French government to meet crypto leaders over rising kidnapping threats
+2025-05-14 17:05:17,833 - \u23e9 Skipping duplicate headline (already scored today): Polygon’s co-founder warns of deepfake video scam using his likeness targeting startups
+2025-05-14 17:05:17,837 - \u23e9 Skipping duplicate headline (already scored today): BlackRock’s IBIT 20-day inflow streak broken as Bitcoin ETFs see outflows of $96 million
+2025-05-14 17:05:17,840 - \u23e9 Skipping duplicate headline (already scored today): Chinese-linked firm raises $300M from private investor to buy TRUMP memecoin
+2025-05-14 17:05:17,843 - \u23e9 Skipping duplicate headline (already scored today): Coinbase to launch wrapped XRP, ADA, DOGE, and LTC on Base network
+2025-05-14 17:05:18,242 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 17:05:18,693 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 17:05:18,697 - \u23e9 Skipping duplicate headline (already scored today): Solana Meme Coin MOODENG Rallies 700% in a Week, Aims For New All-Time High
+2025-05-14 17:05:18,700 - \u23e9 Skipping duplicate headline (already scored today): Corporate Bitcoin Accumulation Trend Accelerates, Surging 154% in a Year
+2025-05-14 17:05:18,704 - \u23e9 Skipping duplicate headline (already scored today): Why These Altcoins Are Trending Today — May 14
+2025-05-14 17:05:18,707 - \u23e9 Skipping duplicate headline (already scored today): 3 US Crypto Stocks to Watch Today
+2025-05-14 17:05:18,715 - \u2705 Stored 9 scored headlines.
+2025-05-14 18:00:00,811 - \u274c Error in reply_to_comments: 429 Too Many Requests
+Too Many Requests
+2025-05-14 18:05:06,508 - \u23e9 Skipping duplicate headline (already scored today): Bitcoin breakout to $120K on radar as markets forget Fed July rate cut
+2025-05-14 18:05:06,512 - \u23e9 Skipping duplicate headline (already scored today): CFTC commissioner will step down to become Blockchain Association CEO
+2025-05-14 18:05:06,516 - \u23e9 Skipping duplicate headline (already scored today): The facet of TradFi most ripe for disruption is equities
+2025-05-14 18:05:06,520 - \u23e9 Skipping duplicate headline (already scored today): French minister to meet crypto firms after kidnapping attempt
+2025-05-14 18:05:06,523 - \u23e9 Skipping duplicate headline (already scored today): Here’s what happened in crypto today
+2025-05-14 18:05:06,527 - \u23e9 Skipping duplicate headline (already scored today): '$500K Bitcoin Would Seal It': Scaramucci Says Crypto Is on the Cusp of Becoming an Asset Class
+2025-05-14 18:05:06,531 - \u23e9 Skipping duplicate headline (already scored today): New York Finance Watchdog Harris Says State's BitLicense Is Still a Global Standard
+2025-05-14 18:05:06,535 - \u23e9 Skipping duplicate headline (already scored today): Stablecoins Bring 'Meaningful Innovation for Global Payments,' Ripple Exec Says
+2025-05-14 18:05:06,538 - \u23e9 Skipping duplicate headline (already scored today): Cardano (ADA) Surges 22% in One Week After Brave Browser Boosts User Exposure
+2025-05-14 18:05:06,542 - \u23e9 Skipping duplicate headline (already scored today): Lyft Taps Solana’s Bee Maps for Real-Time, Crowdsourced Mapping Upgrade
+2025-05-14 18:05:07,943 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 18:05:08,512 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 18:05:09,010 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 18:05:10,159 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 18:05:10,164 - \u23e9 Skipping duplicate headline (already scored today): Anthropic Accused of Citing AI ‘Hallucination’ in Song Lyrics Lawsuit
+2025-05-14 18:05:10,168 - \u23e9 Skipping duplicate headline (already scored today): 'Pixelmon' to Launch 'Warden's Ascent' RPG and Idle Mobile Games on Avalanche—Here’s Why
+2025-05-14 18:05:10,173 - \u23e9 Skipping duplicate headline (already scored today): AI Sports Betting Agent Aims to Disrupt Tipster Industry Using Crypto
+2025-05-14 18:05:10,659 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 18:05:11,111 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 18:05:11,115 - \u23e9 Skipping duplicate headline (already scored today): French government to meet crypto leaders over rising kidnapping threats
+2025-05-14 18:05:11,119 - \u23e9 Skipping duplicate headline (already scored today): Polygon’s co-founder warns of deepfake video scam using his likeness targeting startups
+2025-05-14 18:05:11,123 - \u23e9 Skipping duplicate headline (already scored today): BlackRock’s IBIT 20-day inflow streak broken as Bitcoin ETFs see outflows of $96 million
+2025-05-14 18:05:11,127 - \u23e9 Skipping duplicate headline (already scored today): Chinese-linked firm raises $300M from private investor to buy TRUMP memecoin
+2025-05-14 18:05:12,760 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 18:05:13,208 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 18:05:13,830 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 18:05:16,289 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 18:05:16,403 - \u23e9 Skipping duplicate headline (already scored today): Following MicroStrategy Can Backfire for Twenty One Capital, Max Keiser Warns | US Crypto News
+2025-05-14 18:05:16,407 - \u23e9 Skipping duplicate headline (already scored today): Solana Meme Coin MOODENG Rallies 700% in a Week, Aims For New All-Time High
+2025-05-14 18:05:16,411 - \u23e9 Skipping duplicate headline (already scored today): Corporate Bitcoin Accumulation Trend Accelerates, Surging 154% in a Year
+2025-05-14 18:05:16,419 - \u2705 Stored 5 scored headlines.
+2025-05-14 19:05:07,156 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 19:05:07,749 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 19:05:08,315 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 19:05:16,580 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 19:05:17,352 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 19:05:17,850 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 19:05:18,315 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 19:05:19,155 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 19:05:19,160 - \u23e9 Skipping duplicate headline (already scored today): Bitcoin breakout to $120K on radar as markets forget Fed July rate cut
+2025-05-14 19:05:19,164 - \u23e9 Skipping duplicate headline (already scored today): '$500K Bitcoin Would Seal It': Scaramucci Says Crypto Is on the Cusp of Becoming an Asset Class
+2025-05-14 19:05:19,167 - \u23e9 Skipping duplicate headline (already scored today): New York Finance Watchdog Harris Says State's BitLicense Is Still a Global Standard
+2025-05-14 19:05:19,171 - \u23e9 Skipping duplicate headline (already scored today): Stablecoins Bring 'Meaningful Innovation for Global Payments,' Ripple Exec Says
+2025-05-14 19:05:19,174 - \u23e9 Skipping duplicate headline (already scored today): Cardano (ADA) Surges 22% in One Week After Brave Browser Boosts User Exposure
+2025-05-14 19:05:19,623 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 19:05:20,173 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 19:05:20,177 - \u23e9 Skipping duplicate headline (already scored today): JPMorgan Settles First Tokenized Treasury Transaction on Public Blockchain, Using Chainlink, Ondo Finance
+2025-05-14 19:05:20,181 - \u23e9 Skipping duplicate headline (already scored today): Decoupling Again? Bitcoin Retains Its Gains as Gold Hits Monthly Low
+2025-05-14 19:05:20,184 - \u23e9 Skipping duplicate headline (already scored today): Anthropic Accused of Citing AI ‘Hallucination’ in Song Lyrics Lawsuit
+2025-05-14 19:05:20,188 - \u23e9 Skipping duplicate headline (already scored today): 'Pixelmon' to Launch 'Warden's Ascent' RPG and Idle Mobile Games on Avalanche—Here’s Why
+2025-05-14 19:05:20,191 - \u23e9 Skipping duplicate headline (already scored today): AI Sports Betting Agent Aims to Disrupt Tipster Industry Using Crypto
+2025-05-14 19:05:20,782 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 19:05:21,204 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 19:05:21,210 - \u23e9 Skipping duplicate headline (already scored today): XRP maintains steady price increase despite early May buy spike
+2025-05-14 19:05:21,215 - \u23e9 Skipping duplicate headline (already scored today): French government to meet crypto leaders over rising kidnapping threats
+2025-05-14 19:05:21,221 - \u23e9 Skipping duplicate headline (already scored today): Polygon’s co-founder warns of deepfake video scam using his likeness targeting startups
+2025-05-14 19:05:21,226 - \u23e9 Skipping duplicate headline (already scored today): BlackRock’s IBIT 20-day inflow streak broken as Bitcoin ETFs see outflows of $96 million
+2025-05-14 19:05:21,838 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 19:05:22,603 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 19:05:23,123 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 19:05:23,524 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 19:05:23,528 - \u23e9 Skipping duplicate headline (already scored today): Pi Network to Deploy 10% of PI Supply for $100 Million Startup Fund
+2025-05-14 19:05:23,531 - \u23e9 Skipping duplicate headline (already scored today): PEOPLE Posts 56% Rise While BOME Takes The Second Spot | Meme Coins To Watch Today
+2025-05-14 19:05:23,534 - \u23e9 Skipping duplicate headline (already scored today): Following MicroStrategy Can Backfire for Twenty One Capital, Max Keiser Warns | US Crypto News
+2025-05-14 19:05:23,544 - \u2705 Stored 8 scored headlines.
+2025-05-14 20:00:15,730 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 20:00:16,065 - \u274c Error generating or posting top news thread: name 'tweet_id' is not defined
+2025-05-14 20:05:08,159 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 20:05:08,777 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 20:05:10,013 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 20:05:14,342 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 20:05:14,347 - \u23e9 Skipping duplicate headline (already scored today): These five crypto figures vanished, died or fooled us all
+2025-05-14 20:05:14,352 - \u23e9 Skipping duplicate headline (already scored today): Bitcoin bulls aim for new all-time highs by next week as capital inflows soar
+2025-05-14 20:05:14,358 - \u23e9 Skipping duplicate headline (already scored today): Canada &#039;got it wrong&#039; labeling stablecoins securities — NDAX exec
+2025-05-14 20:05:14,989 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 20:05:15,452 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 20:05:16,033 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 20:05:16,432 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 20:05:16,436 - \u23e9 Skipping duplicate headline (already scored today): '$500K Bitcoin Would Seal It': Scaramucci Says Crypto Is on the Cusp of Becoming an Asset Class
+2025-05-14 20:05:16,439 - \u23e9 Skipping duplicate headline (already scored today): New York Finance Watchdog Harris Says State's BitLicense Is Still a Global Standard
+2025-05-14 20:05:16,443 - \u23e9 Skipping duplicate headline (already scored today): Stablecoins Bring 'Meaningful Innovation for Global Payments,' Ripple Exec Says
+2025-05-14 20:05:16,939 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 20:05:17,367 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 20:05:17,869 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 20:05:20,701 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 20:05:20,705 - \u23e9 Skipping duplicate headline (already scored today): JPMorgan Settles First Tokenized Treasury Transaction on Public Blockchain, Using Chainlink, Ondo Finance
+2025-05-14 20:05:20,709 - \u23e9 Skipping duplicate headline (already scored today): Decoupling Again? Bitcoin Retains Its Gains as Gold Hits Monthly Low
+2025-05-14 20:05:20,712 - \u23e9 Skipping duplicate headline (already scored today): Anthropic Accused of Citing AI ‘Hallucination’ in Song Lyrics Lawsuit
+2025-05-14 20:05:21,252 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 20:05:21,702 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 20:05:21,708 - \u23e9 Skipping duplicate headline (already scored today): Coinbase CEO wants to hire DOGE staff to help improve the global financial system
+2025-05-14 20:05:21,713 - \u23e9 Skipping duplicate headline (already scored today): XRP maintains steady price increase despite early May buy spike
+2025-05-14 20:05:21,718 - \u23e9 Skipping duplicate headline (already scored today): French government to meet crypto leaders over rising kidnapping threats
+2025-05-14 20:05:21,724 - \u23e9 Skipping duplicate headline (already scored today): Polygon’s co-founder warns of deepfake video scam using his likeness targeting startups
+2025-05-14 20:05:22,437 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 20:05:23,370 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 20:05:24,073 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 20:05:24,605 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 20:05:24,609 - \u23e9 Skipping duplicate headline (already scored today): CFTC Loses Another Pro-Crypto Commissioner Amid Understaffing Concerns
+2025-05-14 20:05:24,613 - \u23e9 Skipping duplicate headline (already scored today): Analysts Discuss Mini Altcoins Seasons Before a Larger Cycle – Here’s Why
+2025-05-14 20:05:24,616 - \u23e9 Skipping duplicate headline (already scored today): Pi Network to Deploy 10% of PI Supply for $100 Million Startup Fund
+2025-05-14 20:05:24,624 - \u2705 Stored 9 scored headlines.
+2025-05-14 21:05:10,420 - \u23e9 Skipping duplicate headline (already scored today): VanEck launches &#039;Onchain Economy&#039; ETF
+2025-05-14 21:05:10,423 - \u23e9 Skipping duplicate headline (already scored today): Price predictions 5/14: BTC, ETH, XRP, BNB, SOL, DOGE, ADA, SUI, LINK, AVAX
+2025-05-14 21:05:10,427 - \u23e9 Skipping duplicate headline (already scored today): These five crypto figures vanished, died or fooled us all
+2025-05-14 21:05:10,430 - \u23e9 Skipping duplicate headline (already scored today): Bitcoin bulls aim for new all-time highs by next week as capital inflows soar
+2025-05-14 21:05:10,434 - \u23e9 Skipping duplicate headline (already scored today): Canada &#039;got it wrong&#039; labeling stablecoins securities — NDAX exec
+2025-05-14 21:05:10,438 - \u23e9 Skipping duplicate headline (already scored today): Trump’s Memecoin, Crypto Stake Make Legislating ‘More Complicated’: Rep. French Hill
+2025-05-14 21:05:10,441 - \u23e9 Skipping duplicate headline (already scored today): Top Democrats Demand Treasury Info on Trump’s Crypto Deals, Citing ‘Bribery’ Risks
+2025-05-14 21:05:10,445 - \u23e9 Skipping duplicate headline (already scored today): '$500K Bitcoin Would Seal It': Scaramucci Says Crypto Is on the Cusp of Becoming an Asset Class
+2025-05-14 21:05:10,448 - \u23e9 Skipping duplicate headline (already scored today): New York Finance Watchdog Harris Says State's BitLicense Is Still a Global Standard
+2025-05-14 21:05:10,452 - \u23e9 Skipping duplicate headline (already scored today): Stablecoins Bring 'Meaningful Innovation for Global Payments,' Ripple Exec Says
+2025-05-14 21:05:11,286 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 21:05:11,811 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 21:05:11,815 - \u23e9 Skipping duplicate headline (already scored today): Coinbase Finally Settles Dogecoin Sweepstakes Lawsuit
+2025-05-14 21:05:12,457 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 21:05:14,559 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 21:05:14,564 - \u23e9 Skipping duplicate headline (already scored today): JPMorgan Settles First Tokenized Treasury Transaction on Public Blockchain, Using Chainlink, Ondo Finance
+2025-05-14 21:05:14,568 - \u23e9 Skipping duplicate headline (already scored today): Decoupling Again? Bitcoin Retains Its Gains as Gold Hits Monthly Low
+2025-05-14 21:05:15,041 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 21:05:24,940 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 21:05:25,534 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 21:05:25,957 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 21:05:25,961 - \u23e9 Skipping duplicate headline (already scored today): Pi Foundation unveils $100 million investment initiative to drive real-world utility
+2025-05-14 21:05:25,965 - \u23e9 Skipping duplicate headline (already scored today): Coinbase CEO wants to hire DOGE staff to help improve the global financial system
+2025-05-14 21:05:25,968 - \u23e9 Skipping duplicate headline (already scored today): XRP maintains steady price increase despite early May buy spike
+2025-05-14 21:05:26,631 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 21:05:27,608 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 21:05:27,612 - \u23e9 Skipping duplicate headline (already scored today): Bitcoin Whales are Increasing, But Their Activity Remains Unstable
+2025-05-14 21:05:27,618 - \u23e9 Skipping duplicate headline (already scored today): Tether is Launching a Decentralized Platform for AI Agents Called QVAC
+2025-05-14 21:05:27,624 - \u23e9 Skipping duplicate headline (already scored today): CFTC Loses Another Pro-Crypto Commissioner Amid Understaffing Concerns
+2025-05-14 21:05:27,629 - \u23e9 Skipping duplicate headline (already scored today): Analysts Discuss Mini Altcoins Seasons Before a Larger Cycle – Here’s Why
+2025-05-14 21:05:27,638 - \u2705 Stored 5 scored headlines.
+2025-05-14 22:05:09,754 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 22:05:10,722 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 22:05:14,293 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 22:05:17,640 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 22:05:17,644 - \u23e9 Skipping duplicate headline (already scored today): VanEck launches &#039;Onchain Economy&#039; ETF
+2025-05-14 22:05:17,649 - \u23e9 Skipping duplicate headline (already scored today): Price predictions 5/14: BTC, ETH, XRP, BNB, SOL, DOGE, ADA, SUI, LINK, AVAX
+2025-05-14 22:05:17,652 - \u23e9 Skipping duplicate headline (already scored today): These five crypto figures vanished, died or fooled us all
+2025-05-14 22:05:18,394 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 22:05:24,230 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 22:05:24,236 - \u23e9 Skipping duplicate headline (already scored today): Trump’s Memecoin, Crypto Stake Make Legislating ‘More Complicated’: Rep. French Hill
+2025-05-14 22:05:24,239 - \u23e9 Skipping duplicate headline (already scored today): Top Democrats Demand Treasury Info on Trump’s Crypto Deals, Citing ‘Bribery’ Risks
+2025-05-14 22:05:24,243 - \u23e9 Skipping duplicate headline (already scored today): '$500K Bitcoin Would Seal It': Scaramucci Says Crypto Is on the Cusp of Becoming an Asset Class
+2025-05-14 22:05:24,246 - \u23e9 Skipping duplicate headline (already scored today): New York Finance Watchdog Harris Says State's BitLicense Is Still a Global Standard
+2025-05-14 22:05:25,094 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 22:05:34,352 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 22:05:34,362 - \u23e9 Skipping duplicate headline (already scored today): Why Ethereum Has Soared Over the Past 7 Days: Bernstein
+2025-05-14 22:05:34,365 - \u23e9 Skipping duplicate headline (already scored today): Coinbase Finally Settles Dogecoin Sweepstakes Lawsuit
+2025-05-14 22:05:34,368 - \u23e9 Skipping duplicate headline (already scored today): CFTC Commissioner Mersinger Tapped to Lead Top Crypto Lobbying Organization
+2025-05-14 22:05:34,372 - \u23e9 Skipping duplicate headline (already scored today): JPMorgan Settles First Tokenized Treasury Transaction on Public Blockchain, Using Chainlink, Ondo Finance
+2025-05-14 22:05:34,956 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 22:05:37,350 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 22:05:37,363 - \u23e9 Skipping duplicate headline (already scored today): JPMorgan bridges blockchain and traditional finance in landmark pilot transaction
+2025-05-14 22:05:37,368 - \u23e9 Skipping duplicate headline (already scored today): Former front-runner for CFTC chair role resigns to lead Blockchain Association
+2025-05-14 22:05:37,373 - \u23e9 Skipping duplicate headline (already scored today): Pi Foundation unveils $100 million investment initiative to drive real-world utility
+2025-05-14 22:05:37,378 - \u23e9 Skipping duplicate headline (already scored today): Coinbase CEO wants to hire DOGE staff to help improve the global financial system
+2025-05-14 22:05:37,846 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 22:05:40,110 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 22:05:40,717 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 22:05:41,206 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 22:05:41,211 - \u23e9 Skipping duplicate headline (already scored today): Vivien Lin on How BingX Is Bridging CeFi and DeFi With User-Centric Innovation
+2025-05-14 22:05:41,217 - \u23e9 Skipping duplicate headline (already scored today): Bitcoin Whales are Increasing, But Their Activity Remains Unstable
+2025-05-14 22:05:41,220 - \u23e9 Skipping duplicate headline (already scored today): Tether is Launching a Decentralized Platform for AI Agents Called QVAC
+2025-05-14 22:05:41,229 - \u2705 Stored 7 scored headlines.
+2025-05-14 23:05:09,137 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 23:05:12,213 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 23:05:12,630 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 23:05:13,026 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 23:05:13,462 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 23:05:13,866 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 23:05:13,871 - \u23e9 Skipping duplicate headline (already scored today): New York has &#039;outsized role to play&#039; in crypto ecosystem — State regulator head
+2025-05-14 23:05:13,874 - \u23e9 Skipping duplicate headline (already scored today): Crypto execs flock to DC to support Senate stablecoin bill
+2025-05-14 23:05:14,362 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 23:05:14,805 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 23:05:15,238 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 23:05:22,920 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 23:05:23,396 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 23:05:23,795 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 23:05:24,314 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 23:05:24,887 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 23:05:24,891 - \u23e9 Skipping duplicate headline (already scored today): Pantera's Dan Morehead Sees Decades of Bitcoin Upside Ahead
+2025-05-14 23:05:25,341 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 23:05:25,810 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 23:05:26,200 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 23:05:26,670 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 23:05:27,221 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 23:05:27,606 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 23:05:27,612 - \u23e9 Skipping duplicate headline (already scored today): Meet 'QVAC': Tether’s Decentralized AI God in Your Pocket
+2025-05-14 23:05:27,616 - \u23e9 Skipping duplicate headline (already scored today): Why Ethereum Has Soared Over the Past 7 Days: Bernstein
+2025-05-14 23:05:28,179 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 23:05:28,605 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 23:05:29,182 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 23:05:29,571 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 23:05:29,575 - \u23e9 Skipping duplicate headline (already scored today): Solana derivatives flip long for 83 straight days, yet SOL sits nearly 30% below peak
+2025-05-14 23:05:29,580 - \u23e9 Skipping duplicate headline (already scored today): JPMorgan bridges blockchain and traditional finance in landmark pilot transaction
+2025-05-14 23:05:29,583 - \u23e9 Skipping duplicate headline (already scored today): Former front-runner for CFTC chair role resigns to lead Blockchain Association
+2025-05-14 23:05:30,079 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-14 23:05:30,637 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-14 23:05:30,644 - \u23e9 Skipping duplicate headline (already scored today): Is TRUMP Poised for a Rally or More Losses Ahead of the Presidential Dinner?
+2025-05-14 23:05:30,649 - \u23e9 Skipping duplicate headline (already scored today): How Solana’s Confidential Balances Will Drive Institutional Adoption
+2025-05-14 23:05:30,654 - \u23e9 Skipping duplicate headline (already scored today): Vivien Lin on How BingX Is Bridging CeFi and DeFi With User-Centric Innovation
+2025-05-14 23:05:30,658 - \u23e9 Skipping duplicate headline (already scored today): Bitcoin Whales are Increasing, But Their Activity Remains Unstable
+2025-05-14 23:05:30,667 - \u2705 Stored 13 scored headlines.
+2025-05-15 00:05:07,745 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 00:05:08,227 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 00:05:08,230 - \u23e9 Skipping duplicate headline (already scored today): Here’s what happened in crypto today
+2025-05-15 00:05:08,234 - \u23e9 Skipping duplicate headline (already scored today): 3 reasons why Ethereum price could rally to $5,000 in 2025
+2025-05-15 00:05:08,237 - \u23e9 Skipping duplicate headline (already scored today): Ethereum Foundation unveils security initiative to supplant legacy systems
+2025-05-15 00:05:08,241 - \u23e9 Skipping duplicate headline (already scored today): Bitfarms clocks $36M net loss amid shift from Bitcoin mining to AI
+2025-05-15 00:05:08,923 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 00:05:09,546 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 00:05:10,073 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 00:05:10,652 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 00:05:11,251 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 00:05:14,494 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 00:05:15,019 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 00:05:15,976 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 00:05:15,982 - \u23e9 Skipping duplicate headline (already scored today): World's Iris-Scanning Tech Misunderstood, Data Never Leaves Orb, Advisor Says
+2025-05-15 00:05:15,986 - \u23e9 Skipping duplicate headline (already scored today): Crypto, Stock Trading Platform eToro Soars to $5.4 Billion Market Cap After Nasdaq Debut
+2025-05-15 00:05:15,989 - \u23e9 Skipping duplicate headline (already scored today): House Democrats Seek Treasury Reports on Trump's Meme Coin, World Liberty Financial
+2025-05-15 00:05:15,993 - \u23e9 Skipping duplicate headline (already scored today): Bitcoin Price Is Too Low, Should Hit $500K-$1M This Cycle: Adam Back
+2025-05-15 00:05:15,997 - \u23e9 Skipping duplicate headline (already scored today): Meet 'QVAC': Tether’s Decentralized AI God in Your Pocket
+2025-05-15 00:05:16,000 - \u23e9 Skipping duplicate headline (already scored today): Why Ethereum Has Soared Over the Past 7 Days: Bernstein
+2025-05-15 00:05:16,619 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 00:05:17,086 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 00:05:17,091 - \u23e9 Skipping duplicate headline (already scored today): Bitwise CIO expects surge in crypto ETP allocations by year-end, foresees 5% portfolio norm
+2025-05-15 00:05:17,095 - \u23e9 Skipping duplicate headline (already scored today): Europol, Spanish police dismantle ‘mafia crypto bank’ laundering funds across continents
+2025-05-15 00:05:17,099 - \u23e9 Skipping duplicate headline (already scored today): Solana derivatives flip long for 83 straight days, yet SOL sits nearly 30% below peak
+2025-05-15 00:05:17,102 - \u23e9 Skipping duplicate headline (already scored today): JPMorgan bridges blockchain and traditional finance in landmark pilot transaction
+2025-05-15 00:05:17,626 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 00:05:18,025 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 00:05:18,030 - \u23e9 Skipping duplicate headline (already scored today): Kaito Hasn’t Sold Any Tokens Since Ending Ties with the Market Maker
+2025-05-15 00:05:18,034 - \u23e9 Skipping duplicate headline (already scored today): Is TRUMP Poised for a Rally or More Losses Ahead of the Presidential Dinner?
+2025-05-15 00:05:18,038 - \u23e9 Skipping duplicate headline (already scored today): How Solana’s Confidential Balances Will Drive Institutional Adoption
+2025-05-15 00:05:18,041 - \u23e9 Skipping duplicate headline (already scored today): Vivien Lin on How BingX Is Bridging CeFi and DeFi With User-Centric Innovation
+2025-05-15 00:05:18,050 - \u2705 Stored 7 scored headlines.
+2025-05-15 01:05:07,237 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 01:05:08,810 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 01:05:09,358 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 01:05:09,785 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 01:05:10,191 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 01:05:10,644 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 01:05:11,286 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 01:05:12,198 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 01:05:12,714 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 01:05:14,977 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 01:05:15,506 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 01:05:23,052 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 01:05:23,475 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 01:05:23,929 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 01:05:24,781 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 01:05:25,229 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 01:05:25,700 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 01:05:26,123 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 01:05:26,511 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 01:05:29,538 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 01:05:30,011 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 01:05:30,516 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 01:05:30,915 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 01:05:31,309 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 01:05:31,849 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 01:05:32,854 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 01:05:33,378 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 01:05:33,790 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 01:05:34,180 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 01:05:35,477 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 01:05:36,040 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 01:05:38,512 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 01:05:39,297 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 01:05:40,907 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 01:05:41,473 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 01:05:41,887 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 01:05:42,356 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 01:05:42,962 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 01:05:43,590 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 01:05:44,007 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 01:05:44,636 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 01:05:45,777 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 01:05:46,421 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 01:05:46,804 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 01:05:47,438 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 01:05:50,991 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 01:05:51,451 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 01:05:52,131 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 01:05:52,951 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 01:05:54,366 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 01:05:54,376 - \u2705 Stored 25 scored headlines.
+2025-05-15 02:05:09,498 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 02:05:10,063 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 02:05:10,620 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 02:05:11,021 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 02:05:11,028 - \u23e9 Skipping duplicate headline (already scored today): Google search volume for Bitcoin flat as BTC nears new highs — Where are retail investors?
+2025-05-15 02:05:11,034 - \u23e9 Skipping duplicate headline (already scored today): Dogecoin active addresses surge by 528% — Will DOGE price follow?
+2025-05-15 02:05:11,039 - \u23e9 Skipping duplicate headline (already scored today): Here’s what happened in crypto today
+2025-05-15 02:05:11,043 - \u23e9 Skipping duplicate headline (already scored today): Banks Exploring Stablecoin Amid Fears of Losing Market Share, BitGo Executive Says
+2025-05-15 02:05:11,047 - \u23e9 Skipping duplicate headline (already scored today): Trump Still on Track to Sign Crypto Legislation by August, White House's Bo Hines Says
+2025-05-15 02:05:11,051 - \u23e9 Skipping duplicate headline (already scored today): Cantor Fitzgerald Chairman Brandon Lutnick Says He Personally Checked Tether’s Reserves
+2025-05-15 02:05:11,055 - \u23e9 Skipping duplicate headline (already scored today): Anchorage Digital CEO Calls 'Bullshit' on Report of DHS Probe
+2025-05-15 02:05:11,060 - \u23e9 Skipping duplicate headline (already scored today): World's Iris-Scanning Tech Misunderstood, Data Never Leaves Orb, Advisor Says
+2025-05-15 02:05:11,994 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 02:05:12,376 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 02:05:12,940 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 02:05:14,626 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 02:05:14,636 - \u23e9 Skipping duplicate headline (already scored today): British Museum Puts Sculptures of Dürer's 'Rhinoceros' on Bitcoin Blockchain
+2025-05-15 02:05:14,640 - \u23e9 Skipping duplicate headline (already scored today): Crypto, Stock Trading Platform eToro Soars to $5.4 Billion Market Cap After Nasdaq Debut
+2025-05-15 02:05:14,643 - \u23e9 Skipping duplicate headline (already scored today): House Democrats Seek Treasury Reports on Trump's Meme Coin, World Liberty Financial
+2025-05-15 02:05:14,649 - \u23e9 Skipping duplicate headline (already scored today): Bitfarms financial income falls 82% YoY, magnifying net loss to $35.9M
+2025-05-15 02:05:14,652 - \u23e9 Skipping duplicate headline (already scored today): Ethereum Foundation aims to secure the future with trillion-dollar security initiative
+2025-05-15 02:05:14,656 - \u23e9 Skipping duplicate headline (already scored today): Bitwise CIO expects surge in crypto ETP allocations by year-end, foresees 5% portfolio norm
+2025-05-15 02:05:14,660 - \u23e9 Skipping duplicate headline (already scored today): Europol, Spanish police dismantle ‘mafia crypto bank’ laundering funds across continents
+2025-05-15 02:05:14,664 - \u23e9 Skipping duplicate headline (already scored today): Solana derivatives flip long for 83 straight days, yet SOL sits nearly 30% below peak
+2025-05-15 02:05:15,398 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 02:05:22,773 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 02:05:22,777 - \u23e9 Skipping duplicate headline (already scored today): PI Network Falls Below $1 Despite $100 Million Startup Fund Launch
+2025-05-15 02:05:22,781 - \u23e9 Skipping duplicate headline (already scored today): Nebraska to Make Bitcoin Mining More Difficult With a New Bill
+2025-05-15 02:05:22,786 - \u23e9 Skipping duplicate headline (already scored today): Kaito Hasn’t Sold Any Tokens Since Ending Ties with the Market Maker
+2025-05-15 02:05:22,790 - \u23e9 Skipping duplicate headline (already scored today): Is TRUMP Poised for a Rally or More Losses Ahead of the Presidential Dinner?
+2025-05-15 02:05:22,798 - \u2705 Stored 5 scored headlines.
+2025-05-15 03:05:10,504 - \u23e9 Skipping duplicate headline (already scored today): eToro jumps 30% on Nasdaq debut after upsized IPO
+2025-05-15 03:05:10,509 - \u23e9 Skipping duplicate headline (already scored today): Crypto startups scaring away VCs with 80x valuations: 10T Holdings
+2025-05-15 03:05:10,513 - \u23e9 Skipping duplicate headline (already scored today): Google search volume for Bitcoin flat as BTC nears new highs — Where are retail investors?
+2025-05-15 03:05:10,517 - \u23e9 Skipping duplicate headline (already scored today): Dogecoin active addresses surge by 528% — Will DOGE price follow?
+2025-05-15 03:05:10,520 - \u23e9 Skipping duplicate headline (already scored today): Here’s what happened in crypto today
+2025-05-15 03:05:10,524 - \u23e9 Skipping duplicate headline (already scored today): Banks Exploring Stablecoin Amid Fears of Losing Market Share, BitGo Executive Says
+2025-05-15 03:05:10,528 - \u23e9 Skipping duplicate headline (already scored today): Trump Still on Track to Sign Crypto Legislation by August, White House's Bo Hines Says
+2025-05-15 03:05:10,532 - \u23e9 Skipping duplicate headline (already scored today): Cantor Fitzgerald Chairman Brandon Lutnick Says He Personally Checked Tether’s Reserves
+2025-05-15 03:05:10,535 - \u23e9 Skipping duplicate headline (already scored today): Anchorage Digital CEO Calls 'Bullshit' on Report of DHS Probe
+2025-05-15 03:05:10,539 - \u23e9 Skipping duplicate headline (already scored today): World's Iris-Scanning Tech Misunderstood, Data Never Leaves Orb, Advisor Says
+2025-05-15 03:05:10,543 - \u23e9 Skipping duplicate headline (already scored today): What’s Up Grok? AI Under Fire for Injecting ‘White Genocide’ Claims Into Unrelated Replies
+2025-05-15 03:05:10,547 - \u23e9 Skipping duplicate headline (already scored today): Lyft Taps Solana-Powered Bee Maps for Decentralized Mapping Data
+2025-05-15 03:05:10,551 - \u23e9 Skipping duplicate headline (already scored today): British Museum Puts Sculptures of Dürer's 'Rhinoceros' on Bitcoin Blockchain
+2025-05-15 03:05:10,554 - \u23e9 Skipping duplicate headline (already scored today): Crypto, Stock Trading Platform eToro Soars to $5.4 Billion Market Cap After Nasdaq Debut
+2025-05-15 03:05:10,558 - \u23e9 Skipping duplicate headline (already scored today): House Democrats Seek Treasury Reports on Trump's Meme Coin, World Liberty Financial
+2025-05-15 03:05:10,562 - \u23e9 Skipping duplicate headline (already scored today): Bitfarms financial income falls 82% YoY, magnifying net loss to $35.9M
+2025-05-15 03:05:10,567 - \u23e9 Skipping duplicate headline (already scored today): Ethereum Foundation aims to secure the future with trillion-dollar security initiative
+2025-05-15 03:05:10,570 - \u23e9 Skipping duplicate headline (already scored today): Bitwise CIO expects surge in crypto ETP allocations by year-end, foresees 5% portfolio norm
+2025-05-15 03:05:10,574 - \u23e9 Skipping duplicate headline (already scored today): Europol, Spanish police dismantle ‘mafia crypto bank’ laundering funds across continents
+2025-05-15 03:05:10,578 - \u23e9 Skipping duplicate headline (already scored today): Solana derivatives flip long for 83 straight days, yet SOL sits nearly 30% below peak
+2025-05-15 03:05:10,582 - \u23e9 Skipping duplicate headline (already scored today): Meme Coins Hold 41% of the AI Crypto Market Share, But DeFAI is Growing
+2025-05-15 03:05:10,586 - \u23e9 Skipping duplicate headline (already scored today): PI Network Falls Below $1 Despite $100 Million Startup Fund Launch
+2025-05-15 03:05:10,590 - \u23e9 Skipping duplicate headline (already scored today): Nebraska to Make Bitcoin Mining More Difficult With a New Bill
+2025-05-15 03:05:10,594 - \u23e9 Skipping duplicate headline (already scored today): Kaito Hasn’t Sold Any Tokens Since Ending Ties with the Market Maker
+2025-05-15 03:05:10,598 - \u23e9 Skipping duplicate headline (already scored today): Is TRUMP Poised for a Rally or More Losses Ahead of the Presidential Dinner?
+2025-05-15 04:05:09,699 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 04:05:11,374 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 04:05:11,846 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 04:05:13,025 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 04:05:13,031 - \u23e9 Skipping duplicate headline (already scored today): eToro jumps 30% on Nasdaq debut after upsized IPO
+2025-05-15 04:05:13,036 - \u23e9 Skipping duplicate headline (already scored today): Crypto startups scaring away VCs with 80x valuations: 10T Holdings
+2025-05-15 04:05:13,042 - \u23e9 Skipping duplicate headline (already scored today): Google search volume for Bitcoin flat as BTC nears new highs — Where are retail investors?
+2025-05-15 04:05:13,046 - \u23e9 Skipping duplicate headline (already scored today): Banks Exploring Stablecoin Amid Fears of Losing Market Share, BitGo Executive Says
+2025-05-15 04:05:13,049 - \u23e9 Skipping duplicate headline (already scored today): Trump Still on Track to Sign Crypto Legislation by August, White House's Bo Hines Says
+2025-05-15 04:05:13,054 - \u23e9 Skipping duplicate headline (already scored today): Cantor Fitzgerald Chairman Brandon Lutnick Says He Personally Checked Tether’s Reserves
+2025-05-15 04:05:13,058 - \u23e9 Skipping duplicate headline (already scored today): Anchorage Digital CEO Calls 'Bullshit' on Report of DHS Probe
+2025-05-15 04:05:13,062 - \u23e9 Skipping duplicate headline (already scored today): World's Iris-Scanning Tech Misunderstood, Data Never Leaves Orb, Advisor Says
+2025-05-15 04:05:13,066 - \u23e9 Skipping duplicate headline (already scored today): What’s Up Grok? AI Under Fire for Injecting ‘White Genocide’ Claims Into Unrelated Replies
+2025-05-15 04:05:13,070 - \u23e9 Skipping duplicate headline (already scored today): Lyft Taps Solana-Powered Bee Maps for Decentralized Mapping Data
+2025-05-15 04:05:13,074 - \u23e9 Skipping duplicate headline (already scored today): British Museum Puts Sculptures of Dürer's 'Rhinoceros' on Bitcoin Blockchain
+2025-05-15 04:05:13,078 - \u23e9 Skipping duplicate headline (already scored today): Crypto, Stock Trading Platform eToro Soars to $5.4 Billion Market Cap After Nasdaq Debut
+2025-05-15 04:05:13,081 - \u23e9 Skipping duplicate headline (already scored today): House Democrats Seek Treasury Reports on Trump's Meme Coin, World Liberty Financial
+2025-05-15 04:05:13,085 - \u23e9 Skipping duplicate headline (already scored today): Bitfarms financial income falls 82% YoY, magnifying net loss to $35.9M
+2025-05-15 04:05:13,090 - \u23e9 Skipping duplicate headline (already scored today): Ethereum Foundation aims to secure the future with trillion-dollar security initiative
+2025-05-15 04:05:13,094 - \u23e9 Skipping duplicate headline (already scored today): Bitwise CIO expects surge in crypto ETP allocations by year-end, foresees 5% portfolio norm
+2025-05-15 04:05:13,098 - \u23e9 Skipping duplicate headline (already scored today): Europol, Spanish police dismantle ‘mafia crypto bank’ laundering funds across continents
+2025-05-15 04:05:13,101 - \u23e9 Skipping duplicate headline (already scored today): Solana derivatives flip long for 83 straight days, yet SOL sits nearly 30% below peak
+2025-05-15 04:05:13,106 - \u23e9 Skipping duplicate headline (already scored today): Meme Coins Hold 41% of the AI Crypto Market Share, But DeFAI is Growing
+2025-05-15 04:05:13,111 - \u23e9 Skipping duplicate headline (already scored today): PI Network Falls Below $1 Despite $100 Million Startup Fund Launch
+2025-05-15 04:05:13,116 - \u23e9 Skipping duplicate headline (already scored today): Nebraska to Make Bitcoin Mining More Difficult With a New Bill
+2025-05-15 04:05:13,120 - \u23e9 Skipping duplicate headline (already scored today): Kaito Hasn’t Sold Any Tokens Since Ending Ties with the Market Maker
+2025-05-15 04:05:13,125 - \u23e9 Skipping duplicate headline (already scored today): Is TRUMP Poised for a Rally or More Losses Ahead of the Presidential Dinner?
+2025-05-15 04:05:13,134 - \u2705 Stored 2 scored headlines.
+2025-05-15 05:05:07,669 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 05:05:08,239 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 05:05:08,244 - \u23e9 Skipping duplicate headline (already scored today): Europol helps dismantle $23M ‘mafia crypto bank’
+2025-05-15 05:05:08,249 - \u23e9 Skipping duplicate headline (already scored today): Dems seek suspicious activity reports linked to Trump crypto ventures
+2025-05-15 05:05:08,253 - \u23e9 Skipping duplicate headline (already scored today): eToro jumps 30% on Nasdaq debut after upsized IPO
+2025-05-15 05:05:08,257 - \u23e9 Skipping duplicate headline (already scored today): Crypto startups scaring away VCs with 80x valuations: 10T Holdings
+2025-05-15 05:05:08,261 - \u23e9 Skipping duplicate headline (already scored today): Banks Exploring Stablecoin Amid Fears of Losing Market Share, BitGo Executive Says
+2025-05-15 05:05:08,265 - \u23e9 Skipping duplicate headline (already scored today): Trump Still on Track to Sign Crypto Legislation by August, White House's Bo Hines Says
+2025-05-15 05:05:08,269 - \u23e9 Skipping duplicate headline (already scored today): Cantor Fitzgerald Chairman Brandon Lutnick Says He Personally Checked Tether’s Reserves
+2025-05-15 05:05:08,272 - \u23e9 Skipping duplicate headline (already scored today): Anchorage Digital CEO Calls 'Bullshit' on Report of DHS Probe
+2025-05-15 05:05:08,276 - \u23e9 Skipping duplicate headline (already scored today): World's Iris-Scanning Tech Misunderstood, Data Never Leaves Orb, Advisor Says
+2025-05-15 05:05:08,789 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 05:05:15,044 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 05:05:15,070 - \u23e9 Skipping duplicate headline (already scored today): What’s Up Grok? AI Under Fire for Injecting ‘White Genocide’ Claims Into Unrelated Replies
+2025-05-15 05:05:15,075 - \u23e9 Skipping duplicate headline (already scored today): Lyft Taps Solana-Powered Bee Maps for Decentralized Mapping Data
+2025-05-15 05:05:15,081 - \u23e9 Skipping duplicate headline (already scored today): British Museum Puts Sculptures of Dürer's 'Rhinoceros' on Bitcoin Blockchain
+2025-05-15 05:05:15,086 - \u23e9 Skipping duplicate headline (already scored today): Crypto, Stock Trading Platform eToro Soars to $5.4 Billion Market Cap After Nasdaq Debut
+2025-05-15 05:05:15,091 - \u23e9 Skipping duplicate headline (already scored today): Bitfarms financial income falls 82% YoY, magnifying net loss to $35.9M
+2025-05-15 05:05:15,095 - \u23e9 Skipping duplicate headline (already scored today): Ethereum Foundation aims to secure the future with trillion-dollar security initiative
+2025-05-15 05:05:15,099 - \u23e9 Skipping duplicate headline (already scored today): Bitwise CIO expects surge in crypto ETP allocations by year-end, foresees 5% portfolio norm
+2025-05-15 05:05:15,105 - \u23e9 Skipping duplicate headline (already scored today): Europol, Spanish police dismantle ‘mafia crypto bank’ laundering funds across continents
+2025-05-15 05:05:15,109 - \u23e9 Skipping duplicate headline (already scored today): Solana derivatives flip long for 83 straight days, yet SOL sits nearly 30% below peak
+2025-05-15 05:05:15,113 - \u23e9 Skipping duplicate headline (already scored today): Meme Coins Hold 41% of the AI Crypto Market Share, But DeFAI is Growing
+2025-05-15 05:05:15,117 - \u23e9 Skipping duplicate headline (already scored today): PI Network Falls Below $1 Despite $100 Million Startup Fund Launch
+2025-05-15 05:05:15,120 - \u23e9 Skipping duplicate headline (already scored today): Nebraska to Make Bitcoin Mining More Difficult With a New Bill
+2025-05-15 05:05:15,125 - \u23e9 Skipping duplicate headline (already scored today): Kaito Hasn’t Sold Any Tokens Since Ending Ties with the Market Maker
+2025-05-15 05:05:15,128 - \u23e9 Skipping duplicate headline (already scored today): Is TRUMP Poised for a Rally or More Losses Ahead of the Presidential Dinner?
+2025-05-15 05:05:15,137 - \u2705 Stored 2 scored headlines.
+2025-05-15 06:05:06,939 - \u23e9 Skipping duplicate headline (already scored today): Coinbase CEO looking at more acquisitions after $2.9B Deribit buy
+2025-05-15 06:05:06,943 - \u23e9 Skipping duplicate headline (already scored today): Europol helps dismantle $23M ‘mafia crypto bank’
+2025-05-15 06:05:06,947 - \u23e9 Skipping duplicate headline (already scored today): Dems seek suspicious activity reports linked to Trump crypto ventures
+2025-05-15 06:05:06,951 - \u23e9 Skipping duplicate headline (already scored today): eToro jumps 30% on Nasdaq debut after upsized IPO
+2025-05-15 06:05:06,954 - \u23e9 Skipping duplicate headline (already scored today): Crypto startups scaring away VCs with 80x valuations: 10T Holdings
+2025-05-15 06:05:08,215 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 06:05:10,370 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 06:05:10,376 - \u23e9 Skipping duplicate headline (already scored today): Banks Exploring Stablecoin Amid Fears of Losing Market Share, BitGo Executive Says
+2025-05-15 06:05:10,380 - \u23e9 Skipping duplicate headline (already scored today): Trump Still on Track to Sign Crypto Legislation by August, White House's Bo Hines Says
+2025-05-15 06:05:10,384 - \u23e9 Skipping duplicate headline (already scored today): Cantor Fitzgerald Chairman Brandon Lutnick Says He Personally Checked Tether’s Reserves
+2025-05-15 06:05:10,387 - \u23e9 Skipping duplicate headline (already scored today): Anchorage Digital CEO Calls 'Bullshit' on Report of DHS Probe
+2025-05-15 06:05:10,391 - \u23e9 Skipping duplicate headline (already scored today): Ethereum Foundation Launches 'Trillion Dollar Security Initiative' to Fortify Network
+2025-05-15 06:05:10,395 - \u23e9 Skipping duplicate headline (already scored today): What’s Up Grok? AI Under Fire for Injecting ‘White Genocide’ Claims Into Unrelated Replies
+2025-05-15 06:05:10,399 - \u23e9 Skipping duplicate headline (already scored today): Lyft Taps Solana-Powered Bee Maps for Decentralized Mapping Data
+2025-05-15 06:05:10,403 - \u23e9 Skipping duplicate headline (already scored today): British Museum Puts Sculptures of Dürer's 'Rhinoceros' on Bitcoin Blockchain
+2025-05-15 06:05:10,407 - \u23e9 Skipping duplicate headline (already scored today): Crypto, Stock Trading Platform eToro Soars to $5.4 Billion Market Cap After Nasdaq Debut
+2025-05-15 06:05:10,410 - \u23e9 Skipping duplicate headline (already scored today): Bitfarms financial income falls 82% YoY, magnifying net loss to $35.9M
+2025-05-15 06:05:10,414 - \u23e9 Skipping duplicate headline (already scored today): Ethereum Foundation aims to secure the future with trillion-dollar security initiative
+2025-05-15 06:05:10,418 - \u23e9 Skipping duplicate headline (already scored today): Bitwise CIO expects surge in crypto ETP allocations by year-end, foresees 5% portfolio norm
+2025-05-15 06:05:10,422 - \u23e9 Skipping duplicate headline (already scored today): Europol, Spanish police dismantle ‘mafia crypto bank’ laundering funds across continents
+2025-05-15 06:05:10,425 - \u23e9 Skipping duplicate headline (already scored today): Solana derivatives flip long for 83 straight days, yet SOL sits nearly 30% below peak
+2025-05-15 06:05:10,948 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 06:05:15,524 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 06:05:15,530 - \u23e9 Skipping duplicate headline (already scored today): Meme Coins Hold 41% of the AI Crypto Market Share, But DeFAI is Growing
+2025-05-15 06:05:15,536 - \u23e9 Skipping duplicate headline (already scored today): PI Network Falls Below $1 Despite $100 Million Startup Fund Launch
+2025-05-15 06:05:15,540 - \u23e9 Skipping duplicate headline (already scored today): Nebraska to Make Bitcoin Mining More Difficult With a New Bill
+2025-05-15 06:05:15,544 - \u23e9 Skipping duplicate headline (already scored today): Kaito Hasn’t Sold Any Tokens Since Ending Ties with the Market Maker
+2025-05-15 06:05:15,553 - \u2705 Stored 2 scored headlines.
+2025-05-15 07:00:00,478 - \U0001f4ca Engagement score for 2025-05-15: 1
+2025-05-15 07:05:07,872 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 07:05:08,877 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 07:05:09,298 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 07:05:11,335 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 07:05:11,704 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 07:05:12,127 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 07:05:12,133 - \u23e9 Skipping duplicate headline (already scored today): Coinbase CEO looking at more acquisitions after $2.9B Deribit buy
+2025-05-15 07:05:12,139 - \u23e9 Skipping duplicate headline (already scored today): Europol helps dismantle $23M ‘mafia crypto bank’
+2025-05-15 07:05:12,145 - \u23e9 Skipping duplicate headline (already scored today): CFTC's Pham Said to Plot Exit, Agency May Be Left Without a Party Majority
+2025-05-15 07:05:12,151 - \u23e9 Skipping duplicate headline (already scored today): Banks Exploring Stablecoin Amid Fears of Losing Market Share, BitGo Executive Says
+2025-05-15 07:05:12,156 - \u23e9 Skipping duplicate headline (already scored today): Trump Still on Track to Sign Crypto Legislation by August, White House's Bo Hines Says
+2025-05-15 07:05:12,160 - \u23e9 Skipping duplicate headline (already scored today): Cantor Fitzgerald Chairman Brandon Lutnick Says He Personally Checked Tether’s Reserves
+2025-05-15 07:05:12,164 - \u23e9 Skipping duplicate headline (already scored today): Anchorage Digital CEO Calls 'Bullshit' on Report of DHS Probe
+2025-05-15 07:05:12,703 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 07:05:15,083 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 07:05:15,601 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 07:05:16,054 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 07:05:16,059 - \u23e9 Skipping duplicate headline (already scored today): Ethereum Foundation Launches 'Trillion Dollar Security Initiative' to Fortify Network
+2025-05-15 07:05:16,063 - \u23e9 Skipping duplicate headline (already scored today): What’s Up Grok? AI Under Fire for Injecting ‘White Genocide’ Claims Into Unrelated Replies
+2025-05-15 07:05:16,067 - \u23e9 Skipping duplicate headline (already scored today): Lyft Taps Solana-Powered Bee Maps for Decentralized Mapping Data
+2025-05-15 07:05:16,071 - \u23e9 Skipping duplicate headline (already scored today): Bitfarms financial income falls 82% YoY, magnifying net loss to $35.9M
+2025-05-15 07:05:16,075 - \u23e9 Skipping duplicate headline (already scored today): Ethereum Foundation aims to secure the future with trillion-dollar security initiative
+2025-05-15 07:05:16,080 - \u23e9 Skipping duplicate headline (already scored today): Bitwise CIO expects surge in crypto ETP allocations by year-end, foresees 5% portfolio norm
+2025-05-15 07:05:16,087 - \u23e9 Skipping duplicate headline (already scored today): Europol, Spanish police dismantle ‘mafia crypto bank’ laundering funds across continents
+2025-05-15 07:05:16,091 - \u23e9 Skipping duplicate headline (already scored today): Solana derivatives flip long for 83 straight days, yet SOL sits nearly 30% below peak
+2025-05-15 07:05:16,524 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 07:05:17,905 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 07:05:17,910 - \u23e9 Skipping duplicate headline (already scored today): Why Is the Crypto Market Down Today?
+2025-05-15 07:05:17,915 - \u23e9 Skipping duplicate headline (already scored today): Meme Coins Hold 41% of the AI Crypto Market Share, But DeFAI is Growing
+2025-05-15 07:05:17,919 - \u23e9 Skipping duplicate headline (already scored today): PI Network Falls Below $1 Despite $100 Million Startup Fund Launch
+2025-05-15 07:05:17,923 - \u23e9 Skipping duplicate headline (already scored today): Nebraska to Make Bitcoin Mining More Difficult With a New Bill
+2025-05-15 07:05:17,931 - \u2705 Stored 6 scored headlines.
+2025-05-15 10:00:00,644 - \U0001f300 post_random_content selected: post_original_tweet
+2025-05-15 10:00:03,842 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 10:00:03,846 - \U0001f916 Generated tweet: "Decentralization isn't just a fad, it's a revolution. It's an empowering, liberating, dog-eat-dog kind of world. No more middleman, just you, me, and the data crunching blockchain in-between. Welcome to the #Web3 wild!
+2025-05-15 10:00:04,169 - \u274c Error posting original tweet: log_tweet() missing 1 required positional argument: 'engagement_score'
+2025-05-15 10:05:07,511 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 10:05:08,651 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 10:05:09,136 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 10:05:09,569 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 10:05:10,759 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 10:05:13,980 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 10:05:14,635 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 10:05:23,522 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 10:05:24,367 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 10:05:24,802 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 10:05:25,418 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 10:05:31,349 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 10:05:32,081 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 10:05:32,481 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 10:05:33,053 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 10:05:35,117 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 10:05:35,123 - \u23e9 Skipping duplicate headline (already scored today): CFTC's Pham Said to Plot Exit, Agency May Be Left Without a Party Majority
+2025-05-15 10:05:35,129 - \u23e9 Skipping duplicate headline (already scored today): Banks Exploring Stablecoin Amid Fears of Losing Market Share, BitGo Executive Says
+2025-05-15 10:05:35,655 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 10:05:36,044 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 10:05:36,049 - \u23e9 Skipping duplicate headline (already scored today): Mastercard to Roll Out New Stablecoin Cards in Latest Crypto Push With MoonPay
+2025-05-15 10:05:36,056 - \u23e9 Skipping duplicate headline (already scored today): Nebraska Lawmakers Approve Crypto Mining Limits in Final Reading
+2025-05-15 10:05:36,061 - \u23e9 Skipping duplicate headline (already scored today): Ethereum Foundation Launches 'Trillion Dollar Security Initiative' to Fortify Network
+2025-05-15 10:05:36,067 - \u23e9 Skipping duplicate headline (already scored today): What’s Up Grok? AI Under Fire for Injecting ‘White Genocide’ Claims Into Unrelated Replies
+2025-05-15 10:05:36,707 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 10:05:38,245 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 10:05:38,251 - \u23e9 Skipping duplicate headline (already scored today): Bitfarms financial income falls 82% YoY, magnifying net loss to $35.9M
+2025-05-15 10:05:38,257 - \u23e9 Skipping duplicate headline (already scored today): Ethereum Foundation aims to secure the future with trillion-dollar security initiative
+2025-05-15 10:05:38,263 - \u23e9 Skipping duplicate headline (already scored today): Bitwise CIO expects surge in crypto ETP allocations by year-end, foresees 5% portfolio norm
+2025-05-15 10:05:38,269 - \u23e9 Skipping duplicate headline (already scored today): Europol, Spanish police dismantle ‘mafia crypto bank’ laundering funds across continents
+2025-05-15 10:05:38,722 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 10:05:39,150 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 10:05:39,602 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 10:05:40,159 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 10:05:40,760 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 10:05:41,368 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 10:05:41,878 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 10:05:42,404 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 10:05:43,013 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 10:05:43,449 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 10:05:43,458 - \u2705 Stored 15 scored headlines.
+2025-05-15 11:05:07,716 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 11:05:08,287 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 11:05:08,665 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 11:05:09,654 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 11:05:10,236 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 11:05:10,609 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 11:05:11,082 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 11:05:14,130 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 11:05:14,602 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 11:05:15,027 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 11:05:15,584 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 11:05:19,267 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 11:05:19,804 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 11:05:20,260 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 11:05:20,266 - \u23e9 Skipping duplicate headline (already scored today): ARK Invest Bought $9.4M Worth of eToro Shares on Trading Platform's Debut
+2025-05-15 11:05:20,270 - \u23e9 Skipping duplicate headline (already scored today): Jim Chanos is Buying Bitcoin and Shorting Strategy
+2025-05-15 11:05:20,274 - \u23e9 Skipping duplicate headline (already scored today): Dogecoin, Cardano and Solana Slump as Crypto Majors See Profit-Taking After Week-Long Rally
+2025-05-15 11:05:20,692 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 11:05:21,174 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 11:05:21,180 - \u23e9 Skipping duplicate headline (already scored today): CoreWeave Revenue Soars on AI Demand, But Heavy Spending Hits Profit
+2025-05-15 11:05:21,185 - \u23e9 Skipping duplicate headline (already scored today): Mastercard to Roll Out New Stablecoin Cards in Latest Crypto Push With MoonPay
+2025-05-15 11:05:21,189 - \u23e9 Skipping duplicate headline (already scored today): Nebraska Lawmakers Approve Crypto Mining Limits in Final Reading
+2025-05-15 11:05:21,193 - \u23e9 Skipping duplicate headline (already scored today): Ethereum Foundation Launches 'Trillion Dollar Security Initiative' to Fortify Network
+2025-05-15 11:05:21,721 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 11:05:23,022 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 11:05:23,036 - \u23e9 Skipping duplicate headline (already scored today): Cboe requests to list first US spot Tron ETF offering staking rewards
+2025-05-15 11:05:23,040 - \u23e9 Skipping duplicate headline (already scored today): Bitfarms financial income falls 82% YoY, magnifying net loss to $35.9M
+2025-05-15 11:05:23,044 - \u23e9 Skipping duplicate headline (already scored today): Ethereum Foundation aims to secure the future with trillion-dollar security initiative
+2025-05-15 11:05:23,048 - \u23e9 Skipping duplicate headline (already scored today): Bitwise CIO expects surge in crypto ETP allocations by year-end, foresees 5% portfolio norm
+2025-05-15 11:05:23,496 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 11:05:23,881 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 11:05:24,315 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 11:05:24,680 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 11:05:25,222 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 11:05:25,714 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 11:05:26,730 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 11:05:27,126 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-15 11:05:27,134 - \u23e9 Skipping duplicate headline (already scored today): Bitcoin Long-Term Holders Take Profits as Price Surges, But Cycle Peak Still Ahead
+2025-05-15 11:05:27,143 - \u2705 Stored 13 scored headlines.
+2025-05-15 19:05:04,258 - \U0001f5de\ufe0f Fetching and scoring headlines...
+2025-05-15 19:05:06,853 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 19:05:07,535 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 19:05:08,254 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 19:05:08,935 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 19:05:09,784 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 19:05:10,502 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-05-15 19:05:10,502 - Retrying request to /chat/completions in 0.466727 seconds
+2025-05-15 19:05:12,846 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 19:05:13,405 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 19:05:14,956 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 19:05:15,484 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 19:05:16,088 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 19:05:16,099 - \u2705 Stored 10 scored headlines.
