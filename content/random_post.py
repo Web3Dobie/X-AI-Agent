@@ -1,7 +1,8 @@
 import random
 import logging
 from utils.gpt import generate_gpt_tweet
-from utils.x_post import post_tweet, post_quote_tweet, reply_to_comments
+from utils.x_post import post_tweet, post_quote_tweet
+from content.reply_handler import reply_to_comments
 from datetime import datetime
 import os
 

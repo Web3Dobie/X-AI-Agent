@@ -6,7 +6,7 @@ from content.news_recap import post_news_thread
 from content.opinion_thread import post_top_news_thread
 from content.explainer import post_dobie_explainer_thread
 from content.random_post import post_random_content
-from utils.x_post import reply_to_comments
+from content.reply_handler import reply_to_comments
 from utils.headline_pipeline import fetch_and_score_headlines
 from datetime import datetime
 import os
