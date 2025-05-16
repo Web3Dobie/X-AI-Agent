@@ -1,7 +1,6 @@
 import os
 import csv
 import logging
-from utils.notion_logger import log_headline
 import re
 import math
 from datetime import datetime
@@ -47,7 +46,6 @@ def score_headlines(headlines):
 
     if scored:
         write_headlines(scored)
-        return scored
 
 def write_headlines(scored):
     os.makedirs("data", exist_ok=True)
@@ -64,12 +62,3 @@ def write_headlines(scored):
                 "ticker": h["ticker"],
                 "timestamp": h["timestamp"]
             })
-
-            log_headline(
-                date_ingested=h["timestamp"],
-                headline=h["headline"],
-                relevance_score=h["score"],
-                viral_score=h["score"],
-                used=False,
-                source_url=h["url"]
-            )

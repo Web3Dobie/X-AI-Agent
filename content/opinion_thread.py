@@ -1,6 +1,7 @@
 import logging
 import csv
 from datetime import datetime
+import string
 from utils.gpt import generate_gpt_thread
 from utils.x_post import post_thread
 
@@ -21,7 +22,7 @@ def get_top_headline():
         logging.warning("⚠️ No headlines found for today.")
         return None, None
 
-    top = max(headlines, key=lambda h: float(h["score"]))
+    top = max(headlines, key=lambda h: h["score"])
     return top["headline"], top["url"]
 
 def generate_top_news_opinion():
@@ -31,7 +32,7 @@ def generate_top_news_opinion():
 
     prompt = f"""
 Write a 3-part tweet thread reacting to this crypto headline with bold, clever, Web3-native commentary.
-Use emojis, snark, and wit. End each part with '— Hunter 🐾'. Separate tweets with '---'. 
+Use emojis, snark, and wit. Don't sign off with ' Hunter 🐾'. Use relevant hashtags. Separate tweets with '---'. 
 
 Headline:
 {headline}
@@ -43,7 +44,7 @@ Headline:
 
     date = datetime.utcnow().strftime("%Y-%m-%d")
     thread_parts[0] = f"🔥 Hunter Reacts [{date}]\n" + thread_parts[0]
-    thread_parts[-1] += f"\n🔗 {url}"
+    thread_parts[-1] += f"\n— Hunter 🐾\n🔗 {url}"
     return thread_parts
 
 def post_top_news_thread():
