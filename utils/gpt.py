@@ -22,7 +22,7 @@ def generate_gpt_tweet(prompt, temperature=0.9):
         logging.error(f"❌ Error generating GPT tweet: {e}")
         return ""
 
-def generate_gpt_thread(prompt, max_parts=5, delimiter="---"):
+def generate_gpt_thread(prompt, max_parts=5, delimiter="---", max_tokens=1500):
     try:
         system_prompt = f"You are Hunter, a witty, crypto-savvy Doberman. Write exactly {max_parts} tweet-length blurbs. Separate each blurb with '{delimiter}'. Do NOT number or title the tweets. End each with '— Hunter 🐾'."
         response = client.chat.completions.create(
@@ -31,7 +31,7 @@ def generate_gpt_thread(prompt, max_parts=5, delimiter="---"):
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": prompt}
             ],
-            max_tokens=1500,
+            max_tokens=max_tokens,
             temperature=0.85
         )
         raw = response.choices[0].message.content.strip()
@@ -46,3 +46,12 @@ def generate_gpt_thread(prompt, max_parts=5, delimiter="---"):
     except Exception as e:
         logging.error(f"❌ Error generating GPT thread: {e}")
         return []
+
+def generate_gpt_text(prompt, max_tokens=1800, model="gpt-4"):
+    response = client.chat.completions.create(
+        model=model,
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=max_tokens,
+        temperature=0.9
+    )
+    return response.choices[0].message.content.strip()

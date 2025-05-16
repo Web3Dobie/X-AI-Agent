@@ -3465,3 +3465,208 @@ Unauthorized
 2025-05-16 18:46:58,424 - \U0001f9e0 Scored: Central banks testing smart contract toolkit under BIS Project Pine — {'headline': 'Central banks testing smart contract toolkit under BIS Project Pine', 'url': 'https://cointelegraph.com/news/central-banks-smart-contract-tokenization-pilot-bis?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 6, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T17:45:31.478078'}
 2025-05-16 18:46:58,424 - \U0001f4e4 Storing scored headline: Central banks testing smart contract toolkit under BIS Project Pine
 2025-05-16 18:46:58,435 - \u2705 Stored 22 scored headlines.
+2025-05-16 19:05:02,680 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-16 19:05:07,836 - \U0001f50e Fetched 2 headlines.
+2025-05-16 19:05:07,841 - \U0001f9e0 Scoring 2 new headlines with GPT...
+2025-05-16 19:05:08,608 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 19:05:09,218 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 19:05:09,978 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 19:05:11,037 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 19:05:11,048 - \U0001f9e0 Scored: Department of Government Efficiency (DOGE) Token Rallies 66% | Meme Coins To Watch Today — {'headline': 'Department of Government Efficiency (DOGE) Token Rallies 66% | Meme Coins To Watch Today', 'url': 'https://beincrypto.com/meme-coins-to-watch-today-ket-mog-doge/', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T18:05:07.841231'}
+2025-05-16 19:05:11,049 - \U0001f4e4 Storing scored headline: Department of Government Efficiency (DOGE) Token Rallies 66% | Meme Coins To Watch Today
+2025-05-16 19:05:11,059 - \U0001f9e0 Scored: Bitcoin breaks out while Coinbase breaks down: Finance Redefined — {'headline': 'Bitcoin breaks out while Coinbase breaks down: Finance Redefined', 'url': 'https://cointelegraph.com/news/bitcoin-breaks-out-coinbase-breaks-down-finance-redefined?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T18:05:07.841231'}
+2025-05-16 19:05:11,059 - \U0001f4e4 Storing scored headline: Bitcoin breaks out while Coinbase breaks down: Finance Redefined
+2025-05-16 19:05:11,071 - \u2705 Stored 2 scored headlines.
+2025-05-16 20:00:11,111 - \u274c Error generating or posting top news thread: could not convert string to float: "{'headline': 'Venus Expands on BNB Chain Through Partnership With World Liberty Financial', 'url': 'https://beincrypto.com/venus-expands-bnb-chain-world-liberty-partnership/', 'score': 5, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T17:45:31.478078'}"
+2025-05-16 20:05:11,115 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-16 20:05:15,757 - \U0001f50e Fetched 13 headlines.
+2025-05-16 20:05:15,762 - \U0001f9e0 Scoring 13 new headlines with GPT...
+2025-05-16 20:05:17,003 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 20:05:17,797 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 20:05:18,407 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 20:05:19,081 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 20:05:19,987 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 20:05:20,649 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 20:05:21,124 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 20:05:21,619 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 20:05:22,515 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 20:05:23,174 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 20:05:23,778 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 20:05:24,331 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 20:05:25,118 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 20:05:25,775 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 20:05:27,617 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 20:05:28,066 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 20:05:29,184 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 20:05:29,629 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 20:05:30,007 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 20:05:30,567 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 20:05:31,778 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 20:05:32,214 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 20:05:32,828 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 20:05:33,307 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 20:05:34,234 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 20:05:35,181 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 20:05:35,193 - \U0001f9e0 Scored: World Liberty's Stablecoin Now Available on Multiple Networks Via Chainlink — {'headline': "World Liberty's Stablecoin Now Available on Multiple Networks Via Chainlink", 'url': 'https://www.coindesk.com/markets/2025/05/16/world-liberty-s-stablecoin-now-available-on-multiple-networks-through-chainlink-s-interoperability-protocol', 'score': 7, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T19:05:15.762963'}
+2025-05-16 20:05:35,193 - \U0001f4e4 Storing scored headline: World Liberty's Stablecoin Now Available on Multiple Networks Via Chainlink
+2025-05-16 20:05:35,203 - \U0001f9e0 Scored: CFTC's Christy Goldsmith Romero to Leave Agency at End of Month — {'headline': "CFTC's Christy Goldsmith Romero to Leave Agency at End of Month", 'url': 'https://www.coindesk.com/policy/2025/05/16/cftcs-christy-goldsmith-romero-to-leave-agency-at-end-of-month', 'score': 3, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T19:05:15.762963'}
+2025-05-16 20:05:35,203 - \U0001f4e4 Storing scored headline: CFTC's Christy Goldsmith Romero to Leave Agency at End of Month
+2025-05-16 20:05:35,214 - \U0001f9e0 Scored: Nasdaq-Listed Healthcare Company Aims to Acquire $1 Billion in Bitcoin — {'headline': 'Nasdaq-Listed Healthcare Company Aims to Acquire $1 Billion in Bitcoin', 'url': 'https://decrypt.co/320503/nasdaq-listed-healthcare-company-aims-acquire-1-billion-bitcoin', 'score': 9, 'ticker': '1', 'timestamp': '2025-05-16T19:05:15.762963'}
+2025-05-16 20:05:35,214 - \U0001f4e4 Storing scored headline: Nasdaq-Listed Healthcare Company Aims to Acquire $1 Billion in Bitcoin
+2025-05-16 20:05:35,225 - \U0001f9e0 Scored: Solana Shooter Game 'Nyan Heroes' Shuts Down Amid Funding Issues — {'headline': "Solana Shooter Game 'Nyan Heroes' Shuts Down Amid Funding Issues", 'url': 'https://decrypt.co/320501/solana-game-nyan-heroes-shuts-down', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T19:05:15.762963'}
+2025-05-16 20:05:35,225 - \U0001f4e4 Storing scored headline: Solana Shooter Game 'Nyan Heroes' Shuts Down Amid Funding Issues
+2025-05-16 20:05:35,236 - \U0001f9e0 Scored: OpenAI's New Codex Agents Get Closer to Downsizing Your Dev Team — {'headline': "OpenAI's New Codex Agents Get Closer to Downsizing Your Dev Team", 'url': 'https://decrypt.co/320481/openai-codex-agents-closer-downsizing-dev-team', 'score': 7, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T19:05:15.762963'}
+2025-05-16 20:05:35,237 - \U0001f4e4 Storing scored headline: OpenAI's New Codex Agents Get Closer to Downsizing Your Dev Team
+2025-05-16 20:05:35,247 - \U0001f9e0 Scored: France ramps up efforts to tackle rising crypto kidnappings after failed attempt goes viral — {'headline': 'France ramps up efforts to tackle rising crypto kidnappings after failed attempt goes viral', 'url': 'https://cryptoslate.com/france-ramps-up-efforts-to-tackle-rising-crypto-kidnappings-after-failed-attempt-goes-viral/', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T19:05:15.762963'}
+2025-05-16 20:05:35,248 - \U0001f4e4 Storing scored headline: France ramps up efforts to tackle rising crypto kidnappings after failed attempt goes viral
+2025-05-16 20:05:35,259 - \U0001f9e0 Scored: Judge Orders Financial Info From President Milei in the LIBRA Investigation — {'headline': 'Judge Orders Financial Info From President Milei in the LIBRA Investigation', 'url': 'https://beincrypto.com/milei-libra-scandal-deepens-judge-money-laundering/', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T19:05:15.762963'}
+2025-05-16 20:05:35,259 - \U0001f4e4 Storing scored headline: Judge Orders Financial Info From President Milei in the LIBRA Investigation
+2025-05-16 20:05:35,270 - \U0001f9e0 Scored: World Liberty Financial brushes off oversight concerns from Congress — {'headline': 'World Liberty Financial brushes off oversight concerns from Congress', 'url': 'https://cointelegraph.com/news/world-liberty-financial-oversight-congress?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 4, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T19:05:15.762963'}
+2025-05-16 20:05:35,271 - \U0001f4e4 Storing scored headline: World Liberty Financial brushes off oversight concerns from Congress
+2025-05-16 20:05:35,281 - \U0001f9e0 Scored: Judge sentences SEC hacker to 14 months in prison — {'headline': 'Judge sentences SEC hacker to 14 months in prison', 'url': 'https://cointelegraph.com/news/judge-sec-hacker-eric-council?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 7, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T19:05:15.762963'}
+2025-05-16 20:05:35,281 - \U0001f4e4 Storing scored headline: Judge sentences SEC hacker to 14 months in prison
+2025-05-16 20:05:35,292 - \U0001f9e0 Scored: CFTC commissioner to leave agency on May 31 — {'headline': 'CFTC commissioner to leave agency on May 31', 'url': 'https://cointelegraph.com/news/cftc-commissioner-romero-leaving-may?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 3, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T19:05:15.762963'}
+2025-05-16 20:05:35,292 - \U0001f4e4 Storing scored headline: CFTC commissioner to leave agency on May 31
+2025-05-16 20:05:35,307 - \U0001f9e0 Scored: Basel Medical shares down 15% on $1B Bitcoin buying plans — {'headline': 'Basel Medical shares down 15% on $1B Bitcoin buying plans', 'url': 'https://cointelegraph.com/news/basel-medical-shares-down-15-bitcoin-buying-plans?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 8, 'ticker': '1B', 'timestamp': '2025-05-16T19:05:15.762963'}
+2025-05-16 20:05:35,308 - \U0001f4e4 Storing scored headline: Basel Medical shares down 15% on $1B Bitcoin buying plans
+2025-05-16 20:05:35,321 - \U0001f9e0 Scored: Price predictions 5/16: BTC, ETH, XRP, BNB, SOL, DOGE, ADA, SUI, LINK, AVAX — {'headline': 'Price predictions 5/16: BTC, ETH, XRP, BNB, SOL, DOGE, ADA, SUI, LINK, AVAX', 'url': 'https://cointelegraph.com/news/price-predictions-5-16-btc-eth-xrp-bnb-sol-doge-ada-sui-link-avax?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T19:05:15.762963'}
+2025-05-16 20:05:35,321 - \U0001f4e4 Storing scored headline: Price predictions 5/16: BTC, ETH, XRP, BNB, SOL, DOGE, ADA, SUI, LINK, AVAX
+2025-05-16 20:05:35,333 - \U0001f9e0 Scored: Crypto miner turned AI provider CoreWeave adds billions in market cap — {'headline': 'Crypto miner turned AI provider CoreWeave adds billions in market cap', 'url': 'https://cointelegraph.com/news/crypto-miner-turned-ai-provider-coreweave-adds-billions-market-cap?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 7, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T19:05:15.762963'}
+2025-05-16 20:05:35,333 - \U0001f4e4 Storing scored headline: Crypto miner turned AI provider CoreWeave adds billions in market cap
+2025-05-16 20:05:35,344 - \u2705 Stored 13 scored headlines.
+2025-05-16 21:05:05,386 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-16 21:05:11,680 - \U0001f50e Fetched 7 headlines.
+2025-05-16 21:05:11,685 - \U0001f9e0 Scoring 7 new headlines with GPT...
+2025-05-16 21:05:12,672 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 21:05:13,303 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 21:05:13,822 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 21:05:14,446 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 21:05:15,729 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 21:05:16,230 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 21:05:16,865 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 21:05:17,501 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 21:05:20,270 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 21:05:22,469 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 21:05:22,978 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 21:05:23,947 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 21:05:25,125 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 21:05:26,206 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 21:05:26,217 - \U0001f9e0 Scored: 'Fortnite' Fixes AI-Powered Darth Vader After It Starts Saying Slurs — {'headline': "'Fortnite' Fixes AI-Powered Darth Vader After It Starts Saying Slurs", 'url': 'https://decrypt.co/320500/fortnite-ai-powered-darth-vader-saying-slurs', 'score': 0, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T20:05:11.685632'}
+2025-05-16 21:05:26,217 - \U0001f4e4 Storing scored headline: 'Fortnite' Fixes AI-Powered Darth Vader After It Starts Saying Slurs
+2025-05-16 21:05:26,229 - \U0001f9e0 Scored: Brazilian Fintech's Shares Rocket Following Bitcoin Buying Strategy — {'headline': "Brazilian Fintech's Shares Rocket Following Bitcoin Buying Strategy", 'url': 'https://decrypt.co/320510/brazilian-fintechs-shares-rocket-following-bitcoin-buying-strategy', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T20:05:11.685632'}
+2025-05-16 21:05:26,229 - \U0001f4e4 Storing scored headline: Brazilian Fintech's Shares Rocket Following Bitcoin Buying Strategy
+2025-05-16 21:05:26,239 - \U0001f9e0 Scored: Paraguay law enforcement thwarts crypto miner heist, deports arrested suspects — {'headline': 'Paraguay law enforcement thwarts crypto miner heist, deports arrested suspects', 'url': 'https://cryptoslate.com/paraguay-law-enforcement-thwarts-crypto-miner-heist-deports-arrested-suspects/', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T20:05:11.685632'}
+2025-05-16 21:05:26,239 - \U0001f4e4 Storing scored headline: Paraguay law enforcement thwarts crypto miner heist, deports arrested suspects
+2025-05-16 21:05:26,249 - \U0001f9e0 Scored: Pi Network Sheds 44% in Four Days – Is PI Price Fading Out? — {'headline': 'Pi Network Sheds 44% in Four Days – Is PI Price Fading Out?', 'url': 'https://beincrypto.com/pi-network-sheds-bearish-investor-frustration/', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T20:05:11.685632'}
+2025-05-16 21:05:26,249 - \U0001f4e4 Storing scored headline: Pi Network Sheds 44% in Four Days – Is PI Price Fading Out?
+2025-05-16 21:05:26,259 - \U0001f9e0 Scored: Galaxy Digital lists on Nasdaq, seeks to tokenize shares — Reports — {'headline': 'Galaxy Digital lists on Nasdaq, seeks to tokenize shares — Reports', 'url': 'https://cointelegraph.com/news/galaxy-digital-lists-on-nasdaq-talks-of-tokenizing-own-shares?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T20:05:11.685632'}
+2025-05-16 21:05:26,260 - \U0001f4e4 Storing scored headline: Galaxy Digital lists on Nasdaq, seeks to tokenize shares — Reports
+2025-05-16 21:05:26,270 - \U0001f9e0 Scored: Bitfinex Bitcoin longs total $6.8B while shorts stand at $25M — Time for BTC to rally? — {'headline': 'Bitfinex Bitcoin longs total $6.8B while shorts stand at $25M — Time for BTC to rally?', 'url': 'https://cointelegraph.com/news/bitfinex-bitcoin-longs-total-6-8-b-while-shorts-stand-at-25-m-time-for-btc-to-rally?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 8, 'ticker': '6.8B', 'timestamp': '2025-05-16T20:05:11.685632'}
+2025-05-16 21:05:26,270 - \U0001f4e4 Storing scored headline: Bitfinex Bitcoin longs total $6.8B while shorts stand at $25M — Time for BTC to rally?
+2025-05-16 21:05:26,280 - \U0001f9e0 Scored: SEC hacker sentenced to 14 months in prison — {'headline': 'SEC hacker sentenced to 14 months in prison', 'url': 'https://cointelegraph.com/news/judge-sec-hacker-eric-council?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T20:05:11.685632'}
+2025-05-16 21:05:26,280 - \U0001f4e4 Storing scored headline: SEC hacker sentenced to 14 months in prison
+2025-05-16 21:05:26,291 - \u2705 Stored 7 scored headlines.
+2025-05-16 22:05:26,329 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-16 22:05:30,858 - \U0001f50e Fetched 12 headlines.
+2025-05-16 22:05:30,863 - \U0001f9e0 Scoring 12 new headlines with GPT...
+2025-05-16 22:05:31,417 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 22:05:31,916 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 22:05:32,493 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 22:05:32,988 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 22:05:33,607 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 22:05:34,151 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 22:05:34,599 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 22:05:35,192 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 22:05:35,737 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 22:05:36,360 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 22:05:37,513 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 22:05:38,122 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 22:05:41,798 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 22:05:42,842 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 22:05:43,344 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 22:05:51,030 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 22:05:51,467 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 22:05:51,960 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 22:05:53,206 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 22:05:55,704 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 22:05:56,143 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 22:05:56,576 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 22:05:57,024 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 22:05:58,927 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 22:05:58,938 - \U0001f9e0 Scored: Alchemy Acquires Solana Developer DexterLab for Undisclosed Sum — {'headline': 'Alchemy Acquires Solana Developer DexterLab for Undisclosed Sum', 'url': 'https://www.coindesk.com/business/2025/05/16/alchemy-acquires-solana-developer-dexterlab-for-undisclosed-sum', 'score': 5, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T21:05:30.863843'}
+2025-05-16 22:05:58,938 - \U0001f4e4 Storing scored headline: Alchemy Acquires Solana Developer DexterLab for Undisclosed Sum
+2025-05-16 22:05:58,948 - \U0001f9e0 Scored: Eric Trump: 'The Banks Made The Biggest Mistake of Their Lives' — {'headline': "Eric Trump: 'The Banks Made The Biggest Mistake of Their Lives'", 'url': 'https://www.coindesk.com/policy/2025/05/16/eric-trump-the-banks-made-the-biggest-mistake-of-their-lives', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T21:05:30.863843'}
+2025-05-16 22:05:58,948 - \U0001f4e4 Storing scored headline: Eric Trump: 'The Banks Made The Biggest Mistake of Their Lives'
+2025-05-16 22:05:58,959 - \U0001f9e0 Scored: Crypto Miners Soar on OpenAI-CoreWeave Deal; Galaxy Jumps in Nasdaq Debut — {'headline': 'Crypto Miners Soar on OpenAI-CoreWeave Deal; Galaxy Jumps in Nasdaq Debut', 'url': 'https://www.coindesk.com/markets/2025/05/16/crypto-miners-soar-on-openai-coreweave-deal-galaxy-jumps-in-nasdaq-debut', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T21:05:30.863843'}
+2025-05-16 22:05:58,959 - \U0001f4e4 Storing scored headline: Crypto Miners Soar on OpenAI-CoreWeave Deal; Galaxy Jumps in Nasdaq Debut
+2025-05-16 22:05:58,970 - \U0001f9e0 Scored: Ethereum Backers Respond to Critics: ‘Markets Will Catch Up’ — {'headline': 'Ethereum Backers Respond to Critics: ‘Markets Will Catch Up’', 'url': 'https://www.coindesk.com/consensus-toronto-2025-coverage/2025/05/16/ethereum-backers-respond-to-critics-markets-will-catch-up', 'score': 6, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T21:05:30.863843'}
+2025-05-16 22:05:58,970 - \U0001f4e4 Storing scored headline: Ethereum Backers Respond to Critics: ‘Markets Will Catch Up’
+2025-05-16 22:05:58,981 - \U0001f9e0 Scored: Man Who Hacked SEC's X Account to Pump Bitcoin Gets 14 Months in Prison — {'headline': "Man Who Hacked SEC's X Account to Pump Bitcoin Gets 14 Months in Prison", 'url': 'https://decrypt.co/320542/man-hacked-sec-x-account-pump-bitcoin-prison', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T21:05:30.863843'}
+2025-05-16 22:05:58,981 - \U0001f4e4 Storing scored headline: Man Who Hacked SEC's X Account to Pump Bitcoin Gets 14 Months in Prison
+2025-05-16 22:05:58,991 - \U0001f9e0 Scored: Kraken’s Bunq Bet and the Global Race for Crypto Users — {'headline': 'Kraken’s Bunq Bet and the Global Race for Crypto Users', 'url': 'https://decrypt.co/320516/krakens-bunq-bet-and-the-global-race-for-crypto-users', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T21:05:30.863843'}
+2025-05-16 22:05:58,991 - \U0001f4e4 Storing scored headline: Kraken’s Bunq Bet and the Global Race for Crypto Users
+2025-05-16 22:05:59,002 - \U0001f9e0 Scored: Public Keys: Can’t Hold Coinbase Back, Nasdaq Initiation for eToro and Galaxy Digital — {'headline': 'Public Keys: Can’t Hold Coinbase Back, Nasdaq Initiation for eToro and Galaxy Digital', 'url': 'https://decrypt.co/320518/public-keys-coinbase-nasdaq-initiation-etoro-galaxy-digital', 'score': 7, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T21:05:30.863843'}
+2025-05-16 22:05:59,002 - \U0001f4e4 Storing scored headline: Public Keys: Can’t Hold Coinbase Back, Nasdaq Initiation for eToro and Galaxy Digital
+2025-05-16 22:05:59,012 - \U0001f9e0 Scored: Judge targets central figures in LIBRA scandal with asset freeze; Milei’s financial ties under review — {'headline': 'Judge targets central figures in LIBRA scandal with asset freeze; Milei’s financial ties under review', 'url': 'https://cryptoslate.com/judge-targets-central-figures-in-libra-scandal-with-asset-freeze-mileis-financial-ties-under-review/', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T21:05:30.863843'}
+2025-05-16 22:05:59,012 - \U0001f4e4 Storing scored headline: Judge targets central figures in LIBRA scandal with asset freeze; Milei’s financial ties under review
+2025-05-16 22:05:59,023 - \U0001f9e0 Scored: France Enforces Strict Security for Crypto Leaders After Latest Kidnappings — {'headline': 'France Enforces Strict Security for Crypto Leaders After Latest Kidnappings', 'url': 'https://beincrypto.com/france-crypto-kidnapping-new-security-measures/', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T21:05:30.863843'}
+2025-05-16 22:05:59,023 - \U0001f4e4 Storing scored headline: France Enforces Strict Security for Crypto Leaders After Latest Kidnappings
+2025-05-16 22:05:59,034 - \U0001f9e0 Scored: 5 Trending Made in USA Coins To Watch for the Weekend — {'headline': '5 Trending Made in USA Coins To Watch for the Weekend', 'url': 'https://beincrypto.com/trending-made-in-usa-coins-weekend-watch-fourth-week-may/', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T21:05:30.863843'}
+2025-05-16 22:05:59,034 - \U0001f4e4 Storing scored headline: 5 Trending Made in USA Coins To Watch for the Weekend
+2025-05-16 22:05:59,045 - \U0001f9e0 Scored: Solv brings RWA-backed Bitcoin yield to Avalanche blockchain — {'headline': 'Solv brings RWA-backed Bitcoin yield to Avalanche blockchain', 'url': 'https://cointelegraph.com/news/solv-rwa-backed-bitcoin-yield-avalanche?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 7, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T21:05:30.863843'}
+2025-05-16 22:05:59,045 - \U0001f4e4 Storing scored headline: Solv brings RWA-backed Bitcoin yield to Avalanche blockchain
+2025-05-16 22:05:59,056 - \U0001f9e0 Scored: Altcoins are on the verge of ‘most powerful rally’ since 2017 — Analyst — {'headline': 'Altcoins are on the verge of ‘most powerful rally’ since 2017 — Analyst', 'url': 'https://cointelegraph.com/news/altcoins-are-on-the-verge-of-most-powerful-rally-since-2017-analyst?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T21:05:30.863843'}
+2025-05-16 22:05:59,056 - \U0001f4e4 Storing scored headline: Altcoins are on the verge of ‘most powerful rally’ since 2017 — Analyst
+2025-05-16 22:05:59,067 - \u2705 Stored 12 scored headlines.
+2025-05-16 22:35:32,172 - \U0001f4d8 Generating Substack explainer post
+2025-05-16 22:45:52,106 - \U0001f4d8 Generating Substack explainer post
+2025-05-16 22:50:09,536 - \U0001f4d8 Generating Substack explainer post
+2025-05-16 22:50:21,599 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 22:50:21,606 - \u2705 Substack post generated
+2025-05-16 22:55:21,222 - \U0001f4d8 Generating Substack explainer post
+2025-05-16 22:55:49,755 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 22:55:49,766 - \u2705 Substack post generated
+2025-05-16 23:05:29,114 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-16 23:05:34,102 - \U0001f50e Fetched 6 headlines.
+2025-05-16 23:05:34,107 - \U0001f9e0 Scoring 6 new headlines with GPT...
+2025-05-16 23:05:35,195 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 23:05:35,732 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 23:05:36,214 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 23:05:36,832 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 23:05:37,474 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 23:05:38,033 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-16 23:05:39,648 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 23:05:40,047 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 23:05:40,770 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 23:05:41,791 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 23:05:42,181 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 23:05:43,049 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-16 23:05:43,061 - \U0001f9e0 Scored: Senator Slams Trump’s World Liberty Financial Over 'Seriously Inadequate' Response to Inquiry — {'headline': "Senator Slams Trump’s World Liberty Financial Over 'Seriously Inadequate' Response to Inquiry", 'url': 'https://decrypt.co/320565/senator-slams-trump-world-liberty-financial-seriously-inadequate', 'score': 4, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T22:05:34.107793'}
+2025-05-16 23:05:43,061 - \U0001f4e4 Storing scored headline: Senator Slams Trump’s World Liberty Financial Over 'Seriously Inadequate' Response to Inquiry
+2025-05-16 23:05:43,073 - \U0001f9e0 Scored: Coinbase Stock Is Ripping Despite Hack Fears—Here's Why — {'headline': "Coinbase Stock Is Ripping Despite Hack Fears—Here's Why", 'url': 'https://decrypt.co/320555/coinbase-stock-is-ripping-despite-hack-fears-heres-why', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T22:05:34.107793'}
+2025-05-16 23:05:43,073 - \U0001f4e4 Storing scored headline: Coinbase Stock Is Ripping Despite Hack Fears—Here's Why
+2025-05-16 23:05:43,084 - \U0001f9e0 Scored: Basel Medical Group to add $1B in Bitcoin to treasury amid falling share prices — {'headline': 'Basel Medical Group to add $1B in Bitcoin to treasury amid falling share prices', 'url': 'https://cryptoslate.com/basel-medical-group-to-add-1b-in-bitcoin-to-treasury-amid-falling-share-prices/', 'score': 9, 'ticker': '1B', 'timestamp': '2025-05-16T22:05:34.107793'}
+2025-05-16 23:05:43,084 - \U0001f4e4 Storing scored headline: Basel Medical Group to add $1B in Bitcoin to treasury amid falling share prices
+2025-05-16 23:05:43,095 - \U0001f9e0 Scored: TradFi Stocks Show Bitcoin Exposure Is Not a Silver Bullet — {'headline': 'TradFi Stocks Show Bitcoin Exposure Is Not a Silver Bullet', 'url': 'https://beincrypto.com/tradfi-stocks-bitcoin-exposure-silver-bullet/', 'score': 7, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T22:05:34.107793'}
+2025-05-16 23:05:43,095 - \U0001f4e4 Storing scored headline: TradFi Stocks Show Bitcoin Exposure Is Not a Silver Bullet
+2025-05-16 23:05:43,107 - \U0001f9e0 Scored: Filecoin, Lockheed Martin send data in space using decentralized data protocol — {'headline': 'Filecoin, Lockheed Martin send data in space using decentralized data protocol', 'url': 'https://cointelegraph.com/news/filecoin-lockheed-martin-test-decentralized-data-protocol-in-space?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T22:05:34.107793'}
+2025-05-16 23:05:43,107 - \U0001f4e4 Storing scored headline: Filecoin, Lockheed Martin send data in space using decentralized data protocol
+2025-05-16 23:05:43,118 - \U0001f9e0 Scored: Sequoia Capital exec also a victim in Coinbase data breach — Report — {'headline': 'Sequoia Capital exec also a victim in Coinbase data breach — Report', 'url': 'https://cointelegraph.com/news/sequoia-capital-victims-coinbase-breach-report?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T22:05:34.107793'}
+2025-05-16 23:05:43,118 - \U0001f4e4 Storing scored headline: Sequoia Capital exec also a victim in Coinbase data breach — Report
+2025-05-16 23:05:43,130 - \u2705 Stored 6 scored headlines.
+2025-05-17 00:05:13,167 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-17 00:05:18,339 - \U0001f50e Fetched 3 headlines.
+2025-05-17 00:05:18,345 - \U0001f9e0 Scoring 3 new headlines with GPT...
+2025-05-17 00:05:19,456 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 00:05:20,099 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 00:05:20,636 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 00:05:21,369 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 00:05:23,291 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 00:05:25,152 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 00:05:25,165 - \U0001f9e0 Scored: Solana (SOL) Momentum Slows – Is $200 Still in Sight? — {'headline': 'Solana (SOL) Momentum Slows – Is $200 Still in Sight?', 'url': 'https://beincrypto.com/solana-sol-momentum-cools-after-peak/', 'score': 8, 'ticker': '200', 'timestamp': '2025-05-16T23:05:18.345197'}
+2025-05-17 00:05:25,165 - \U0001f4e4 Storing scored headline: Solana (SOL) Momentum Slows – Is $200 Still in Sight?
+2025-05-17 00:05:25,176 - \U0001f9e0 Scored: Fake Eric Trump Meme Coin Rug Pulls After Hitting $160 Million Market Cap — {'headline': 'Fake Eric Trump Meme Coin Rug Pulls After Hitting $160 Million Market Cap', 'url': 'https://beincrypto.com/fake-eric-trump-meme-coin-rug-pull/', 'score': 9, 'ticker': '160', 'timestamp': '2025-05-16T23:05:18.345197'}
+2025-05-17 00:05:25,176 - \U0001f4e4 Storing scored headline: Fake Eric Trump Meme Coin Rug Pulls After Hitting $160 Million Market Cap
+2025-05-17 00:05:25,187 - \U0001f9e0 Scored: Tokenization makes investing more accessible — Robinhood exec — {'headline': 'Tokenization makes investing more accessible — Robinhood exec', 'url': 'https://cointelegraph.com/news/tokenization-makes-investing-more-accessible-robinhood-exec?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T23:05:18.345197'}
+2025-05-17 00:05:25,187 - \U0001f4e4 Storing scored headline: Tokenization makes investing more accessible — Robinhood exec
+2025-05-17 00:05:25,200 - \u2705 Stored 3 scored headlines.

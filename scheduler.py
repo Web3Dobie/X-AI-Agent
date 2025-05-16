@@ -8,6 +8,7 @@ from content.explainer import post_dobie_explainer_thread
 from content.random_post import post_random_content
 from content.reply_handler import reply_to_comments
 from utils.headline_pipeline import fetch_and_score_headlines
+from utils.post_explainer_combo import post_explainer_combo
 from datetime import datetime
 import os
 from dotenv import load_dotenv
@@ -29,7 +30,7 @@ schedule.every().day.at("18:00").do(lambda: reply_to_comments(bot_id=os.getenv("
 schedule.every().day.at("20:00").do(post_top_news_thread)           # Evening opinion
 
 # Weekly content
-# schedule.every().friday.at("16:00").do(post_dobie_explainer_thread)
+schedule.every().friday.at("16:00").do(post_explainer_combo)
 
 # Loop forever
 while True:

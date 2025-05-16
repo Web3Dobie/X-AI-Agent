@@ -47,3 +47,28 @@ def fetch_and_score_headlines():
             })
 
     logging.info(f"✅ Stored {len(scored)} scored headlines.")
+
+def get_top_headline_last_7_days():
+    """Return the highest-scoring headline from the last 7 days."""
+    try:
+        with open("data/scored_headlines.csv", newline="", encoding="utf-8") as f:
+            reader = list(csv.DictReader(f))
+    except FileNotFoundError:
+        logging.warning("⚠️ No scored headlines file found.")
+        return None
+
+    one_week_ago = datetime.utcnow().timestamp() - (7 * 86400)
+    filtered = [
+        row for row in reader
+        if float(row["score"]) > 0 and datetime.fromisoformat(row["timestamp"]).timestamp() >= one_week_ago
+    ]
+
+    if not filtered:
+        logging.info("❌ No headlines from past 7 days found.")
+        return None
+
+    top = max(filtered, key=lambda x: float(x["score"]))
+    return {
+        "headline": top["headline"],
+        "url": top["url"]
+    }
