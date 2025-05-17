@@ -63,24 +63,30 @@ def score_headlines(headlines):
 def write_headlines(scored):
     os.makedirs("data", exist_ok=True)
     exists = os.path.exists(HEADLINE_LOG)
+
     with open(HEADLINE_LOG, mode='a', newline='', encoding='utf-8') as file:
         writer = csv.DictWriter(file, fieldnames=["score", "headline", "url", "ticker", "timestamp"])
         if not exists:
             writer.writeheader()
-        for h in scored:
-            writer.writerow({
-                "score": h["score"],
-                "headline": h["headline"],
-                "url": h["url"],
-                "ticker": h["ticker"],
-                "timestamp": h["timestamp"]
-            })
 
-            log_headline(
-                date_ingested=h["timestamp"],
-                headline=h["headline"],
-                relevance_score=h["score"],
-                viral_score=h["score"],
-                used=False,
-                source_url=h["url"]
-            )
+        for h in scored:
+            try:
+                score = float(h["score"])  # Validate score
+                writer.writerow({
+                    "score": score,
+                    "headline": h["headline"],
+                    "url": h["url"],
+                    "ticker": h["ticker"],
+                    "timestamp": h["timestamp"]
+                })
+
+                log_headline(
+                    date_ingested=h["timestamp"],
+                    headline=h["headline"],
+                    relevance_score=score,
+                    viral_score=score,
+                    used=False,
+                    source_url=h["url"]
+                )
+            except Exception as e:
+                logging.warning(f"⚠️ Skipped malformed row before writing: {h} — {e}")

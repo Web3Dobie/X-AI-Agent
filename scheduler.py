@@ -9,6 +9,7 @@ from content.random_post import post_random_content
 from content.reply_handler import reply_to_comments
 from utils.headline_pipeline import fetch_and_score_headlines
 from utils.post_explainer_combo import post_explainer_combo
+from utils.rotate_logs import rotate_logs
 from datetime import datetime
 import os
 from dotenv import load_dotenv
@@ -30,7 +31,10 @@ schedule.every().day.at("18:00").do(lambda: reply_to_comments(bot_id=os.getenv("
 schedule.every().day.at("20:00").do(post_top_news_thread)           # Evening opinion
 
 # Weekly content
-schedule.every().friday.at("16:00").do(post_explainer_combo)
+schedule.every().friday.at("18:00").do(post_explainer_combo)
+
+# Rotate log files to D Drive
+schedule.every().sunday.at("23:59").do(rotate_logs)
 
 # Loop forever
 while True:

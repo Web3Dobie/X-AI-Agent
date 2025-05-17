@@ -3731,3 +3731,58 @@ Unauthorized
 2025-05-17 07:05:21,967 - \U0001f9e0 Scored: Panama City mayor teases Bitcoin reserve after meeting El Salvador&#039;s Bitcoin leaders — {'headline': 'Panama City mayor teases Bitcoin reserve after meeting El Salvador&#039;s Bitcoin leaders', 'url': 'https://cointelegraph.com/news/panama-city-mayor-teases-bitcoin-reserve-after-meeting-el-salvadors-bitcoin-leaders?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T06:05:18.336368'}
 2025-05-17 07:05:21,967 - \U0001f4e4 Storing scored headline: Panama City mayor teases Bitcoin reserve after meeting El Salvador&#039;s Bitcoin leaders
 2025-05-17 07:05:21,979 - \u2705 Stored 1 scored headlines.
+2025-05-17 10:31:00,376 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-17 10:31:02,538 - \U0001f50e Fetched 7 headlines.
+2025-05-17 10:31:02,543 - \U0001f9e0 Scoring 7 new headlines with GPT...
+2025-05-17 10:31:03,455 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 10:31:03,949 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 10:31:04,547 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 10:31:05,083 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 10:31:05,595 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 10:31:06,064 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 10:31:06,613 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 10:31:10,914 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 10:31:11,388 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 10:31:23,110 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 10:31:24,731 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 10:31:25,999 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 10:31:26,821 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 10:31:27,791 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 10:31:27,803 - \U0001f9e0 Scored: Movement Labs and Mantra Scandal Are Shaking up Crypto Market-Making — {'headline': 'Movement Labs and Mantra Scandal Are Shaking up Crypto Market-Making', 'url': 'https://www.coindesk.com/markets/2025/05/17/movement-labs-and-mantra-scandal-are-shaking-up-crypto-market-making', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T09:31:02.544932'}
+2025-05-17 10:31:27,803 - \U0001f4e4 Storing scored headline: Movement Labs and Mantra Scandal Are Shaking up Crypto Market-Making
+2025-05-17 10:31:27,816 - \U0001f9e0 Scored: ETH, DOGE, XRP Down 3% as Moody’s Downgrades U.S. Credit Rating — {'headline': 'ETH, DOGE, XRP Down 3% as Moody’s Downgrades U.S. Credit Rating', 'url': 'https://www.coindesk.com/markets/2025/05/17/eth-doge-xrp-down-3-as-moodys-downgrades-the-us-credit-score', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T09:31:02.544932'}
+2025-05-17 10:31:27,816 - \U0001f4e4 Storing scored headline: ETH, DOGE, XRP Down 3% as Moody’s Downgrades U.S. Credit Rating
+2025-05-17 10:31:27,827 - \U0001f9e0 Scored: Undervalued Ether Catching Eye of ETF Buyers as Rally Inbound: CryptoQuant — {'headline': 'Undervalued Ether Catching Eye of ETF Buyers as Rally Inbound: CryptoQuant', 'url': 'https://www.coindesk.com/markets/2025/05/17/undervalued-ether-catching-eye-of-etf-buyers-as-rally-inbound-cryptoquant', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T09:31:02.544932'}
+2025-05-17 10:31:27,827 - \U0001f4e4 Storing scored headline: Undervalued Ether Catching Eye of ETF Buyers as Rally Inbound: CryptoQuant
+2025-05-17 10:31:27,838 - \U0001f9e0 Scored: AIAO: Could This AI-Powered Token Follow Ethereum Growth Path? — {'headline': 'AIAO: Could This AI-Powered Token Follow Ethereum Growth Path?', 'url': 'https://beincrypto.com/aiao-ai-token-ethereum-growth-path/', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T09:31:02.544932'}
+2025-05-17 10:31:27,838 - \U0001f4e4 Storing scored headline: AIAO: Could This AI-Powered Token Follow Ethereum Growth Path?
+2025-05-17 10:31:27,850 - \U0001f9e0 Scored: Everstake defends non-custodial staking as SEC weighs industry input — {'headline': 'Everstake defends non-custodial staking as SEC weighs industry input', 'url': 'https://cointelegraph.com/news/everstake-defends-non-everstake-sec-non-custodial-staking-guidance-staking-as-sec-weighs-industry-input?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 4, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T09:31:02.544932'}
+2025-05-17 10:31:27,851 - \U0001f4e4 Storing scored headline: Everstake defends non-custodial staking as SEC weighs industry input
+2025-05-17 10:31:27,862 - \U0001f9e0 Scored: New Zealand man arrested in $265M crypto scam tied to FBI probe — {'headline': 'New Zealand man arrested in $265M crypto scam tied to FBI probe', 'url': 'https://cointelegraph.com/news/new-zealand-man-arrested-fbi-crypto-scam-265m?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 9, 'ticker': '265M', 'timestamp': '2025-05-17T09:31:02.544932'}
+2025-05-17 10:31:27,862 - \U0001f4e4 Storing scored headline: New Zealand man arrested in $265M crypto scam tied to FBI probe
+2025-05-17 10:31:27,875 - \U0001f9e0 Scored: Ripple: Judge’s settlement rejection has no effect on legal victory — {'headline': 'Ripple: Judge’s settlement rejection has no effect on legal victory', 'url': 'https://cointelegraph.com/news/ripple-win-unaffected-xrp-settlement-denial-court?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 7, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T09:31:02.544932'}
+2025-05-17 10:31:27,875 - \U0001f4e4 Storing scored headline: Ripple: Judge’s settlement rejection has no effect on legal victory
+2025-05-17 10:31:27,887 - \u2705 Stored 7 scored headlines.
+2025-05-17 10:37:43,044 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-17 10:37:44,981 - \U0001f50e Fetched 0 headlines.
+2025-05-17 10:37:44,986 - \u23ed No new headlines to score.
+2025-05-17 11:05:01,845 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-17 11:05:08,897 - \U0001f50e Fetched 1 headlines.
+2025-05-17 11:05:08,902 - \U0001f9e0 Scoring 1 new headlines with GPT...
+2025-05-17 11:05:09,969 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 11:05:10,579 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 11:05:10,595 - \U0001f9e0 Scored: Elon Musk-Inspired Kekius Maximus Rallies But Scam Warnings Raise Red Flags — {'headline': 'Elon Musk-Inspired Kekius Maximus Rallies But Scam Warnings Raise Red Flags', 'url': 'https://beincrypto.com/kekius-maximus-elon-musk-fuels-rally/', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T10:05:08.902235'}
+2025-05-17 11:05:10,595 - \U0001f4e4 Storing scored headline: Elon Musk-Inspired Kekius Maximus Rallies But Scam Warnings Raise Red Flags
+2025-05-17 11:05:10,605 - \u2705 Stored 1 scored headlines.
+2025-05-17 12:05:10,631 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-17 12:05:15,287 - \U0001f50e Fetched 2 headlines.
+2025-05-17 12:05:15,292 - \U0001f9e0 Scoring 2 new headlines with GPT...
+2025-05-17 12:05:17,135 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 12:05:17,700 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 12:05:18,381 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 12:05:18,848 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 12:05:18,861 - \U0001f9e0 Scored: US Loses Perfect Credit Rating – How Will It Impact Bitcoin Price? — {'headline': 'US Loses Perfect Credit Rating – How Will It Impact Bitcoin Price?', 'url': 'https://beincrypto.com/us-lost-perfect-credit-bitcoin-eyes-long-term-gains/', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T11:05:15.292440'}
+2025-05-17 12:05:18,861 - \U0001f4e4 Storing scored headline: US Loses Perfect Credit Rating – How Will It Impact Bitcoin Price?
+2025-05-17 12:05:18,873 - \U0001f9e0 Scored: 3 Latest Airdrop Tokens to Watch for the Fourth Week of May — {'headline': '3 Latest Airdrop Tokens to Watch for the Fourth Week of May', 'url': 'https://beincrypto.com/latest-airdropped-tokens-watch-may/', 'score': 6, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T11:05:15.292440'}
+2025-05-17 12:05:18,873 - \U0001f4e4 Storing scored headline: 3 Latest Airdrop Tokens to Watch for the Fourth Week of May
+2025-05-17 12:05:18,883 - \u2705 Stored 2 scored headlines.
