@@ -44,7 +44,13 @@ Headline:
 
     date = datetime.utcnow().strftime("%Y-%m-%d")
     thread_parts[0] = f"🔥 Hunter Reacts [{date}]\n" + thread_parts[0]
+
+    # Remove existing sign-off if GPT added it anyway
+    thread_parts[-1] = thread_parts[-1].replace("— Hunter 🐾", "").strip()
+
+    # Now safely append our own sign-off
     thread_parts[-1] += f"\n— Hunter 🐾\n🔗 {url}"
+
     return thread_parts
 
 def post_top_news_thread():

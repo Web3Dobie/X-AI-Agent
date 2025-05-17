@@ -3786,3 +3786,61 @@ Unauthorized
 2025-05-17 12:05:18,873 - \U0001f9e0 Scored: 3 Latest Airdrop Tokens to Watch for the Fourth Week of May — {'headline': '3 Latest Airdrop Tokens to Watch for the Fourth Week of May', 'url': 'https://beincrypto.com/latest-airdropped-tokens-watch-may/', 'score': 6, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T11:05:15.292440'}
 2025-05-17 12:05:18,873 - \U0001f4e4 Storing scored headline: 3 Latest Airdrop Tokens to Watch for the Fourth Week of May
 2025-05-17 12:05:18,883 - \u2705 Stored 2 scored headlines.
+2025-05-17 13:00:06,813 - \U0001f4ac Scanning for recent replies to respond to...
+2025-05-17 13:00:06,961 - \u274c Error in reply_to_comments: 401 Unauthorized
+Unauthorized
+2025-05-17 13:05:06,966 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-17 13:05:11,389 - \U0001f50e Fetched 0 headlines.
+2025-05-17 13:05:11,394 - \u23ed No new headlines to score.
+2025-05-17 14:05:11,430 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-17 14:05:16,216 - \U0001f50e Fetched 4 headlines.
+2025-05-17 14:05:16,221 - \U0001f9e0 Scoring 4 new headlines with GPT...
+2025-05-17 14:05:17,490 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 14:05:18,138 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 14:05:18,837 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 14:05:19,337 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 14:05:19,913 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 14:05:20,336 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 14:05:20,936 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 14:05:22,446 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 14:05:22,457 - \U0001f9e0 Scored: How Crypto Fight Night Became the Industry’s Premier Networking Event — {'headline': 'How Crypto Fight Night Became the Industry’s Premier Networking Event', 'url': 'https://decrypt.co/319791/how-crypto-fight-night-became-the-industrys-premier-networking-event', 'score': 7, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T13:05:16.222825'}
+2025-05-17 14:05:22,457 - \U0001f4e4 Storing scored headline: How Crypto Fight Night Became the Industry’s Premier Networking Event
+2025-05-17 14:05:22,467 - \U0001f9e0 Scored: Bitcoin’s Dominance Is Falling—But Don't Count on Altcoin Season Yet, Analysts Say — {'headline': "Bitcoin’s Dominance Is Falling—But Don't Count on Altcoin Season Yet, Analysts Say", 'url': 'https://decrypt.co/320573/bitcoin-dominance-falling-dont-count-altcoin-season', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T13:05:16.222825'}
+2025-05-17 14:05:22,467 - \U0001f4e4 Storing scored headline: Bitcoin’s Dominance Is Falling—But Don't Count on Altcoin Season Yet, Analysts Say
+2025-05-17 14:05:22,477 - \U0001f9e0 Scored: Charles Founder Threatens Lawsuit Over 318 Million ADA Seizure Claims — {'headline': 'Charles Founder Threatens Lawsuit Over 318 Million ADA Seizure Claims', 'url': 'https://beincrypto.com/cardano-hoskinson-slams-false-narratives-about-ada-ico-funds/', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T13:05:16.222825'}
+2025-05-17 14:05:22,477 - \U0001f4e4 Storing scored headline: Charles Founder Threatens Lawsuit Over 318 Million ADA Seizure Claims
+2025-05-17 14:05:22,488 - \U0001f9e0 Scored: Bitcoin to $250K in 2025 ‘totally possible’ — crypto analyst Scott Melker — {'headline': 'Bitcoin to $250K in 2025 ‘totally possible’ — crypto analyst Scott Melker', 'url': 'https://cointelegraph.com/news/bitcoin-250k-2025-melker?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 8, 'ticker': '250K', 'timestamp': '2025-05-17T13:05:16.222825'}
+2025-05-17 14:05:22,489 - \U0001f4e4 Storing scored headline: Bitcoin to $250K in 2025 ‘totally possible’ — crypto analyst Scott Melker
+2025-05-17 14:05:22,498 - \u2705 Stored 4 scored headlines.
+2025-05-17 15:05:22,528 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-17 15:05:26,961 - \U0001f50e Fetched 5 headlines.
+2025-05-17 15:05:26,966 - \U0001f9e0 Scoring 5 new headlines with GPT...
+2025-05-17 15:05:27,802 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 15:05:28,559 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 15:05:29,042 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 15:05:29,734 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 15:05:30,904 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 15:05:31,578 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 15:05:33,504 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 15:05:33,999 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 15:05:34,444 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 15:05:35,829 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 15:05:35,840 - \U0001f9e0 Scored: Alabama Man Sentenced for Hacking SEC’s Social Media to Post Fake Bitcoin ETF News — {'headline': 'Alabama Man Sentenced for Hacking SEC’s Social Media to Post Fake Bitcoin ETF News', 'url': 'https://www.coindesk.com/policy/2025/05/17/alabama-man-sentenced-for-hacking-secs-social-media-to-post-fake-bitcoin-etf-news', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T14:05:26.966276'}
+2025-05-17 15:05:35,840 - \U0001f4e4 Storing scored headline: Alabama Man Sentenced for Hacking SEC’s Social Media to Post Fake Bitcoin ETF News
+2025-05-17 15:05:35,850 - \U0001f9e0 Scored: State of Crypto: Consensus Toronto 2025 Reg Highlights — {'headline': 'State of Crypto: Consensus Toronto 2025 Reg Highlights', 'url': 'https://www.coindesk.com/policy/2025/05/17/state-of-crypto-consensus-toronto-2025-reg-highlights', 'score': 4, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T14:05:26.966276'}
+2025-05-17 15:05:35,850 - \U0001f4e4 Storing scored headline: State of Crypto: Consensus Toronto 2025 Reg Highlights
+2025-05-17 15:05:35,861 - \U0001f9e0 Scored: Shitcoins, AI Agents and Hot Dogs: Crypto Game 'DX Terminal' Is a Wild Experiment — {'headline': "Shitcoins, AI Agents and Hot Dogs: Crypto Game 'DX Terminal' Is a Wild Experiment", 'url': 'https://decrypt.co/320557/shitcoins-ai-agents-hot-dogs-crypto-game-dx-terminal', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T14:05:26.966276'}
+2025-05-17 15:05:35,861 - \U0001f4e4 Storing scored headline: Shitcoins, AI Agents and Hot Dogs: Crypto Game 'DX Terminal' Is a Wild Experiment
+2025-05-17 15:05:35,872 - \U0001f9e0 Scored: Bananas, Bugattis, and Lavish Mansions: How Crypto Millionaires Spend Their Fortunes — {'headline': 'Bananas, Bugattis, and Lavish Mansions: How Crypto Millionaires Spend Their Fortunes', 'url': 'https://beincrypto.com/crypto-millionaire-luxury-spending-investments/', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T14:05:26.966276'}
+2025-05-17 15:05:35,872 - \U0001f4e4 Storing scored headline: Bananas, Bugattis, and Lavish Mansions: How Crypto Millionaires Spend Their Fortunes
+2025-05-17 15:05:35,883 - \U0001f9e0 Scored: Cardano Founder Threatens Lawsuit Over 318 Million ADA Seizure Claims — {'headline': 'Cardano Founder Threatens Lawsuit Over 318 Million ADA Seizure Claims', 'url': 'https://beincrypto.com/cardano-hoskinson-slams-false-narratives-about-ada-ico-funds/', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T14:05:26.966276'}
+2025-05-17 15:05:35,883 - \U0001f4e4 Storing scored headline: Cardano Founder Threatens Lawsuit Over 318 Million ADA Seizure Claims
+2025-05-17 15:05:35,894 - \u2705 Stored 5 scored headlines.
+2025-05-17 16:05:05,930 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-17 16:05:10,481 - \U0001f50e Fetched 1 headlines.
+2025-05-17 16:05:10,486 - \U0001f9e0 Scoring 1 new headlines with GPT...
+2025-05-17 16:05:11,599 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 16:05:12,958 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 16:05:12,971 - \U0001f9e0 Scored: DeFi Development Corp. Stock Hits New High Following Solana Buys, Bonk Collab — {'headline': 'DeFi Development Corp. Stock Hits New High Following Solana Buys, Bonk Collab', 'url': 'https://decrypt.co/320566/defi-development-stock-new-high-solana-buys-bonk-collab', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T15:05:10.486270'}
+2025-05-17 16:05:12,972 - \U0001f4e4 Storing scored headline: DeFi Development Corp. Stock Hits New High Following Solana Buys, Bonk Collab
+2025-05-17 16:05:12,982 - \u2705 Stored 1 scored headlines.
