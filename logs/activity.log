@@ -3844,3 +3844,66 @@ Unauthorized
 2025-05-17 16:05:12,971 - \U0001f9e0 Scored: DeFi Development Corp. Stock Hits New High Following Solana Buys, Bonk Collab — {'headline': 'DeFi Development Corp. Stock Hits New High Following Solana Buys, Bonk Collab', 'url': 'https://decrypt.co/320566/defi-development-stock-new-high-solana-buys-bonk-collab', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T15:05:10.486270'}
 2025-05-17 16:05:12,972 - \U0001f4e4 Storing scored headline: DeFi Development Corp. Stock Hits New High Following Solana Buys, Bonk Collab
 2025-05-17 16:05:12,982 - \u2705 Stored 1 scored headlines.
+2025-05-17 17:05:14,148 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-17 17:05:18,914 - \U0001f50e Fetched 5 headlines.
+2025-05-17 17:05:18,919 - \U0001f9e0 Scoring 5 new headlines with GPT...
+2025-05-17 17:05:19,527 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 17:05:20,001 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 17:05:20,573 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 17:05:21,182 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 17:05:21,765 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 17:05:22,310 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 17:05:25,464 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 17:05:30,763 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 17:05:31,642 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 17:05:34,413 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 17:05:34,429 - \U0001f9e0 Scored: Over $5B Pouring into Bitcoin ETFs – Thanks to Bold Directional Bets — {'headline': 'Over $5B Pouring into Bitcoin ETFs – Thanks to Bold Directional Bets', 'url': 'https://www.coindesk.com/markets/2025/05/17/over-usd5b-pouring-into-bitcoin-etfs-thanks-to-bold-directional-bets', 'score': 9, 'ticker': '5B', 'timestamp': '2025-05-17T16:05:18.919583'}
+2025-05-17 17:05:34,429 - \U0001f4e4 Storing scored headline: Over $5B Pouring into Bitcoin ETFs – Thanks to Bold Directional Bets
+2025-05-17 17:05:34,440 - \U0001f9e0 Scored: Compliant digital assets are winning the long game in crypto — {'headline': 'Compliant digital assets are winning the long game in crypto', 'url': 'https://cryptoslate.com/compliant-digital-assets-are-winning-the-long-game-in-crypto/', 'score': 7, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T16:05:18.919583'}
+2025-05-17 17:05:34,440 - \U0001f4e4 Storing scored headline: Compliant digital assets are winning the long game in crypto
+2025-05-17 17:05:34,450 - \U0001f9e0 Scored: Hyperliquid Hits a 3-Month High – What’s Next for HYPE? — {'headline': 'Hyperliquid Hits a 3-Month High – What’s Next for HYPE?', 'url': 'https://beincrypto.com/hyperliquid-3-month-high-whats-next/', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T16:05:18.919583'}
+2025-05-17 17:05:34,450 - \U0001f4e4 Storing scored headline: Hyperliquid Hits a 3-Month High – What’s Next for HYPE?
+2025-05-17 17:05:34,460 - \U0001f9e0 Scored: A Bitcoiner’s guide to South Africa’s Garden Route — {'headline': 'A Bitcoiner’s guide to South Africa’s Garden Route', 'url': 'https://cointelegraph.com/news/bitcoiners-guide-south-africa-garden-route?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 4, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T16:05:18.919583'}
+2025-05-17 17:05:34,460 - \U0001f4e4 Storing scored headline: A Bitcoiner’s guide to South Africa’s Garden Route
+2025-05-17 17:05:34,471 - \U0001f9e0 Scored: The DeFi mullet — Fintech needs DeFi in the back — {'headline': 'The DeFi mullet — Fintech needs DeFi in the back', 'url': 'https://cointelegraph.com/news/fintech-needs-de-fi-in-the-back?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 6, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T16:05:18.919583'}
+2025-05-17 17:05:34,471 - \U0001f4e4 Storing scored headline: The DeFi mullet — Fintech needs DeFi in the back
+2025-05-17 17:05:34,481 - \u2705 Stored 5 scored headlines.
+2025-05-17 18:00:04,507 - \U0001f4ac Scanning for recent replies to respond to...
+2025-05-17 18:00:04,664 - \u274c Error in reply_to_comments: 401 Unauthorized
+Unauthorized
+2025-05-17 18:05:04,668 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-17 18:05:09,402 - \U0001f50e Fetched 1 headlines.
+2025-05-17 18:05:09,408 - \U0001f9e0 Scoring 1 new headlines with GPT...
+2025-05-17 18:05:11,026 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 18:05:11,589 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 18:05:11,600 - \U0001f9e0 Scored: Decrypt’s Picks: A Guide to the Best AI Tools for Amateur Musicians — {'headline': 'Decrypt’s Picks: A Guide to the Best AI Tools for Amateur Musicians', 'url': 'https://decrypt.co/319867/best-ai-tools-amateur-musicians', 'score': 3, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T17:05:09.408079'}
+2025-05-17 18:05:11,601 - \U0001f4e4 Storing scored headline: Decrypt’s Picks: A Guide to the Best AI Tools for Amateur Musicians
+2025-05-17 18:05:11,611 - \u2705 Stored 1 scored headlines.
+2025-05-17 19:05:11,643 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-17 19:05:16,663 - \U0001f50e Fetched 1 headlines.
+2025-05-17 19:05:16,669 - \U0001f9e0 Scoring 1 new headlines with GPT...
+2025-05-17 19:05:17,474 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 19:05:21,958 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 19:05:21,973 - \U0001f9e0 Scored: Autonomous AI agents create new job opportunities — {'headline': 'Autonomous AI agents create new job opportunities', 'url': 'https://cryptoslate.com/autonomous-ai-agents-create-new-job-opportunities/', 'score': 6, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T18:05:16.669612'}
+2025-05-17 19:05:21,973 - \U0001f4e4 Storing scored headline: Autonomous AI agents create new job opportunities
+2025-05-17 19:05:21,984 - \u2705 Stored 1 scored headlines.
+2025-05-17 20:00:28,424 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 20:00:28,426 - \U0001f4e2 Posting thread: news_opinion
+2025-05-17 20:00:30,908 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 20:00:34,507 - \u2705 Posted thread with 3 tweets.
+2025-05-17 20:05:04,510 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-17 20:05:11,584 - \U0001f50e Fetched 3 headlines.
+2025-05-17 20:05:11,590 - \U0001f9e0 Scoring 3 new headlines with GPT...
+2025-05-17 20:05:12,433 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 20:05:12,946 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 20:05:13,427 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 20:05:13,986 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 20:05:14,504 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 20:05:18,826 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 20:05:18,837 - \U0001f9e0 Scored: Guess Who: xAI Blames a 'Rogue Employee' for 'White Genocide' Grok Posts — {'headline': "Guess Who: xAI Blames a 'Rogue Employee' for 'White Genocide' Grok Posts", 'url': 'https://decrypt.co/320622/guess-who-xai-blames-rogue-employee-white-genocide-grok', 'score': 3, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T19:05:11.590801'}
+2025-05-17 20:05:18,837 - \U0001f4e4 Storing scored headline: Guess Who: xAI Blames a 'Rogue Employee' for 'White Genocide' Grok Posts
+2025-05-17 20:05:18,848 - \U0001f9e0 Scored: Pi Network Faces Insider Sell-Off Claims After 50% Price Crash — {'headline': 'Pi Network Faces Insider Sell-Off Claims After 50% Price Crash', 'url': 'https://beincrypto.com/pi-network-price-crash-insider-selling-rug-pull-allegations/', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T19:05:11.590801'}
+2025-05-17 20:05:18,848 - \U0001f4e4 Storing scored headline: Pi Network Faces Insider Sell-Off Claims After 50% Price Crash
+2025-05-17 20:05:18,859 - \U0001f9e0 Scored: High-speed oracles disrupting $50B finance data industry — Web3 Exec — {'headline': 'High-speed oracles disrupting $50B finance data industry — Web3 Exec', 'url': 'https://cointelegraph.com/news/high-speed-oracles-disrupt-50-billion-finance-data-industry?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 9, 'ticker': '50B', 'timestamp': '2025-05-17T19:05:11.590801'}
+2025-05-17 20:05:18,859 - \U0001f4e4 Storing scored headline: High-speed oracles disrupting $50B finance data industry — Web3 Exec
+2025-05-17 20:05:18,869 - \u2705 Stored 3 scored headlines.
