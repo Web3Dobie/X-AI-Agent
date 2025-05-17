@@ -26,7 +26,9 @@ schedule.every().hour.at(":05").do(fetch_and_score_headlines)
 schedule.every().day.at("08:00").do(post_news_thread)               # Morning headlines
 schedule.every().day.at("09:00").do(post_market_summary_thread)     # Market update
 schedule.every().day.at("10:00").do(post_random_content)            # Random engagement
+schedule.every().day.at("10:00").do(post_random_content)            # Random engagement
 schedule.every().day.at("13:00").do(lambda: reply_to_comments(bot_id=os.getenv("BOT_USER_ID")))
+schedule.every().day.at("10:00").do(post_random_content)            # Random engagement
 schedule.every().day.at("18:00").do(lambda: reply_to_comments(bot_id=os.getenv("BOT_USER_ID")))
 schedule.every().day.at("20:00").do(post_top_news_thread)           # Evening opinion
 
