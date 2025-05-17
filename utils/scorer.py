@@ -35,13 +35,24 @@ def score_headlines(headlines):
                 temperature=0.3
             )
             score_str = response.choices[0].message.content.strip()
-            match = re.search(r"\d+(\.\d+)?", score_str)
-            score = math.ceil(float(match.group())) if match else 0
+            match = re.search(r"\b\d+(\.\d+)?\b", score_str)
+
+            if not match:
+                logging.warning(f"⚠️ GPT returned unparseable score: {score_str}")
+                continue  # Skip this headline
+
+            try:
+                score = math.ceil(float(match.group()))
+            except Exception as e:
+                logging.warning(f"⚠️ Failed to convert score to float: {score_str} — {e}")
+                continue  # Also skip if parsing fails
+
             ticker = extract_ticker(h["headline"])
             h["score"] = score
             h["ticker"] = ticker
             h["timestamp"] = now
             scored.append(h)
+
         except Exception as e:
             logging.warning(f"⚠️ Failed to score headline: {h['headline']} — {e}")
 

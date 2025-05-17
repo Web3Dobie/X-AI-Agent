@@ -3670,3 +3670,64 @@ Unauthorized
 2025-05-17 00:05:25,187 - \U0001f9e0 Scored: Tokenization makes investing more accessible — Robinhood exec — {'headline': 'Tokenization makes investing more accessible — Robinhood exec', 'url': 'https://cointelegraph.com/news/tokenization-makes-investing-more-accessible-robinhood-exec?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-16T23:05:18.345197'}
 2025-05-17 00:05:25,187 - \U0001f4e4 Storing scored headline: Tokenization makes investing more accessible — Robinhood exec
 2025-05-17 00:05:25,200 - \u2705 Stored 3 scored headlines.
+2025-05-17 01:05:08,904 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-17 01:05:15,311 - \U0001f50e Fetched 4 headlines.
+2025-05-17 01:05:15,317 - \U0001f9e0 Scoring 4 new headlines with GPT...
+2025-05-17 01:05:16,569 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 01:05:17,345 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 01:05:17,925 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 01:05:18,450 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 01:05:24,344 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 01:05:29,384 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 01:05:29,777 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 01:05:37,340 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 01:05:37,354 - \U0001f9e0 Scored: U.S. Stablecoin Bill Could Clear Senate Next Week, Proponents Say — {'headline': 'U.S. Stablecoin Bill Could Clear Senate Next Week, Proponents Say', 'url': 'https://www.coindesk.com/policy/2025/05/16/u-s-stablecoin-bill-could-clear-senate-next-week-proponents-say', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T00:05:15.317438'}
+2025-05-17 01:05:37,355 - \U0001f4e4 Storing scored headline: U.S. Stablecoin Bill Could Clear Senate Next Week, Proponents Say
+2025-05-17 01:05:37,367 - \U0001f9e0 Scored: Bitcoin DeFi protocol Liquidium’s rebrand and staking model propel LIQ token to new heights — {'headline': 'Bitcoin DeFi protocol Liquidium’s rebrand and staking model propel LIQ token to new heights', 'url': 'https://cryptoslate.com/bitcoin-defi-protocol-liquidiums-rebrand-and-staking-model-propel-liq-token-to-new-heights/', 'score': 7, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T00:05:15.317438'}
+2025-05-17 01:05:37,367 - \U0001f4e4 Storing scored headline: Bitcoin DeFi protocol Liquidium’s rebrand and staking model propel LIQ token to new heights
+2025-05-17 01:05:37,379 - \U0001f9e0 Scored: Moody’s historic downgrade of US credit system could add fuel to Bitcoin safe-haven status — {'headline': 'Moody’s historic downgrade of US credit system could add fuel to Bitcoin safe-haven status', 'url': 'https://cryptoslate.com/moodys-historic-downgrade-of-us-credit-system-could-add-fuel-to-bitcoin-safe-haven-status/', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T00:05:15.317438'}
+2025-05-17 01:05:37,380 - \U0001f4e4 Storing scored headline: Moody’s historic downgrade of US credit system could add fuel to Bitcoin safe-haven status
+2025-05-17 01:05:37,391 - \U0001f9e0 Scored: SEC X Account Hacker Sentenced to 14 Months in Prison — {'headline': 'SEC X Account Hacker Sentenced to 14 Months in Prison', 'url': 'https://beincrypto.com/eric-council-jr-sec-hack-sentenced-prison/', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T00:05:15.317438'}
+2025-05-17 01:05:37,391 - \U0001f4e4 Storing scored headline: SEC X Account Hacker Sentenced to 14 Months in Prison
+2025-05-17 01:05:37,402 - \u2705 Stored 4 scored headlines.
+2025-05-17 02:05:07,440 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-17 02:05:14,312 - \U0001f50e Fetched 3 headlines.
+2025-05-17 02:05:14,318 - \U0001f9e0 Scoring 3 new headlines with GPT...
+2025-05-17 02:05:15,425 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 02:05:16,419 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 02:05:17,156 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 02:05:18,146 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 02:05:19,126 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 02:05:19,565 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 02:05:19,578 - \U0001f9e0 Scored: Bitcoin stalls near record highs amid derivative pressures but breakout potential remains — {'headline': 'Bitcoin stalls near record highs amid derivative pressures but breakout potential remains', 'url': 'https://cryptoslate.com/bitcoin-stalls-near-record-highs-amid-derivative-pressures-but-breakout-potential-remains/', 'score': 7, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T01:05:14.318113'}
+2025-05-17 02:05:19,579 - \U0001f4e4 Storing scored headline: Bitcoin stalls near record highs amid derivative pressures but breakout potential remains
+2025-05-17 02:05:19,590 - \U0001f9e0 Scored: Bitcoin bull flag and standard profit taking hint at eventual rally to new BTC price highs — {'headline': 'Bitcoin bull flag and standard profit taking hint at eventual rally to new BTC price highs', 'url': 'https://cointelegraph.com/news/bitcoin-bull-flag-and-standard-profit-taking-hint-at-eventual-rally-to-new-btc-price-highs?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T01:05:14.318113'}
+2025-05-17 02:05:19,590 - \U0001f4e4 Storing scored headline: Bitcoin bull flag and standard profit taking hint at eventual rally to new BTC price highs
+2025-05-17 02:05:19,602 - \U0001f9e0 Scored: French crypto entrepreneurs to receive extra security amid recent kidnappings: Report — {'headline': 'French crypto entrepreneurs to receive extra security amid recent kidnappings: Report', 'url': 'https://cointelegraph.com/news/french-crypto-entrepreneurs-and-families-to-receive-extra-security-amid-recent-attacks?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T01:05:14.318113'}
+2025-05-17 02:05:19,602 - \U0001f4e4 Storing scored headline: French crypto entrepreneurs to receive extra security amid recent kidnappings: Report
+2025-05-17 02:05:19,614 - \u2705 Stored 3 scored headlines.
+2025-05-17 03:05:19,646 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-17 03:05:24,064 - \U0001f50e Fetched 0 headlines.
+2025-05-17 03:05:24,071 - \u23ed No new headlines to score.
+2025-05-17 04:05:24,103 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-17 04:05:28,546 - \U0001f50e Fetched 1 headlines.
+2025-05-17 04:05:28,551 - \U0001f9e0 Scoring 1 new headlines with GPT...
+2025-05-17 04:05:29,531 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 04:05:30,323 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 04:05:30,335 - \U0001f9e0 Scored: Paraguay deports three undocumented immigrants after crypto mining theft attempt — {'headline': 'Paraguay deports three undocumented immigrants after crypto mining theft attempt', 'url': 'https://cointelegraph.com/news/paraguay-deports-three-illegal-immigrants-after-crypto-mining-theft-attempt?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 7, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T03:05:28.551972'}
+2025-05-17 04:05:30,335 - \U0001f4e4 Storing scored headline: Paraguay deports three undocumented immigrants after crypto mining theft attempt
+2025-05-17 04:05:30,346 - \u2705 Stored 1 scored headlines.
+2025-05-17 05:05:00,379 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-17 05:05:07,574 - \U0001f50e Fetched 0 headlines.
+2025-05-17 05:05:07,580 - \u23ed No new headlines to score.
+2025-05-17 06:05:09,312 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-17 06:05:13,921 - \U0001f50e Fetched 0 headlines.
+2025-05-17 06:05:13,927 - \u23ed No new headlines to score.
+2025-05-17 07:05:13,962 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-17 07:05:18,330 - \U0001f50e Fetched 1 headlines.
+2025-05-17 07:05:18,336 - \U0001f9e0 Scoring 1 new headlines with GPT...
+2025-05-17 07:05:19,374 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 07:05:21,955 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 07:05:21,967 - \U0001f9e0 Scored: Panama City mayor teases Bitcoin reserve after meeting El Salvador&#039;s Bitcoin leaders — {'headline': 'Panama City mayor teases Bitcoin reserve after meeting El Salvador&#039;s Bitcoin leaders', 'url': 'https://cointelegraph.com/news/panama-city-mayor-teases-bitcoin-reserve-after-meeting-el-salvadors-bitcoin-leaders?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T06:05:18.336368'}
+2025-05-17 07:05:21,967 - \U0001f4e4 Storing scored headline: Panama City mayor teases Bitcoin reserve after meeting El Salvador&#039;s Bitcoin leaders
+2025-05-17 07:05:21,979 - \u2705 Stored 1 scored headlines.

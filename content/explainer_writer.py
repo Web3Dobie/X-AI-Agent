@@ -63,23 +63,3 @@ Today is {date}.
         "filename": filename,
         "headline": topic
     }
-
-    if not article:
-        logging.warning("⚠️ GPT returned no content for Substack post")
-        return None
-
-    logging.info("✅ Substack post generated")
-
-    # ✅ Save locally
-    os.makedirs("substack_posts", exist_ok=True)
-    filename = f"substack_posts/{datetime.utcnow().strftime('%Y-%m-%d')}_{slugify(topic)}.txt"
-    with open(filename, "w", encoding="utf-8") as f:
-        f.write(article)
-
-    logging.info(f"📝 Article saved locally at {filename}")
-
-    return {
-        "content": article,
-        "filename": filename,
-        "headline": topic
-    }

@@ -25,9 +25,10 @@ def post_tweet(text, category="original"):
         tweet_id = response.data["id"]
         date = datetime.utcnow().strftime("%Y-%m-%d")
         url = f"https://x.com/{os.getenv('X_USERNAME')}/status/{tweet_id}"
-        metrics = client.get_tweet(id=tweet_id, tweet_fields=["public_metrics"])
-        m = metrics.data["public_metrics"]
-        log_tweet(tweet_id, date, category, url, m["like_count"], m["retweet_count"], m["reply_count"], 0)
+        log_tweet(tweet_id, date, category, url, 0, 0, 0, 0)
+        # metrics = client.get_tweet(id=tweet_id, tweet_fields=["public_metrics"])
+        # m = metrics.data["public_metrics"]
+        # log_tweet(tweet_id, date, category, url, m["like_count"], m["retweet_count"], m["reply_count"], 0)
         logging.info(f"✅ Posted tweet: {url}")
     except Exception as e:
         logging.error(f"❌ Error posting tweet: {e}")
@@ -41,9 +42,11 @@ def post_quote_tweet(text, tweet_url):
         tweet_id = response.data["id"]
         date = datetime.utcnow().strftime("%Y-%m-%d")
         url = f"https://x.com/{os.getenv('X_USERNAME')}/status/{tweet_id}"
-        metrics = client.get_tweet(id=tweet_id, tweet_fields=["public_metrics"])
-        m = metrics.data["public_metrics"]
-        log_tweet(tweet_id, date, "quote", url, m["like_count"], m["retweet_count"], m["reply_count"], 0)
+        # metrics = client.get_tweet(id=tweet_id, tweet_fields=["public_metrics"])
+        # m = metrics.data["public_metrics"]
+        # log_tweet(tweet_id, date, "quote", url, m["like_count"], m["retweet_count"], m["reply_count"], 0)
+        # logging.info(f"✅ Posted quote tweet: {url}")
+        log_tweet(tweet_id, date, "quote", url, 0, 0, 0, 0)
         logging.info(f"✅ Posted quote tweet: {url}")
     except Exception as e:
         logging.error(f"❌ Error posting quote tweet: {e}")
@@ -60,13 +63,14 @@ def post_thread(thread_parts, category="thread"):
         tweet_id = response.data["id"]
         date = datetime.utcnow().strftime("%Y-%m-%d")
         url = f"https://x.com/{os.getenv('X_USERNAME')}/status/{tweet_id}"
-        try:
-            metrics = client.get_tweet(id=tweet_id, tweet_fields=["public_metrics"])
-            m = metrics.data["public_metrics"]
-            log_tweet(tweet_id, date, category, url, m["like_count"], m["retweet_count"], m["reply_count"], 0)
-        except Exception as e:
-            logging.warning(f"⚠️ Could not fetch metrics or log tweet: {e}")
-            log_tweet(tweet_id, date, category, url, 0, 0, 0, 0)
+        log_tweet(tweet_id, date, category, url, 0, 0, 0, 0)
+        # try:
+        #    metrics = client.get_tweet(id=tweet_id, tweet_fields=["public_metrics"])
+        #    m = metrics.data["public_metrics"]
+        #    log_tweet(tweet_id, date, category, url, m["like_count"], m["retweet_count"], m["reply_count"], 0)
+        # except Exception as e:
+        #    logging.warning(f"⚠️ Could not fetch metrics or log tweet: {e}")
+        #    log_tweet(tweet_id, date, category, url, 0, 0, 0, 0)
 
         in_reply_to = tweet_id
         for part in thread_parts[1:]:
