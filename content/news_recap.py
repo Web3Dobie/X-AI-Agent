@@ -3,6 +3,7 @@ import csv
 from datetime import datetime
 from utils.gpt import generate_gpt_thread
 from utils.x_post import post_thread
+from utils.text_utils import insert_cashtags
 
 def get_today_headlines():
     today = datetime.utcnow().date()
@@ -48,10 +49,11 @@ Separate tweets using '---'. Do not include numbers or headers.
         return []
 
     date = datetime.utcnow().strftime("%Y-%m-%d")
-    thread_parts[0] = f"Daily Dobie Headlines [{date}] 📰\n" + thread_parts[0]
+    thread_parts[0] = f"Daily Dobie Headlines [{date}] 📰\n\n" + thread_parts[0]
     return thread_parts
 
 def post_news_thread():
     thread_parts = generate_summary_thread()
     if thread_parts:
+        thread_parts = [insert_cashtags(part) for part in thread_parts]
         post_thread(thread_parts, category="news_summary")

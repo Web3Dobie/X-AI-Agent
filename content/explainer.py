@@ -30,7 +30,7 @@ Start with: Hunter Explains 🧵 [{today_str}]
 
     thread = generate_gpt_thread(prompt, max_parts=3)
     if thread:
-        thread[0] = f"Hunter Explains 🧵 [{today_str}]\n" + thread[0]
+        thread[0] = f"Hunter Explains 🧵 [{today_str}]\n\n" + thread[0]
         thread[-1] += f"\n{SUBSTACK_URL}"  # ✅ Include source or Substack link
         post_thread(thread, category="explainer")
         logging.info("✅ Explainer thread posted")

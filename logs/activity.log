@@ -4040,3 +4040,30 @@ Unauthorized
 2025-05-18 12:05:21,930 - \U0001f9e0 Scored: Myth or reality? MiCA and its real impact on the market debunking common misconceptions — {'headline': 'Myth or reality? MiCA and its real impact on the market debunking common misconceptions', 'url': 'https://cryptoslate.com/myth-or-reality-mica-and-its-real-impact-on-the-market-debunking-common-misconceptions/', 'score': 6, 'ticker': 'CRYPTO', 'timestamp': '2025-05-18T11:05:13.160129'}
 2025-05-18 12:05:21,930 - \U0001f4e4 Storing scored headline: Myth or reality? MiCA and its real impact on the market debunking common misconceptions
 2025-05-18 12:05:21,941 - \u2705 Stored 1 scored headlines.
+2025-05-18 12:32:24,096 - \U0001f300 Scheduled post_random_content at 10:04 (between 10:00–11:00)
+2025-05-18 12:32:24,096 - \U0001f300 Scheduled post_random_content at 12:55 (between 12:00–13:00)
+2025-05-18 12:32:24,096 - \U0001f300 Scheduled post_random_content at 15:26 (between 15:00–16:00)
+2025-05-18 12:55:24,112 - \U0001f300 post_random_content selected: original
+2025-05-18 12:55:26,705 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 12:55:27,575 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-18 12:55:27,575 - \u2705 Posted tweet: https://x.com/None/status/1924071333018636302
+2025-05-18 13:00:27,578 - \U0001f4ac Scanning for recent replies to respond to...
+2025-05-18 13:00:27,722 - \u274c Error in reply_to_comments: 401 Unauthorized
+Unauthorized
+2025-05-18 13:05:27,723 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-18 13:05:32,612 - \U0001f50e Fetched 3 headlines.
+2025-05-18 13:05:32,618 - \U0001f9e0 Scoring 3 new headlines with GPT...
+2025-05-18 13:05:33,097 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 13:05:33,683 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 13:05:34,321 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 13:05:37,443 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-18 13:05:37,820 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-18 13:05:38,274 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-18 13:05:38,286 - \u2705 Successfully wrote 3 headlines to log.
+2025-05-18 13:05:38,286 - \U0001f9e0 Scored: Kraken Teases KRAK as Mystery Post Fuels IPO and Token Rumors — {'headline': 'Kraken Teases KRAK as Mystery Post Fuels IPO and Token Rumors', 'url': 'https://beincrypto.com/kraken-hints-token-or-ipo-move-with-cryptic-post/', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-18T12:05:32.618830'}
+2025-05-18 13:05:38,286 - \U0001f4e4 Storing scored headline: Kraken Teases KRAK as Mystery Post Fuels IPO and Token Rumors
+2025-05-18 13:05:38,299 - \U0001f9e0 Scored: Ethereum Momentum Cools After Pectra – What’s Next for ETH Price? — {'headline': 'Ethereum Momentum Cools After Pectra – What’s Next for ETH Price?', 'url': 'https://beincrypto.com/ethereum-eth-momentum-cools-after-pectra-rally/', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-18T12:05:32.618830'}
+2025-05-18 13:05:38,299 - \U0001f4e4 Storing scored headline: Ethereum Momentum Cools After Pectra – What’s Next for ETH Price?
+2025-05-18 13:05:38,310 - \U0001f9e0 Scored: BTC price to $116K next? Bitcoin trader sees &#039;early week&#039; all-time high — {'headline': 'BTC price to $116K next? Bitcoin trader sees &#039;early week&#039; all-time high', 'url': 'https://cointelegraph.com/news/bitcoin-due-116k-next-trader-early-week-all-time-highs?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 9, 'ticker': '116K', 'timestamp': '2025-05-18T12:05:32.618830'}
+2025-05-18 13:05:38,310 - \U0001f4e4 Storing scored headline: BTC price to $116K next? Bitcoin trader sees &#039;early week&#039; all-time high
+2025-05-18 13:05:38,322 - \u2705 Stored 3 scored headlines.

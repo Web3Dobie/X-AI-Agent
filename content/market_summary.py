@@ -47,7 +47,7 @@ Use a Web3-savvy tone, rich with emojis and wit. End each with '— Hunter 🐾'
         return []
 
     today_str = datetime.utcnow().strftime("%Y-%m-%d")
-    header = f"Daily Hunter Market Update [{today_str}] 📅\n"
+    header = f"Daily Hunter Market Update [{today_str}] 📅\n\n"
     blurbs[0] = header + blurbs[0]
     return blurbs
 
