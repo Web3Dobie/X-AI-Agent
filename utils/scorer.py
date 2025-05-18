@@ -70,7 +70,7 @@ def score_headlines(headlines):
 
     if scored:
         write_headlines(scored)
-        return scored
+        return  # Removed return of full scored list to prevent CSV corruption
 
 
 def write_headlines(scored):

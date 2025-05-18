@@ -28,7 +28,7 @@ def fetch_and_score_headlines():
         return
 
     logging.info(f"🧠 Scoring {len(new_headlines)} new headlines with GPT...")
-    scored = score_headlines(new_headlines)
+    score_headlines(new_headlines)
 
     for headline, score in zip(new_headlines, scored):
         logging.info(f"🧠 Scored: {headline['headline']} — {score}")
