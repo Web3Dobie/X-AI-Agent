@@ -19,16 +19,29 @@ logging.basicConfig(filename='logs/activity.log', level=logging.INFO, format='%(
 
 print("🕒 Hunter Scheduler is live. Waiting for scheduled posts...")
 
+import random
+
+def schedule_random_post_between(start_hour, end_hour):
+    hour = random.randint(start_hour, end_hour - 1)
+    minute = random.randint(0, 59)
+    time_str = f"{hour:02d}:{minute:02d}"
+    schedule.every().day.at(time_str).do(post_random_content)
+    logging.info(f"🌀 Scheduled post_random_content at {time_str} (between {start_hour}:00–{end_hour}:00)")
+
+def setup_daily_random_posts():
+    schedule_random_post_between(10, 11)  # Morning window
+    schedule_random_post_between(12, 13)  # Midday window
+    schedule_random_post_between(15, 16)  # Afternoon window
+
 # --- Ingesting Headlines and Score them ---
 schedule.every().hour.at(":05").do(fetch_and_score_headlines)
 
 # --- Posting Schedule ---
 schedule.every().day.at("08:00").do(post_news_thread)               # Morning headlines
 schedule.every().day.at("09:00").do(post_market_summary_thread)     # Market update
-schedule.every().day.at("10:00").do(post_random_content)            # Random engagement
-schedule.every().day.at("12:00").do(post_random_content)            # Random engagement
+schedule.every().day.at("00:01").do(setup_daily_random_posts)  # Regenerate daily
+setup_daily_random_posts()  # First run now
 schedule.every().day.at("13:00").do(lambda: reply_to_comments(bot_id=os.getenv("BOT_USER_ID")))
-schedule.every().day.at("15:00").do(post_random_content)            # Random engagement
 schedule.every().day.at("18:00").do(lambda: reply_to_comments(bot_id=os.getenv("BOT_USER_ID")))
 schedule.every().day.at("20:00").do(post_top_news_thread)           # Evening opinion
 
