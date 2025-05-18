@@ -3,6 +3,7 @@ import logging
 from utils.gpt import generate_gpt_tweet
 from utils.x_post import post_tweet, post_quote_tweet
 from content.reply_handler import reply_to_comments
+from utils.text_utils import insert_cashtags, insert_mentions
 from datetime import datetime
 import os
 
@@ -18,7 +19,9 @@ def post_random_content():
         prompt = "Write a standalone crypto tweet. It should be engaging, Web3-native, and end with '— Hunter 🐾'."
         text = generate_gpt_tweet(prompt)
         if text:
-            post_tweet(text)
+           text = insert_cashtags(text)
+           text = insert_mentions(text)
+           post_tweet(text)
 
     elif choice == "quote":
         tweet_url = get_recent_viral_tweet()

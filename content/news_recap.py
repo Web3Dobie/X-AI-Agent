@@ -3,7 +3,7 @@ import csv
 from datetime import datetime
 from utils.gpt import generate_gpt_thread
 from utils.x_post import post_thread
-from utils.text_utils import insert_cashtags
+from utils.text_utils import insert_cashtags, insert_mentions
 
 def get_today_headlines():
     today = datetime.utcnow().date()
@@ -56,4 +56,5 @@ def post_news_thread():
     thread_parts = generate_summary_thread()
     if thread_parts:
         thread_parts = [insert_cashtags(part) for part in thread_parts]
+        thread_parts = [insert_mentions(part) for part in thread_parts]
         post_thread(thread_parts, category="news_summary")

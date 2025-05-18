@@ -4,7 +4,7 @@ from datetime import datetime
 import string
 from utils.gpt import generate_gpt_thread
 from utils.x_post import post_thread
-from utils.text_utils import insert_cashtags
+from utils.text_utils import insert_cashtags, insert_mentions
 
 def get_top_headline():
     today = datetime.utcnow().date()
@@ -72,6 +72,7 @@ def post_top_news_thread():
         thread_parts = generate_top_news_opinion()
         if thread_parts:
             thread_parts = [insert_cashtags(part) for part in thread_parts]
+            thread_parts = [insert_mentions(part) for part in thread_parts]
             post_thread(thread_parts, category="news_opinion")
     except Exception as e:
         logging.error(f"❌ Error generating or posting top news thread: {e}")

@@ -4223,3 +4223,6 @@ Too Many Requests
 2025-05-18 22:21:10,563 - \U0001f9e0 Scored: Pavel Durov rejects EU pressure to censor Romanian election content — {'headline': 'Pavel Durov rejects EU pressure to censor Romanian election content', 'url': 'https://cointelegraph.com/news/pavel-durov-rejects-eu-pressure-censor-romanian-election?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 3, 'ticker': 'CRYPTO', 'timestamp': '2025-05-18T21:21:02.102709'}
 2025-05-18 22:21:10,563 - \U0001f4e4 Storing scored headline: Pavel Durov rejects EU pressure to censor Romanian election content
 2025-05-18 22:21:10,575 - \u2705 Stored 2 scored headlines.
+2025-05-18 22:31:59,500 - \U0001f300 Scheduled post_random_content at 17:14 (between 16:00–18:00)
+2025-05-18 22:31:59,501 - \U0001f300 Scheduled post_random_content at 18:02 (between 18:00–20:00)
+2025-05-18 22:31:59,501 - \U0001f300 Scheduled post_random_content at 21:21 (between 20:00–22:00)
