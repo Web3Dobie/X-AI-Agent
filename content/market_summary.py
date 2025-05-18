@@ -34,7 +34,7 @@ def generate_market_summary_thread():
         logging.warning("⚠️ Market thread too short — skipping.")
         return []
 
-    bullet_points = "\n".join([f"{t['ticker']}: ${t['price']:.2f} ({t['change']:+.2f}%)" for t in tokens])
+    bullet_points = "\n".join([f"${t['ticker']}: ${t['price']:.2f} ({t['change']:+.2f}%)" for t in tokens])
     prompt = f"""
 Write short, clever summaries for each of these 5 crypto tokens. 
 Use a Web3-savvy tone, rich with emojis and wit. End each with '— Hunter 🐾'. Do NOT number them. Do NOT include headers.

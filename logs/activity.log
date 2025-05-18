@@ -4014,3 +4014,29 @@ Unauthorized
 2025-05-18 10:05:37,972 - \U0001f9e0 Scored: Retired artist loses $2M in crypto to Coinbase impersonator — {'headline': 'Retired artist loses $2M in crypto to Coinbase impersonator', 'url': 'https://cointelegraph.com/news/retired-artist-loses-2m-in-crypto-to-coinbase-impersonator?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 9, 'ticker': '2M', 'timestamp': '2025-05-18T09:05:21.747945'}
 2025-05-18 10:05:37,973 - \U0001f4e4 Storing scored headline: Retired artist loses $2M in crypto to Coinbase impersonator
 2025-05-18 10:05:37,983 - \u2705 Stored 6 scored headlines.
+2025-05-18 11:05:24,622 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-18 11:05:29,466 - \U0001f50e Fetched 2 headlines.
+2025-05-18 11:05:29,472 - \U0001f9e0 Scoring 2 new headlines with GPT...
+2025-05-18 11:05:30,435 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 11:05:30,944 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 11:05:31,517 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-18 11:05:32,002 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-18 11:05:32,013 - \u2705 Successfully wrote 2 headlines to log.
+2025-05-18 11:05:32,013 - \U0001f9e0 Scored: Germany Leads EU Crypto Race With Most MiCA Licenses — {'headline': 'Germany Leads EU Crypto Race With Most MiCA Licenses', 'url': 'https://beincrypto.com/germany-secures-most-eu-mica-crypto-licenses/', 'score': 7, 'ticker': 'CRYPTO', 'timestamp': '2025-05-18T10:05:29.472872'}
+2025-05-18 11:05:32,013 - \U0001f4e4 Storing scored headline: Germany Leads EU Crypto Race With Most MiCA Licenses
+2025-05-18 11:05:32,024 - \U0001f9e0 Scored: ‘Bitcoin Standard’ author backs funding dev to make spamming Bitcoin costly — {'headline': '‘Bitcoin Standard’ author backs funding dev to make spamming Bitcoin costly', 'url': 'https://cointelegraph.com/news/saifedean-ammous-funds-dev-to-fight-bitcoin-spam?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-18T10:05:29.472872'}
+2025-05-18 11:05:32,024 - \U0001f4e4 Storing scored headline: ‘Bitcoin Standard’ author backs funding dev to make spamming Bitcoin costly
+2025-05-18 11:05:32,035 - \u2705 Stored 2 scored headlines.
+2025-05-18 12:00:02,063 - \U0001f300 post_random_content selected: original
+2025-05-18 12:00:06,873 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 12:00:07,834 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-18 12:00:07,835 - \u2705 Posted tweet: https://x.com/None/status/1924057408558547373
+2025-05-18 12:05:07,838 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-18 12:05:13,154 - \U0001f50e Fetched 1 headlines.
+2025-05-18 12:05:13,160 - \U0001f9e0 Scoring 1 new headlines with GPT...
+2025-05-18 12:05:13,994 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 12:05:21,856 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-18 12:05:21,930 - \u2705 Successfully wrote 1 headlines to log.
+2025-05-18 12:05:21,930 - \U0001f9e0 Scored: Myth or reality? MiCA and its real impact on the market debunking common misconceptions — {'headline': 'Myth or reality? MiCA and its real impact on the market debunking common misconceptions', 'url': 'https://cryptoslate.com/myth-or-reality-mica-and-its-real-impact-on-the-market-debunking-common-misconceptions/', 'score': 6, 'ticker': 'CRYPTO', 'timestamp': '2025-05-18T11:05:13.160129'}
+2025-05-18 12:05:21,930 - \U0001f4e4 Storing scored headline: Myth or reality? MiCA and its real impact on the market debunking common misconceptions
+2025-05-18 12:05:21,941 - \u2705 Stored 1 scored headlines.
