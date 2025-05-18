@@ -3907,3 +3907,110 @@ Unauthorized
 2025-05-17 20:05:18,859 - \U0001f9e0 Scored: High-speed oracles disrupting $50B finance data industry — Web3 Exec — {'headline': 'High-speed oracles disrupting $50B finance data industry — Web3 Exec', 'url': 'https://cointelegraph.com/news/high-speed-oracles-disrupt-50-billion-finance-data-industry?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 9, 'ticker': '50B', 'timestamp': '2025-05-17T19:05:11.590801'}
 2025-05-17 20:05:18,859 - \U0001f4e4 Storing scored headline: High-speed oracles disrupting $50B finance data industry — Web3 Exec
 2025-05-17 20:05:18,869 - \u2705 Stored 3 scored headlines.
+2025-05-17 21:05:23,726 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-17 21:05:27,927 - \U0001f50e Fetched 1 headlines.
+2025-05-17 21:05:27,932 - \U0001f9e0 Scoring 1 new headlines with GPT...
+2025-05-17 21:05:29,155 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 21:05:30,364 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 21:05:30,380 - \U0001f9e0 Scored: Sonic Token Drops 15% Amid Wintermute Exit and Whale Activity — {'headline': 'Sonic Token Drops 15% Amid Wintermute Exit and Whale Activity', 'url': 'https://beincrypto.com/sonic-price-slumps-top-wallets-dump-3-million-tokens/', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T20:05:27.932509'}
+2025-05-17 21:05:30,380 - \U0001f4e4 Storing scored headline: Sonic Token Drops 15% Amid Wintermute Exit and Whale Activity
+2025-05-17 21:05:30,390 - \u2705 Stored 1 scored headlines.
+2025-05-17 22:05:00,418 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-17 22:05:05,462 - \U0001f50e Fetched 2 headlines.
+2025-05-17 22:05:05,467 - \U0001f9e0 Scoring 2 new headlines with GPT...
+2025-05-17 22:05:06,478 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 22:05:07,246 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-17 22:05:07,801 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 22:05:13,566 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-17 22:05:13,579 - \U0001f9e0 Scored: Cardano Whales Slide as ADA Price Faces Potential Death Cross — {'headline': 'Cardano Whales Slide as ADA Price Faces Potential Death Cross', 'url': 'https://beincrypto.com/cardano-whale-volatility-ada-potential-death-cross/', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T21:05:05.467683'}
+2025-05-17 22:05:13,579 - \U0001f4e4 Storing scored headline: Cardano Whales Slide as ADA Price Faces Potential Death Cross
+2025-05-17 22:05:13,589 - \U0001f9e0 Scored: Moody&#039;s downgrades US credit rating due to rising debt — {'headline': 'Moody&#039;s downgrades US credit rating due to rising debt', 'url': 'https://cointelegraph.com/news/moodys-downgrades-us-credit-rating?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 3, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T21:05:05.467683'}
+2025-05-17 22:05:13,589 - \U0001f4e4 Storing scored headline: Moody&#039;s downgrades US credit rating due to rising debt
+2025-05-17 22:05:13,598 - \u2705 Stored 2 scored headlines.
+2025-05-17 23:05:13,632 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-17 23:05:18,263 - \U0001f50e Fetched 0 headlines.
+2025-05-17 23:05:18,270 - \u23ed No new headlines to score.
+2025-05-18 00:05:18,302 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-18 00:05:23,792 - \U0001f50e Fetched 1 headlines.
+2025-05-18 00:05:23,798 - \U0001f9e0 Scoring 1 new headlines with GPT...
+2025-05-18 00:05:25,024 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 00:05:25,687 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-18 00:05:25,698 - \U0001f9e0 Scored: The Public internet is a bottleneck for blockchain — DoubleZero CEO — {'headline': 'The Public internet is a bottleneck for blockchain — DoubleZero CEO', 'url': 'https://cointelegraph.com/news/public-internet-bottleneck-blockchain-networks-double-zero?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 7, 'ticker': 'CRYPTO', 'timestamp': '2025-05-17T23:05:23.798169'}
+2025-05-18 00:05:25,698 - \U0001f4e4 Storing scored headline: The Public internet is a bottleneck for blockchain — DoubleZero CEO
+2025-05-18 00:05:25,709 - \u2705 Stored 1 scored headlines.
+2025-05-18 01:05:25,743 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-18 01:05:30,634 - \U0001f50e Fetched 0 headlines.
+2025-05-18 01:05:30,639 - \u23ed No new headlines to score.
+2025-05-18 02:05:00,671 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-18 02:05:05,643 - \U0001f50e Fetched 2 headlines.
+2025-05-18 02:05:05,649 - \U0001f9e0 Scoring 2 new headlines with GPT...
+2025-05-18 02:05:06,644 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 02:05:07,166 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 02:05:08,309 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-18 02:05:08,734 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-18 02:05:08,745 - \U0001f9e0 Scored: Jan 2024 SEC’s X account hacker got 14 months in prison for cyber fraud — {'headline': 'Jan 2024 SEC’s X account hacker got 14 months in prison for cyber fraud', 'url': 'https://cryptoslate.com/jan-2024-secs-x-account-hacker-got-14-months-in-prison-for-cyber-fraud/', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-18T01:05:05.649163'}
+2025-05-18 02:05:08,745 - \U0001f4e4 Storing scored headline: Jan 2024 SEC’s X account hacker got 14 months in prison for cyber fraud
+2025-05-18 02:05:08,760 - \U0001f9e0 Scored: Hong Kong police busts $15M laundering ring that used crypto, 500 bank accounts — {'headline': 'Hong Kong police busts $15M laundering ring that used crypto, 500 bank accounts', 'url': 'https://cointelegraph.com/news/hong-kong-police-busts-15-million-dollar-crypto-laundering-ring?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 9, 'ticker': '15M', 'timestamp': '2025-05-18T01:05:05.649163'}
+2025-05-18 02:05:08,760 - \U0001f4e4 Storing scored headline: Hong Kong police busts $15M laundering ring that used crypto, 500 bank accounts
+2025-05-18 02:05:08,774 - \u2705 Stored 2 scored headlines.
+2025-05-18 03:05:08,805 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-18 03:05:13,264 - \U0001f50e Fetched 0 headlines.
+2025-05-18 03:05:13,270 - \u23ed No new headlines to score.
+2025-05-18 04:05:13,300 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-18 04:05:18,028 - \U0001f50e Fetched 1 headlines.
+2025-05-18 04:05:18,034 - \U0001f9e0 Scoring 1 new headlines with GPT...
+2025-05-18 04:05:19,218 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 04:05:22,305 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-18 04:05:22,318 - \U0001f9e0 Scored: Creator of over 100 memecoins says rug pulls are the ‘easiest way to make money’ — {'headline': 'Creator of over 100 memecoins says rug pulls are the ‘easiest way to make money’', 'url': 'https://cryptoslate.com/creator-of-over-100-memecoins-says-rug-pulls-are-the-easiest-way-to-make-money/', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-18T03:05:18.034915'}
+2025-05-18 04:05:22,318 - \U0001f4e4 Storing scored headline: Creator of over 100 memecoins says rug pulls are the ‘easiest way to make money’
+2025-05-18 04:05:22,330 - \u2705 Stored 1 scored headlines.
+2025-05-18 05:05:22,366 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-18 05:05:26,909 - \U0001f50e Fetched 0 headlines.
+2025-05-18 05:05:26,914 - \u23ed No new headlines to score.
+2025-05-18 06:05:26,944 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-18 06:05:31,542 - \U0001f50e Fetched 2 headlines.
+2025-05-18 06:05:31,548 - \U0001f9e0 Scoring 2 new headlines with GPT...
+2025-05-18 06:05:33,195 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 06:05:33,774 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 06:05:35,122 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-18 06:05:36,104 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-18 06:05:36,115 - \U0001f9e0 Scored: Blum Co-Founder Vladimir Smerkis Arrested For Suspicion of Fraud — {'headline': 'Blum Co-Founder Vladimir Smerkis Arrested For Suspicion of Fraud', 'url': 'https://beincrypto.com/blum-co-founder-vladimir-smerkis-arrested/', 'score': 7, 'ticker': 'CRYPTO', 'timestamp': '2025-05-18T05:05:31.548300'}
+2025-05-18 06:05:36,115 - \U0001f4e4 Storing scored headline: Blum Co-Founder Vladimir Smerkis Arrested For Suspicion of Fraud
+2025-05-18 06:05:36,125 - \U0001f9e0 Scored: UK to require crypto firms to report every customer transaction — {'headline': 'UK to require crypto firms to report every customer transaction', 'url': 'https://cointelegraph.com/news/uk-to-mandate-crypto-reporting-on-all-customer-transactions-in-2026?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-18T05:05:31.548300'}
+2025-05-18 06:05:36,126 - \U0001f4e4 Storing scored headline: UK to require crypto firms to report every customer transaction
+2025-05-18 06:05:36,136 - \u2705 Stored 2 scored headlines.
+2025-05-18 07:05:06,177 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-18 07:05:10,835 - \U0001f50e Fetched 0 headlines.
+2025-05-18 07:05:10,840 - \u23ed No new headlines to score.
+2025-05-18 10:00:11,118 - \U0001f300 post_random_content selected: original
+2025-05-18 10:00:14,442 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 10:00:16,765 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-18 10:00:16,766 - \u2705 Posted tweet: https://x.com/None/status/1924027240884421091
+2025-05-18 10:05:16,768 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-18 10:05:21,742 - \U0001f50e Fetched 6 headlines.
+2025-05-18 10:05:21,747 - \U0001f9e0 Scoring 6 new headlines with GPT...
+2025-05-18 10:05:22,210 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 10:05:22,690 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 10:05:23,151 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 10:05:23,742 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 10:05:24,241 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 10:05:25,457 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 10:05:26,057 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-18 10:05:33,182 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-18 10:05:35,120 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-18 10:05:36,591 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-18 10:05:37,457 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-18 10:05:37,903 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-18 10:05:37,915 - \U0001f9e0 Scored: XRP Price Surges After V-Shaped Recovery, Targets $3.40 — {'headline': 'XRP Price Surges After V-Shaped Recovery, Targets $3.40', 'url': 'https://www.coindesk.com/markets/2025/05/18/xrp-price-surges-after-v-shaped-recovery-targets-usd3-40', 'score': 8, 'ticker': '3.40', 'timestamp': '2025-05-18T09:05:21.747945'}
+2025-05-18 10:05:37,915 - \U0001f4e4 Storing scored headline: XRP Price Surges After V-Shaped Recovery, Targets $3.40
+2025-05-18 10:05:37,926 - \U0001f9e0 Scored: SUI Surges After Finding Strong Support at $3.75 Level — {'headline': 'SUI Surges After Finding Strong Support at $3.75 Level', 'url': 'https://www.coindesk.com/markets/2025/05/18/sui-surges-after-finding-strong-support-at-usd3-75-level', 'score': 4, 'ticker': '3.75', 'timestamp': '2025-05-18T09:05:21.747945'}
+2025-05-18 10:05:37,926 - \U0001f4e4 Storing scored headline: SUI Surges After Finding Strong Support at $3.75 Level
+2025-05-18 10:05:37,937 - \U0001f9e0 Scored: Dogecoin (DOGE) Whales Accumulate 1 Billion DOGE Amid Critical Support Formation — {'headline': 'Dogecoin (DOGE) Whales Accumulate 1 Billion DOGE Amid Critical Support Formation', 'url': 'https://www.coindesk.com/markets/2025/05/18/dogecoin-doge-whales-accumulate-1-billion-doge-amid-critical-support-formation', 'score': 9, 'ticker': 'CRYPTO', 'timestamp': '2025-05-18T09:05:21.747945'}
+2025-05-18 10:05:37,937 - \U0001f4e4 Storing scored headline: Dogecoin (DOGE) Whales Accumulate 1 Billion DOGE Amid Critical Support Formation
+2025-05-18 10:05:37,947 - \U0001f9e0 Scored: BNB Trades in Tight Range Amid Decreasing Volatility — {'headline': 'BNB Trades in Tight Range Amid Decreasing Volatility', 'url': 'https://www.coindesk.com/markets/2025/05/18/bnb-trades-in-tight-range-amid-decreasing-volatility', 'score': 3, 'ticker': 'CRYPTO', 'timestamp': '2025-05-18T09:05:21.747945'}
+2025-05-18 10:05:37,947 - \U0001f4e4 Storing scored headline: BNB Trades in Tight Range Amid Decreasing Volatility
+2025-05-18 10:05:37,959 - \U0001f9e0 Scored: Which AI Can Trade Your Bitcoin and XRP Automatically and Generate Passive Income for You — {'headline': 'Which AI Can Trade Your Bitcoin and XRP Automatically and Generate Passive Income for You', 'url': 'https://beincrypto.com/ai-trading-bitcoin-xrp-passive-income/', 'score': 8, 'ticker': 'CRYPTO', 'timestamp': '2025-05-18T09:05:21.747945'}
+2025-05-18 10:05:37,959 - \U0001f4e4 Storing scored headline: Which AI Can Trade Your Bitcoin and XRP Automatically and Generate Passive Income for You
+2025-05-18 10:05:37,972 - \U0001f9e0 Scored: Retired artist loses $2M in crypto to Coinbase impersonator — {'headline': 'Retired artist loses $2M in crypto to Coinbase impersonator', 'url': 'https://cointelegraph.com/news/retired-artist-loses-2m-in-crypto-to-coinbase-impersonator?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound', 'score': 9, 'ticker': '2M', 'timestamp': '2025-05-18T09:05:21.747945'}
+2025-05-18 10:05:37,973 - \U0001f4e4 Storing scored headline: Retired artist loses $2M in crypto to Coinbase impersonator
+2025-05-18 10:05:37,983 - \u2705 Stored 6 scored headlines.

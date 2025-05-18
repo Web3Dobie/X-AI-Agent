@@ -23,6 +23,11 @@ def score_headlines(headlines):
     now = datetime.utcnow().isoformat()
 
     for h in headlines:
+        # Safety check: ensure h is a dict and has required fields
+        if not isinstance(h, dict) or "headline" not in h or "url" not in h:
+            logging.warning(f"❌ Skipping non-dict or incomplete headline input: {h}")
+            continue
+
         prompt = f"Score this crypto news headline from 1 to 10 based on how likely it is to go viral on Twitter: '{h['headline']}'"
         try:
             response = client.chat.completions.create(
@@ -34,31 +39,39 @@ def score_headlines(headlines):
                 max_tokens=10,
                 temperature=0.3
             )
+
             score_str = response.choices[0].message.content.strip()
             match = re.search(r"\b\d+(\.\d+)?\b", score_str)
 
             if not match:
                 logging.warning(f"⚠️ GPT returned unparseable score: {score_str}")
-                continue  # Skip this headline
+                continue
 
             try:
                 score = math.ceil(float(match.group()))
             except Exception as e:
                 logging.warning(f"⚠️ Failed to convert score to float: {score_str} — {e}")
-                continue  # Also skip if parsing fails
+                continue
 
             ticker = extract_ticker(h["headline"])
-            h["score"] = score
-            h["ticker"] = ticker
-            h["timestamp"] = now
-            scored.append(h)
+
+            # ✅ Construct a clean dict with only expected fields
+            cleaned = {
+                "headline": h["headline"],
+                "url": h["url"],
+                "score": score,
+                "ticker": ticker,
+                "timestamp": now
+            }
+            scored.append(cleaned)
 
         except Exception as e:
-            logging.warning(f"⚠️ Failed to score headline: {h['headline']} — {e}")
+            logging.warning(f"⚠️ Failed to score headline: {h.get('headline', str(h))} — {e}")
 
     if scored:
         write_headlines(scored)
         return scored
+
 
 def write_headlines(scored):
     os.makedirs("data", exist_ok=True)
@@ -71,7 +84,14 @@ def write_headlines(scored):
 
         for h in scored:
             try:
-                score = float(h["score"])  # Validate score
+                # Validate all fields before writing
+                if not all(k in h for k in ["score", "headline", "url", "ticker", "timestamp"]):
+                    raise ValueError("Missing one or more required keys")
+
+                # Validate score is numeric
+                score = float(h["score"])
+
+                # Write clean row
                 writer.writerow({
                     "score": score,
                     "headline": h["headline"],
@@ -88,5 +108,9 @@ def write_headlines(scored):
                     used=False,
                     source_url=h["url"]
                 )
+
             except Exception as e:
-                logging.warning(f"⚠️ Skipped malformed row before writing: {h} — {e}")
+                logging.warning(f"⚠️ Skipped malformed headline before writing: {h} — {e}")
+     
+    logging.info(f"✅ Successfully wrote {len(scored)} headlines to log.")
+

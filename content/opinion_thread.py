@@ -22,7 +22,20 @@ def get_top_headline():
         logging.warning("⚠️ No headlines found for today.")
         return None, None
 
-    top = max(headlines, key=lambda h: h["score"])
+    valid_headlines = []
+    for h in headlines:
+        try:
+            h["score"] = float(h["score"])
+            valid_headlines.append(h)
+        except Exception:
+            logging.warning(f"⚠️ Skipped malformed headline: {h}")
+
+    if not valid_headlines:
+        logging.warning("❌ No valid headlines found for today.")
+        return None, None
+
+    top = max(valid_headlines, key=lambda h: h["score"])
+
     return top["headline"], top["url"]
 
 def generate_top_news_opinion():

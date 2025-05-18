@@ -24,7 +24,16 @@ def generate_summary_thread():
         logging.warning("⚠️ Not enough fresh headlines for news thread.")
         return []
 
-    top3 = sorted(headlines, key=lambda h: float(h["score"]), reverse=True)[:3]
+    valid_headlines = []
+    for h in headlines:
+        try:
+            h["score"] = float(h["score"])
+            valid_headlines.append(h)
+        except (ValueError, TypeError):
+            logging.warning(f"⚠️ Skipped malformed headline during sorting: {h}")
+
+    top3 = sorted(valid_headlines, key=lambda h: h["score"], reverse=True)[:3]
+
 
     prompt = "\n".join([f"{h['headline']}" for h in top3])
     full_prompt = f"""
