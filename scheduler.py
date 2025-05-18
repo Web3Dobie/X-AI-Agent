@@ -29,24 +29,24 @@ def schedule_random_post_between(start_hour, end_hour):
     logging.info(f"🌀 Scheduled post_random_content at {time_str} (between {start_hour}:00–{end_hour}:00)")
 
 def setup_daily_random_posts():
-    schedule_random_post_between(10, 11)  # Morning window
-    schedule_random_post_between(12, 13)  # Midday window
-    schedule_random_post_between(15, 16)  # Afternoon window
+    schedule_random_post_between(16, 18)  # Morning window
+    schedule_random_post_between(18, 20)  # Midday window
+    schedule_random_post_between(20, 22)  # Afternoon window
 
 # --- Ingesting Headlines and Score them ---
 schedule.every().hour.at(":05").do(fetch_and_score_headlines)
 
 # --- Posting Schedule ---
-schedule.every().day.at("08:00").do(post_news_thread)               # Morning headlines
-schedule.every().day.at("09:00").do(post_market_summary_thread)     # Market update
-schedule.every().day.at("00:01").do(setup_daily_random_posts)  # Regenerate daily
+schedule.every().day.at("13:00").do(post_news_thread)               # Morning headlines
+schedule.every().day.at("14:00").do(post_market_summary_thread)     # Market update
+schedule.every().day.at("00:01").do(setup_daily_random_posts)       # Regenerate daily
 setup_daily_random_posts()  # First run now
-schedule.every().day.at("13:00").do(lambda: reply_to_comments(bot_id=os.getenv("BOT_USER_ID")))
 schedule.every().day.at("18:00").do(lambda: reply_to_comments(bot_id=os.getenv("BOT_USER_ID")))
-schedule.every().day.at("20:00").do(post_top_news_thread)           # Evening opinion
+schedule.every().day.at("23:00").do(lambda: reply_to_comments(bot_id=os.getenv("BOT_USER_ID")))
+schedule.every().day.at("00:00").do(post_top_news_thread)           # Evening opinion
 
 # Weekly content
-schedule.every().friday.at("18:00").do(post_explainer_combo)
+schedule.every().friday.at("23:00").do(post_explainer_combo)
 
 # Rotate log files to D Drive
 schedule.every().sunday.at("23:59").do(rotate_logs)
