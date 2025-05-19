@@ -49,6 +49,15 @@ def score_headlines(headlines):
 
             try:
                 score = math.ceil(float(match.group()))
+
+                # XRP bias boost
+                if "XRP" in h["headline"].upper():
+                    score += 1
+                    logging.info(f"📈 XRP bonus applied: {h['headline']}")
+
+                # Cap max score
+                score = min(score, 10)
+
             except Exception as e:
                 logging.warning(f"⚠️ Failed to convert score to float: {score_str} — {e}")
                 continue

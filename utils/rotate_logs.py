@@ -2,8 +2,12 @@
 import shutil
 from datetime import datetime
 
-# Use your specified external path
+# Paths
 BACKUP_DIR = "D:/X AI Agent/History"
+DATA_DIR = "data"
+LOG_DIR = "logs"
+
+# Ensure backup directory exists
 os.makedirs(BACKUP_DIR, exist_ok=True)
 
 def rotate_file(src, headers=None):
@@ -18,6 +22,18 @@ def rotate_file(src, headers=None):
     try:
         shutil.move(src, dst)
         print(f"📁 Moved {src} → {dst}")
+    except PermissionError:
+        if "activity.log" in src:
+            print("⚠️ activity.log is locked. Truncating instead.")
+            try:
+                with open(src, "w", encoding="utf-8") as f:
+                    f.write("")
+                print("🧹 Truncated activity.log.")
+            except Exception as e:
+                print(f"❌ Failed to truncate {src}: {e}")
+        else:
+            print(f"❌ Failed to move {src}: file is in use.")
+        return
     except Exception as e:
         print(f"❌ Failed to move {src}: {e}")
         return
@@ -33,9 +49,9 @@ def rotate_file(src, headers=None):
 def rotate_logs():
     print("🔄 Rotating weekly logs...")
 
-    rotate_file("data/scored_headlines.csv", headers="score,headline,url,ticker,timestamp")
-    rotate_file("data/tweet_log.csv", headers="tweet_id,date,type,url,likes,retweets,replies,engagement_score")
-    rotate_file("logs/activity.log")  # No headers needed
+    rotate_file(os.path.join(DATA_DIR, "scored_headlines.csv"), headers="score,headline,url,ticker,timestamp")
+    rotate_file(os.path.join(DATA_DIR, "tweet_log.csv"), headers="tweet_id,timestamp,type,category,text,engagement_score")
+    rotate_file(os.path.join(LOG_DIR, "activity.log"))
 
     print("✅ Weekly log rotation complete.")
 
