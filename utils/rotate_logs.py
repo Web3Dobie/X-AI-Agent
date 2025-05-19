@@ -55,5 +55,14 @@ def rotate_logs():
 
     print("✅ Weekly log rotation complete.")
 
+# Clear XRP flag daily
+def clear_xrp_flag():
+    flag_path = "logs/xrp_used.flag"
+    if os.path.exists(flag_path):
+        os.remove(flag_path)
+        print("🧹 Reset xrp_used.flag")
+
+
+
 if __name__ == "__main__":
     rotate_logs()

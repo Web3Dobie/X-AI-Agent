@@ -1,12 +1,12 @@
 import random
 import logging
 import csv
+import os
+from datetime import datetime
 from utils.gpt import generate_gpt_tweet
 from utils.x_post import post_tweet, post_quote_tweet
 from content.reply_handler import reply_to_comments
 from utils.text_utils import insert_cashtags, insert_mentions
-from datetime import datetime
-import os
 
 # XRP prioritization helper
 def get_top_xrp_headline(threshold=7):
@@ -31,10 +31,19 @@ def post_random_content():
     logging.info(f"🌀 post_random_content selected: {choice}")
 
     if choice == "original":
-        xrp = get_top_xrp_headline()
+        xrp_used_flag = "logs/xrp_used.flag"
+        xrp = None
+
+        if not os.path.exists(xrp_used_flag):
+            xrp = get_top_xrp_headline()
+            if xrp:
+                with open(xrp_used_flag, "w", encoding="utf-8") as f:
+                    f.write(xrp["headline"])
+                logging.info(f"✅ Using XRP headline: {xrp['headline']}")
+
         if xrp:
             prompt = f"""Write a witty, well-informed crypto tweet about this XRP-related news headline:
-\"{xrp['headline']}\"
+"{xrp['headline']}"
 URL: {xrp['url']}
 Use the voice of Hunter: clever, non-hype, ends with '- Hunter 🐾'.
 Include 1-2 relevant hashtags and a cashtag for $XRP."""
@@ -61,5 +70,4 @@ Include 1-2 relevant hashtags and a cashtag for $XRP."""
             reply_to_comments(bot_id)
 
 def get_recent_viral_tweet():
-    # Static placeholder or rotating list for now
     return "https://x.com/coinbureau/status/1790104194723973536"

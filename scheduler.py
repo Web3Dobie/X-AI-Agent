@@ -10,6 +10,7 @@ from content.reply_handler import reply_to_comments
 from utils.headline_pipeline import fetch_and_score_headlines
 from utils.post_explainer_combo import post_explainer_combo
 from utils.rotate_logs import rotate_logs
+from utils.rotate_logs import clear_xrp_flag
 from datetime import datetime
 import os
 from dotenv import load_dotenv
@@ -29,6 +30,7 @@ def schedule_random_post_between(start_hour, end_hour):
     logging.info(f"🌀 Scheduled post_random_content at {time_str} (between {start_hour}:00–{end_hour}:00)")
 
 def setup_daily_random_posts():
+    clear_xrp_flag() #reset xrp flag
     schedule_random_post_between(16, 18)  # Morning window
     schedule_random_post_between(18, 20)  # Midday window
     schedule_random_post_between(20, 22)  # Afternoon window
