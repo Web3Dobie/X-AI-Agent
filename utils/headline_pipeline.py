@@ -30,14 +30,10 @@ def fetch_and_score_headlines():
     logging.info(f"🧠 Scoring {len(new_headlines)} new headlines with GPT...")
     score_headlines(new_headlines)
 
-    for headline, score in zip(new_headlines, scored):
-        logging.info(f"🧠 Scored: {headline['headline']} — {score}")
-        logging.info(f"📤 Storing scored headline: {headline['headline']}")
-
-        with open("data/scored_headlines.csv", "a", newline="", encoding="utf-8") as f:
-            writer = csv.DictWriter(f, fieldnames=["score", "headline", "url", "ticker", "timestamp"])
-            if f.tell() == 0:
-                writer.writeheader()
+    with open("data/scored_headlines.csv", "a", newline="", encoding="utf-8") as f:
+           writer = csv.DictWriter(f, fieldnames=["score", "headline", "url", "ticker", "timestamp"])
+           if f.tell() == 0:
+            writer.writeheader()
             writer.writerow({
                 "score": score,
                 "headline": headline["headline"],
@@ -46,7 +42,6 @@ def fetch_and_score_headlines():
                 "timestamp": datetime.utcnow().isoformat()
             })
 
-    logging.info(f"✅ Stored {len(scored)} scored headlines.")
 
 def get_top_headline_last_7_days():
     """Return the highest-scoring headline from the last 7 days."""

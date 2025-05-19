@@ -43,7 +43,7 @@ schedule.every().day.at("00:01").do(setup_daily_random_posts)       # Regenerate
 setup_daily_random_posts()  # First run now
 schedule.every().day.at("18:00").do(lambda: reply_to_comments(bot_id=os.getenv("BOT_USER_ID")))
 schedule.every().day.at("23:00").do(lambda: reply_to_comments(bot_id=os.getenv("BOT_USER_ID")))
-# schedule.every().day.at("00:00").do(post_top_news_thread)           # Evening opinion
+schedule.every().day.at("23:45").do(post_top_news_thread)           # Evening opinion
 
 # Weekly content
 schedule.every().friday.at("23:00").do(post_explainer_combo)
