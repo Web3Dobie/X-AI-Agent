@@ -7,6 +7,21 @@ from utils.text_utils import insert_cashtags, insert_mentions
 from datetime import datetime
 import os
 
+# XRP prioritization helper
+import csv
+def get_top_xrp_headline(threshold=7):
+    try:
+        with open("data/scored_headlines.csv", newline="", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in sorted(reader, key=lambda r: float(r["score"]), reverse=True):
+                if "XRP" in row["headline"].upper() and float(row["score"]) >= threshold:
+                    ts = datetime.fromisoformat(row["timestamp"]).date()
+                    if ts == datetime.utcnow().date():
+                        return row
+    except Exception as e:
+        print(f"⚠️ Error reading XRP headline: {e}")
+    return None
+
 def post_random_content():
     choice = random.choices(
         ["original", "quote", "reply"],
@@ -16,6 +31,10 @@ def post_random_content():
     logging.info(f"🌀 post_random_content selected: {choice}")
 
     if choice == "original":
+        xrp = get_top_xrp_headline()
+        if xrp:
+            prompt = f'''Write a witty, well-informed crypto tweet about this XRP-related news headline:\n"{xrp['headline']}"\nURL: {xrp['url']}\nUse the voice of Hunter: clever, non-hype, ends with '— Hunter 🐾'.\nInclude 1–2 relevant hashtags and a cashtag for $XRP.'''
+        else:
         prompt = "Write a standalone crypto tweet. It should be engaging, Web3-native, and end with '— Hunter 🐾'."
         text = generate_gpt_tweet(prompt)
         if text:
