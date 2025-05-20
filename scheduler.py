@@ -20,6 +20,12 @@ logging.basicConfig(filename='logs/activity.log', level=logging.INFO, format='%(
 
 print("🕒 Hunter Scheduler is live. Waiting for scheduled posts...")
 
+def post_top_news_if_not_friday():
+    if datetime.utcnow().weekday() != 4:  # 0 = Monday, 4 = Friday
+        post_top_news_thread()
+    else:
+        logging.info("📭 Skipped Hunter Reacts on Friday (Hunter Explains runs today).")
+
 import random
 
 def schedule_random_post_between(start_hour, end_hour):
@@ -45,7 +51,7 @@ schedule.every().day.at("00:01").do(setup_daily_random_posts)       # Regenerate
 setup_daily_random_posts()  # First run now
 schedule.every().day.at("18:00").do(lambda: reply_to_comments(bot_id=os.getenv("BOT_USER_ID")))
 schedule.every().day.at("23:00").do(lambda: reply_to_comments(bot_id=os.getenv("BOT_USER_ID")))
-schedule.every().day.at("23:45").do(post_top_news_thread)           # Evening opinion
+schedule.every().day.at("23:45").do(post_top_news_if_not_friday)    # Evening opinion
 
 # Weekly content
 schedule.every().friday.at("23:00").do(post_explainer_combo)
