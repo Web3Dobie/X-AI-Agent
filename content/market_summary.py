@@ -3,6 +3,7 @@ from datetime import datetime
 from utils.gpt import generate_gpt_thread
 from utils.x_post import post_thread
 import requests
+import time
 
 TOKENS = {
     "bitcoin": "BTC",
@@ -47,11 +48,25 @@ Use a Web3-savvy tone, rich with emojis and wit. End each with '— Hunter 🐾'
         return []
 
     today_str = datetime.utcnow().strftime("%Y-%m-%d")
-    header = f"Daily Hunter Market Update [{today_str}] 📅\n\n"
+    header = f"Daily Dobie Market Update [{today_str}] 📅\n\n"
     blurbs[0] = header + blurbs[0]
     return blurbs
 
 def post_market_summary_thread():
-    thread = generate_market_summary_thread()
-    if thread:
-        post_thread(thread, category="market_summary")
+    max_attempts = 3
+    delay_between_attempts = 1800  # 30 minutes
+
+    for attempt in range(1, max_attempts + 1):
+        logging.info(f"📈 Attempt {attempt} to fetch market data and post thread.")
+        thread = generate_market_summary_thread()
+
+        if thread:
+            post_thread(thread, category="market_summary")
+            logging.info("✅ Market summary posted successfully.")
+            return
+        else:
+            logging.warning("⚠️ Market data not ready. Will retry.")
+            if attempt < max_attempts:
+                time.sleep(delay_between_attempts)
+
+    logging.error("❌ Failed to post market summary after multiple attempts.")
