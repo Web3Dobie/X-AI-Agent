@@ -1,5 +1,6 @@
 import logging
 import csv
+import requests
 from datetime import datetime
 import string
 from utils.gpt import generate_gpt_thread
@@ -39,6 +40,13 @@ def get_top_headline():
 
     return top["headline"], top["url"]
 
+def is_valid_url(url):
+    try:
+        resp = requests.head(url, allow_redirects=True, timeout=5)
+        return resp.status_code == 200
+    except:
+        return False
+
 def generate_top_news_opinion():
     headline, url = get_top_headline()
     if not headline:
@@ -62,8 +70,13 @@ Headline:
     # Remove existing sign-off if GPT added it anyway
     thread_parts[-1] = thread_parts[-1].replace("— Hunter 🐾", "").strip()
 
-    # Now safely append our own sign-off
-    thread_parts[-1] += f"\n— Hunter 🐾\n🔗 {url}"
+    # URL validation
+    if url and is_valid_url(url):
+        logging.info(f"📌 Hunter Reacts to: {headline} — {url}")
+        thread_parts[-1] += f"\n— Hunter 🐾\n🔗 {url}"
+    else:
+        logging.warning(f"⚠️ Skipping broken or missing URL for headline: {headline}")
+        thread_parts[-1] += "\n— Hunter 🐾"
 
     return thread_parts
 
