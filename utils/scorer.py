@@ -4,7 +4,7 @@ import logging
 from utils.notion_logger import log_headline
 import re
 import math
-from datetime import datetime
+from datetime import datetime, timezone
 from utils.gpt import client
 from dotenv import load_dotenv
 
@@ -20,7 +20,7 @@ def extract_ticker(headline):
 
 def score_headlines(headlines):
     scored = []
-    now = datetime.utcnow().isoformat()
+    now = datetime.now(timezone.utc).isoformat()
 
     for h in headlines:
         # Safety check: ensure h is a dict and has required fields

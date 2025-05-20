@@ -5,7 +5,7 @@ import tweepy
 from dotenv import load_dotenv
 from utils.limit_guard import has_reached_daily_limit
 from utils.logger import log_tweet
-from datetime import datetime
+from datetime import datetime, timezone
 
 load_dotenv()
 
@@ -23,7 +23,7 @@ def post_tweet(text, category="original"):
     try:
         response = client.create_tweet(text=text)
         tweet_id = response.data["id"]
-        date = datetime.utcnow().strftime("%Y-%m-%d")
+        date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         url = f"https://x.com/{os.getenv('X_USERNAME')}/status/{tweet_id}"
         log_tweet(tweet_id, date, category, url, 0, 0, 0, 0)
         # metrics = client.get_tweet(id=tweet_id, tweet_fields=["public_metrics"])
@@ -40,7 +40,7 @@ def post_quote_tweet(text, tweet_url):
     try:
         response = client.create_tweet(text=text, quote_tweet_id=tweet_url.split("/")[-1])
         tweet_id = response.data["id"]
-        date = datetime.utcnow().strftime("%Y-%m-%d")
+        date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         url = f"https://x.com/{os.getenv('X_USERNAME')}/status/{tweet_id}"
         # metrics = client.get_tweet(id=tweet_id, tweet_fields=["public_metrics"])
         # m = metrics.data["public_metrics"]
@@ -61,7 +61,7 @@ def post_thread(thread_parts, category="thread"):
     try:
         response = client.create_tweet(text=thread_parts[0])
         tweet_id = response.data["id"]
-        date = datetime.utcnow().strftime("%Y-%m-%d")
+        date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         url = f"https://x.com/{os.getenv('X_USERNAME')}/status/{tweet_id}"
         log_tweet(tweet_id, date, category, url, 0, 0, 0, 0)
         # try:

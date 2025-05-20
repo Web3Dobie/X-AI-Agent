@@ -11,7 +11,7 @@ from utils.headline_pipeline import fetch_and_score_headlines
 from utils.post_explainer_combo import post_explainer_combo
 from utils.rotate_logs import rotate_logs
 from utils.rotate_logs import clear_xrp_flag
-from datetime import datetime
+from datetime import datetime, timezone
 import os
 from dotenv import load_dotenv
 
@@ -21,7 +21,7 @@ logging.basicConfig(filename='logs/activity.log', level=logging.INFO, format='%(
 print("🕒 Hunter Scheduler is live. Waiting for scheduled posts...")
 
 def post_top_news_if_not_friday():
-    if datetime.utcnow().weekday() != 4:  # 0 = Monday, 4 = Friday
+    if datetime.now(timezone.utc).weekday() != 4:  # 0 = Monday, 4 = Friday
         post_top_news_thread()
     else:
         logging.info("📭 Skipped Hunter Reacts on Friday (Hunter Explains runs today).")
