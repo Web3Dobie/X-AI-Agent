@@ -10,16 +10,23 @@ Hunter is a fully autonomous AI-powered Twitter agent built to run a Web3-themed
 - ✅ **Metrics logging**: Tracks likes, retweets, replies, and stores logs in CSV and Notion
 - ✅ **Follower growth tracking**: Logs followers over time for monetization goals
 - ✅ **Rate limit safe**: Built-in protection against X API limits with toggles and fallback logic
+- ✅ **Verify URL and drop if 404 in "Hunter Reacts" (opinion_threads) 
 - ✅ **Substack-Integration**: Weekly “Hunter Explains” threads with long-form article links (1800 - 2000 words)
+- ✅ ** Rotate logs every Sunday evening and write history to D:
 
 ## 📅 Posting Schedule
 
-- **08:00 UTC** — Daily News Recap (3-part thread)
-- **09:00 UTC** — Market Summary (5-part thread)
-- **10:00 + 12:00 + 15:00 UTC** — Dynamic content (original/quote/reply)
-- **13:00 + 18:00 UTC** — Replies to followers' comments
-- **20:00 UTC** — GPT Opinion thread on top crypto headline
-- **Friday 18:00 UTC** — "Hunter Explains" thread with link to Substack and write article for Substack
+- Randomise the random post times
+    schedule_random_post_between(16, 18)  # Morning window
+    schedule_random_post_between(18, 20)  # Midday window
+    schedule_random_post_between(20, 22)  # Afternoon window
+
+- **13:00 UTC** — Daily News Recap (3-part thread)
+- **14:00 UTC** — Market Summary (5-part thread)
+- **16:00 + 18:00 + 20:00 UTC** — Dynamic content (original/quote/reply)
+- **18:00 + 23:00 UTC** — Replies to followers' comments
+- **23:45 UTC** — GPT Opinion thread on top crypto headline (excl Friday)
+- **Friday 23:00 UTC** — "Hunter Explains" thread with link to Substack and write article for Substack
 
 - ** Sunday evening** - rotate log files to D: drive
 
@@ -42,11 +49,14 @@ Hunter is a fully autonomous AI-powered Twitter agent built to run a Web3-themed
     logger.py                 # CSV + Notion logging
     rss_fetch.py              # News ingestion via RSS
     headline_pipeline.py      # Score + store news
-    post_explainer_combos.py  # Call content.opinion_thread.py and content.explainer_writer.py
+    post_explainer_combo.py   # Call content.opinion_thread.py and content.explainer_writer.py
     rotate_logs.py	      # Save last weeks headlines and tweets to D: and remove from .csv
     scorer.py		      # Score headlines 
+    text_utils		      # Mentions and Cashtags
+    notion_helpers.py         # Substack post logging to Notion DB
+    notion_logger.py          # Tweet and Headline logging to Notion DB
 
-scheduler.py                 # Main execution scheduler
+scheduler.py                  # Main execution scheduler
 README.md
 .gitignore
 clean_headline_log.py		# manual clean-up of headline log in case of problem
