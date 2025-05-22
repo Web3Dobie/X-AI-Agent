@@ -77,8 +77,6 @@ schedule.every().hour.at(":05").do(fetch_and_score_headlines)
 
 # --- Posting Schedule ---
 # Weekday TA threads
-schedule.every().saturday.at("00:01").do(setup_weekend_random_posts)
-schedule.every().sunday.at("00:01").do(setup_weekend_random_posts)
 schedule.every().monday.at("16:00").do(post_weekday_ta)
 schedule.every().tuesday.at("16:00").do(post_weekday_ta)
 schedule.every().wednesday.at("16:00").do(post_weekday_ta)
@@ -87,7 +85,7 @@ schedule.every().friday.at("16:00").do(post_weekday_ta)
 
 schedule.every().day.at("13:00").do(post_news_thread)               # Morning headlines
 schedule.every().day.at("14:00").do(post_market_summary_thread)     # Market update
-       # Regenerate daily
+schedule.every().day.at("00:01").do(setup_weekend_random_posts)       # Regenerate daily
 schedule.every().day.at("18:00").do(lambda: reply_to_comments(bot_id=os.getenv("BOT_USER_ID")))
 schedule.every().day.at("23:00").do(lambda: reply_to_comments(bot_id=os.getenv("BOT_USER_ID")))
 schedule.every().day.at("23:45").do(post_top_news_if_not_friday)    # Evening opinion

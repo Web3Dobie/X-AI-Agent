@@ -5228,3 +5228,650 @@ Unauthorized
 2025-05-21 00:12:00,552 - \U0001f300 Scheduled post_random_content at 17:50 (between 16:00–18:00)
 2025-05-21 00:12:00,553 - \U0001f300 Scheduled post_random_content at 18:44 (between 18:00–20:00)
 2025-05-21 00:12:00,553 - \U0001f300 Scheduled post_random_content at 20:42 (between 20:00–22:00)
+2025-05-21 01:05:00,582 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-21 01:05:07,449 - \U0001f50e Fetched 2 headlines.
+2025-05-21 01:05:07,452 - \U0001f9e0 Scoring 2 new headlines with GPT...
+2025-05-21 01:05:08,603 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 01:05:09,092 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 01:05:09,733 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 01:05:10,198 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 01:05:10,201 - \u2705 Successfully wrote 2 headlines to log.
+2025-05-21 02:05:10,240 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-21 02:05:15,179 - \U0001f50e Fetched 2 headlines.
+2025-05-21 02:05:15,182 - \U0001f9e0 Scoring 2 new headlines with GPT...
+2025-05-21 02:05:16,556 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 02:05:17,050 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 02:05:17,782 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 02:05:18,470 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 02:05:18,476 - \u2705 Successfully wrote 2 headlines to log.
+2025-05-21 03:05:18,513 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-21 03:05:23,046 - \U0001f50e Fetched 2 headlines.
+2025-05-21 03:05:23,049 - \U0001f9e0 Scoring 2 new headlines with GPT...
+2025-05-21 03:05:24,219 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 03:05:24,695 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 03:05:25,771 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 03:05:29,962 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 03:05:29,966 - \u2705 Successfully wrote 2 headlines to log.
+2025-05-21 04:05:00,002 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-21 04:05:06,015 - \U0001f50e Fetched 3 headlines.
+2025-05-21 04:05:06,017 - \U0001f9e0 Scoring 3 new headlines with GPT...
+2025-05-21 04:05:07,106 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 04:05:08,397 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 04:05:08,400 - \U0001f4c8 XRP bonus applied: US Tourist Says Bitcoin, XRP Worth $123K Stolen After Ride With Fake Uber in London
+2025-05-21 04:05:09,017 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 04:05:09,550 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 04:05:10,071 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 04:05:11,042 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 04:05:11,045 - \u2705 Successfully wrote 3 headlines to log.
+2025-05-21 05:05:11,086 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-21 05:05:15,481 - \U0001f50e Fetched 1 headlines.
+2025-05-21 05:05:15,483 - \U0001f9e0 Scoring 1 new headlines with GPT...
+2025-05-21 05:05:16,216 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 05:05:16,878 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 05:05:16,882 - \u2705 Successfully wrote 1 headlines to log.
+2025-05-21 06:05:16,925 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-21 06:05:21,603 - \U0001f50e Fetched 4 headlines.
+2025-05-21 06:05:21,605 - \U0001f9e0 Scoring 4 new headlines with GPT...
+2025-05-21 06:05:23,088 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 06:05:23,670 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 06:05:24,269 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 06:05:24,823 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 06:05:26,006 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 06:05:26,453 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 06:05:27,475 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 06:05:35,608 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 06:05:35,612 - \u2705 Successfully wrote 4 headlines to log.
+2025-05-21 07:05:07,459 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-21 07:05:11,682 - \U0001f50e Fetched 4 headlines.
+2025-05-21 07:05:11,683 - \U0001f9e0 Scoring 4 new headlines with GPT...
+2025-05-21 07:05:12,436 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 07:05:13,120 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 07:05:13,718 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 07:05:14,232 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 07:05:14,832 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 07:05:15,858 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 07:05:16,313 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 07:05:17,826 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 07:05:17,829 - \u2705 Successfully wrote 4 headlines to log.
+2025-05-21 08:05:17,864 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-21 08:05:22,496 - \U0001f50e Fetched 3 headlines.
+2025-05-21 08:05:22,500 - \U0001f9e0 Scoring 3 new headlines with GPT...
+2025-05-21 08:05:23,432 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 08:05:23,433 - \U0001f4c8 XRP bonus applied: Bitcoin Futures Open Interest Zoomas BTC Inches Towards All-Time High; DOGE, ADA, XRP Add 4%
+2025-05-21 08:05:24,013 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 08:05:24,522 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 08:05:24,523 - \U0001f4c8 XRP bonus applied: SEC delays decision on Ether staking and XRP ETFs, as analysts expected
+2025-05-21 08:05:25,121 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 08:05:26,131 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 08:05:26,559 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 08:05:26,563 - \u2705 Successfully wrote 3 headlines to log.
+2025-05-21 09:05:26,606 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-21 09:05:31,276 - \U0001f50e Fetched 5 headlines.
+2025-05-21 09:05:31,277 - \U0001f9e0 Scoring 5 new headlines with GPT...
+2025-05-21 09:05:32,177 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 09:05:33,152 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 09:05:33,663 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 09:05:34,203 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 09:05:34,753 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 09:05:35,328 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 09:05:35,767 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 09:05:36,656 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 09:05:46,217 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 09:05:46,635 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 09:05:46,640 - \u2705 Successfully wrote 5 headlines to log.
+2025-05-21 10:05:16,682 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-21 10:05:21,314 - \U0001f50e Fetched 10 headlines.
+2025-05-21 10:05:21,317 - \U0001f9e0 Scoring 10 new headlines with GPT...
+2025-05-21 10:05:22,466 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 10:05:22,469 - \U0001f4c8 XRP bonus applied: CME's XRP Futures Have Pulled In Nearly $30M Since Debut, Fueling XRP ETF Hopes
+2025-05-21 10:05:23,292 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 10:05:23,293 - \U0001f4c8 XRP bonus applied: Bitcoin Futures Open Interest Zoom as BTC Inches Towards All-Time High; DOGE, ADA, XRP Add 4%
+2025-05-21 10:05:23,842 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 10:05:24,484 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 10:05:25,353 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 10:05:25,355 - \U0001f4c8 XRP bonus applied: XRP Faces $470 Million Selloff as Investors Await Price Recovery
+2025-05-21 10:05:26,116 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 10:05:26,715 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 10:05:27,874 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 10:05:28,525 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 10:05:29,815 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 10:05:32,229 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 10:05:32,737 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 10:05:33,237 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 10:05:34,364 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 10:05:34,854 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 10:05:35,282 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 10:05:35,957 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 10:05:36,921 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 10:05:37,320 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 10:05:40,430 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 10:05:40,435 - \u2705 Successfully wrote 10 headlines to log.
+2025-05-21 11:05:10,475 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-21 11:05:15,161 - \U0001f50e Fetched 18 headlines.
+2025-05-21 11:05:15,163 - \U0001f9e0 Scoring 18 new headlines with GPT...
+2025-05-21 11:05:16,076 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 11:05:16,748 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 11:05:17,474 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 11:05:18,017 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 11:05:18,654 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 11:05:19,262 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 11:05:19,938 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 11:05:20,625 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 11:05:21,331 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 11:05:21,885 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 11:05:22,509 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 11:05:23,081 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 11:05:23,647 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 11:05:23,648 - \U0001f4c8 XRP bonus applied: Messari Report Shows XRP Outperforming With Market Cap and Network Growth in Q1 2025
+2025-05-21 11:05:24,375 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 11:05:25,662 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 11:05:26,154 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 11:05:27,035 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 11:05:27,516 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 11:05:38,835 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 11:05:39,276 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 11:05:41,499 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 11:05:42,662 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 11:05:43,079 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 11:05:43,769 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 11:05:44,175 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 11:05:44,536 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 11:05:47,407 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 11:05:48,314 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 11:05:48,714 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 11:05:50,576 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 11:05:53,357 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 11:05:54,103 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 11:05:54,982 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 11:05:57,975 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 11:05:58,548 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 11:06:05,660 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 11:06:05,786 - \u2705 Successfully wrote 18 headlines to log.
+2025-05-21 12:05:05,814 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-21 12:05:11,617 - \U0001f50e Fetched 7 headlines.
+2025-05-21 12:05:11,620 - \U0001f9e0 Scoring 7 new headlines with GPT...
+2025-05-21 12:05:12,678 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 12:05:13,291 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 12:05:13,832 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 12:05:14,324 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 12:05:14,954 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 12:05:15,594 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 12:05:16,199 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 12:05:18,942 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 12:05:19,426 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 12:05:40,532 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 12:05:47,424 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 12:05:51,348 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 12:05:52,305 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 12:05:52,896 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 12:05:52,899 - \u2705 Successfully wrote 7 headlines to log.
+2025-05-21 13:00:28,643 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 13:00:28,646 - \U0001f4e2 Posting thread: news_summary
+2025-05-21 13:00:31,549 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 13:00:35,128 - \u2705 Posted thread with 3 tweets.
+2025-05-21 13:05:05,131 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-21 13:05:10,243 - \U0001f50e Fetched 9 headlines.
+2025-05-21 13:05:10,245 - \U0001f9e0 Scoring 9 new headlines with GPT...
+2025-05-21 13:05:10,830 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 13:05:11,480 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 13:05:12,300 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 13:05:13,282 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 13:05:13,894 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 13:05:14,646 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 13:05:15,318 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 13:05:16,015 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 13:05:16,633 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 13:05:18,069 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 13:05:18,776 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 13:05:20,906 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 13:05:22,238 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 13:05:32,638 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 13:05:33,894 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 13:05:34,935 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 13:05:35,628 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 13:05:36,602 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 13:05:36,609 - \u2705 Successfully wrote 9 headlines to log.
+2025-05-21 14:00:06,651 - \U0001f4c8 Attempt 1 to fetch market data and post thread.
+2025-05-21 14:00:21,052 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 14:00:21,064 - \U0001f4e2 Posting thread: market_summary
+2025-05-21 14:00:22,080 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 14:00:29,224 - \u2705 Posted thread with 5 tweets.
+2025-05-21 14:00:29,224 - \u2705 Market summary posted successfully.
+2025-05-21 14:05:29,227 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-21 14:05:34,659 - \U0001f50e Fetched 6 headlines.
+2025-05-21 14:05:34,661 - \U0001f9e0 Scoring 6 new headlines with GPT...
+2025-05-21 14:05:35,736 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 14:05:36,229 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 14:05:36,868 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 14:05:38,747 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 14:05:39,593 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 14:05:40,114 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 14:05:40,819 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 14:05:41,215 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 14:05:41,621 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 14:05:42,091 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 14:05:42,494 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 14:05:45,965 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 14:05:45,969 - \u2705 Successfully wrote 6 headlines to log.
+2025-05-21 15:05:16,009 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-21 15:05:20,537 - \U0001f50e Fetched 19 headlines.
+2025-05-21 15:05:20,539 - \U0001f9e0 Scoring 19 new headlines with GPT...
+2025-05-21 15:05:22,660 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 15:05:23,170 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 15:05:23,868 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 15:05:24,699 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 15:05:25,375 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 15:05:25,377 - \U0001f4c8 XRP bonus applied: XRP-BTC Pair Flashes First Golden Cross, Hinting at Major Bull Run for XRP
+2025-05-21 15:05:26,076 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 15:05:26,588 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 15:05:27,319 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 15:05:27,996 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 15:05:28,988 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 15:05:29,527 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 15:05:30,075 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 15:05:30,669 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 15:05:31,789 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 15:05:32,752 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 15:05:33,304 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 15:05:34,126 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 15:05:34,701 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 15:05:35,290 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 15:05:37,317 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 15:05:38,344 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 15:05:39,311 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 15:05:39,732 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 15:05:41,435 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 15:05:43,275 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 15:05:44,595 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 15:05:45,067 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 15:05:46,829 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 15:05:47,260 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 15:05:48,198 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 15:05:48,832 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 15:05:49,511 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 15:05:52,899 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 15:05:56,153 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 15:05:56,593 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 15:05:57,058 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 15:05:58,225 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 15:06:02,006 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 15:06:02,014 - \u2705 Successfully wrote 19 headlines to log.
+2025-05-21 16:05:02,054 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-21 16:05:09,864 - \U0001f50e Fetched 12 headlines.
+2025-05-21 16:05:09,866 - \U0001f9e0 Scoring 12 new headlines with GPT...
+2025-05-21 16:05:10,995 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 16:05:11,981 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 16:05:13,014 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 16:05:13,533 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 16:05:14,133 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 16:05:14,635 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 16:05:15,327 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 16:05:15,890 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 16:05:17,274 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 16:05:17,822 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 16:05:18,434 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 16:05:19,103 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 16:05:20,756 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 16:05:21,843 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 16:05:26,720 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 16:05:28,816 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 16:05:32,168 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 16:05:37,222 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 16:05:37,947 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 16:05:45,520 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 16:05:48,005 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 16:05:52,541 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 16:05:53,970 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 16:05:56,048 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 16:05:56,052 - \u2705 Successfully wrote 12 headlines to log.
+2025-05-21 17:05:26,093 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-21 17:05:30,608 - \U0001f50e Fetched 8 headlines.
+2025-05-21 17:05:30,612 - \U0001f9e0 Scoring 8 new headlines with GPT...
+2025-05-21 17:05:31,452 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 17:05:32,167 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 17:05:33,079 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 17:05:33,934 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 17:05:34,670 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 17:05:35,192 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 17:05:35,883 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 17:05:36,676 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 17:05:38,133 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 17:05:39,481 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 17:05:42,754 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 17:05:46,554 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 17:05:49,390 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 17:05:54,460 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 17:05:55,465 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 17:05:57,047 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 17:05:57,051 - \u2705 Successfully wrote 8 headlines to log.
+2025-05-21 17:50:27,084 - \U0001f300 post_random_content selected: original
+2025-05-21 17:50:27,095 - \u2705 Using XRP headline: US Tourist Says Bitcoin, XRP Worth $123K Stolen After Ride With Fake Uber in London
+2025-05-21 17:50:30,965 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 17:50:34,061 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 17:50:34,061 - \u2705 Posted tweet: https://x.com/None/status/1925232750706991607
+2025-05-21 18:00:04,067 - \U0001f4ac Scanning for recent replies to respond to...
+2025-05-21 18:00:04,221 - \u274c Error in reply_to_comments: 401 Unauthorized
+Unauthorized
+2025-05-21 18:05:04,225 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-21 18:05:09,232 - \U0001f50e Fetched 9 headlines.
+2025-05-21 18:05:09,236 - \U0001f9e0 Scoring 9 new headlines with GPT...
+2025-05-21 18:05:10,165 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 18:05:10,959 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 18:05:12,364 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 18:05:13,731 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 18:05:14,256 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 18:05:14,799 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 18:05:15,267 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 18:05:15,712 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 18:05:16,519 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 18:05:17,089 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 18:05:18,509 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 18:05:23,412 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 18:05:24,369 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 18:05:24,764 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 18:05:25,244 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 18:05:26,138 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 18:05:27,746 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 18:05:28,218 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 18:05:28,222 - \u2705 Successfully wrote 9 headlines to log.
+2025-05-21 18:44:28,246 - \U0001f300 post_random_content selected: original
+2025-05-21 18:44:31,750 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 18:44:32,706 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 18:44:32,707 - \u2705 Posted tweet: https://x.com/None/status/1925246343745880084
+2025-05-21 19:05:02,717 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-21 19:05:10,639 - \U0001f50e Fetched 10 headlines.
+2025-05-21 19:05:10,642 - \U0001f9e0 Scoring 10 new headlines with GPT...
+2025-05-21 19:05:12,030 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 19:05:12,886 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 19:05:13,519 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 19:05:14,275 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 19:05:14,840 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 19:05:15,401 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 19:05:16,047 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 19:05:16,898 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 19:05:17,460 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 19:05:18,078 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 19:05:18,604 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 19:05:25,796 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 19:05:32,678 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 19:05:33,177 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 19:05:34,076 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 19:05:34,446 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 19:05:39,105 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 19:05:49,005 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 19:05:49,815 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 19:05:50,196 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 19:05:50,201 - \u2705 Successfully wrote 10 headlines to log.
+2025-05-21 20:05:20,239 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-21 20:05:25,353 - \U0001f50e Fetched 11 headlines.
+2025-05-21 20:05:25,355 - \U0001f9e0 Scoring 11 new headlines with GPT...
+2025-05-21 20:05:26,448 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 20:05:27,048 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 20:05:27,531 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 20:05:28,135 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 20:05:29,344 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 20:05:30,118 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 20:05:31,281 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 20:05:32,487 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 20:05:33,088 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 20:05:33,667 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 20:05:34,345 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 20:05:34,346 - \U0001f4c8 XRP bonus applied: Price predictions 5/21: BTC, ETH, XRP, BNB, SOL, DOGE, ADA, SUI, LINK, AVAX
+2025-05-21 20:05:37,073 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 20:05:37,491 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 20:05:37,926 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 20:05:38,438 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 20:05:38,815 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 20:05:39,196 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 20:05:44,408 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 20:05:45,497 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 20:05:46,387 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 20:05:51,932 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 20:05:52,889 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 20:05:52,895 - \u2705 Successfully wrote 11 headlines to log.
+2025-05-21 20:42:22,921 - \U0001f300 post_random_content selected: original
+2025-05-21 20:42:26,430 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 20:42:27,358 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 20:42:27,360 - \u2705 Posted tweet: https://x.com/None/status/1925276017444200489
+2025-05-21 21:05:27,377 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-21 21:05:39,700 - \U0001f50e Fetched 4 headlines.
+2025-05-21 21:05:39,702 - \U0001f9e0 Scoring 4 new headlines with GPT...
+2025-05-21 21:05:40,820 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 21:05:41,395 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 21:05:42,595 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 21:05:43,191 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 21:05:45,679 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 21:05:51,101 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 21:05:51,509 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 21:05:54,550 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 21:05:54,634 - \u2705 Successfully wrote 4 headlines to log.
+2025-05-21 22:05:24,673 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-21 22:05:29,180 - \U0001f50e Fetched 8 headlines.
+2025-05-21 22:05:29,183 - \U0001f9e0 Scoring 8 new headlines with GPT...
+2025-05-21 22:05:29,995 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 22:05:30,644 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 22:05:31,430 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 22:05:32,008 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 22:05:32,865 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 22:05:33,583 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 22:05:34,081 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 22:05:34,740 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 22:05:35,712 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 22:05:36,066 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 22:05:36,482 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 22:05:39,249 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 22:05:51,741 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 22:05:54,640 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 22:05:55,391 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 22:05:55,813 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 22:05:55,818 - \u2705 Successfully wrote 8 headlines to log.
+2025-05-21 23:00:25,855 - \U0001f4ac Scanning for recent replies to respond to...
+2025-05-21 23:00:25,999 - \u274c Error in reply_to_comments: 401 Unauthorized
+Unauthorized
+2025-05-21 23:05:26,004 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-21 23:05:31,310 - \U0001f50e Fetched 11 headlines.
+2025-05-21 23:05:31,313 - \U0001f9e0 Scoring 11 new headlines with GPT...
+2025-05-21 23:05:32,020 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 23:05:33,500 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 23:05:34,183 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 23:05:35,020 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 23:05:35,650 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 23:05:36,336 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 23:05:36,870 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 23:05:36,871 - \U0001f4c8 XRP bonus applied: XRP Futures Hit $25.6 Million in Volume in the First Two Days on CME
+2025-05-21 23:05:37,470 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 23:05:38,026 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 23:05:39,027 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 23:05:39,532 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 23:05:40,620 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 23:05:41,017 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 23:05:42,898 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 23:05:45,793 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 23:05:48,397 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 23:05:48,759 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 23:05:49,228 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 23:05:50,021 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 23:05:52,267 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 23:05:52,652 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 23:05:53,035 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 23:05:53,039 - \u2705 Successfully wrote 11 headlines to log.
+2025-05-21 23:45:30,910 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-21 23:45:30,984 - \U0001f4cc Hunter Reacts to: US Tourist Says Bitcoin, XRP Worth $123K Stolen After Ride With Fake Uber in London — https://decrypt.co/321243/us-tourist-bitcoin-xrp-123k-stolen-ride-fake-uber-london
+2025-05-21 23:45:30,985 - \U0001f4e2 Posting thread: news_opinion
+2025-05-21 23:45:33,121 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-21 23:45:36,778 - \u2705 Posted thread with 3 tweets.
+2025-05-22 00:01:06,789 - \U0001f300 Scheduled post_random_content at 16:01 (between 16:00–18:00)
+2025-05-22 00:01:06,790 - \U0001f300 Scheduled post_random_content at 18:35 (between 18:00–20:00)
+2025-05-22 00:01:06,790 - \U0001f300 Scheduled post_random_content at 20:52 (between 20:00–22:00)
+2025-05-22 00:05:06,794 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-22 00:05:15,428 - \U0001f50e Fetched 7 headlines.
+2025-05-22 00:05:15,431 - \U0001f9e0 Scoring 7 new headlines with GPT...
+2025-05-22 00:05:16,337 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 00:05:17,114 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 00:05:18,076 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 00:05:18,578 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 00:05:19,059 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 00:05:19,716 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 00:05:20,269 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 00:05:20,795 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 00:05:21,209 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 00:05:21,605 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 00:05:22,019 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 00:05:23,149 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 00:05:23,532 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 00:05:24,554 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 00:05:24,558 - \u2705 Successfully wrote 7 headlines to log.
+2025-05-22 01:05:24,597 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-22 01:05:29,636 - \U0001f50e Fetched 5 headlines.
+2025-05-22 01:05:29,641 - \U0001f9e0 Scoring 5 new headlines with GPT...
+2025-05-22 01:05:30,532 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 01:05:31,741 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 01:05:32,326 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 01:05:32,870 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 01:05:33,823 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 01:05:35,264 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 01:05:35,713 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 01:05:36,177 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 01:05:36,808 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 01:05:37,227 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 01:05:37,231 - \u2705 Successfully wrote 5 headlines to log.
+2025-05-22 02:05:07,276 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-22 02:05:13,183 - \U0001f50e Fetched 1 headlines.
+2025-05-22 02:05:13,186 - \U0001f9e0 Scoring 1 new headlines with GPT...
+2025-05-22 02:05:13,956 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 02:05:14,475 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 02:05:14,479 - \u2705 Successfully wrote 1 headlines to log.
+2025-05-22 03:05:14,521 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-22 03:05:19,176 - \U0001f50e Fetched 1 headlines.
+2025-05-22 03:05:19,179 - \U0001f9e0 Scoring 1 new headlines with GPT...
+2025-05-22 03:05:19,961 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 03:05:20,500 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 03:05:20,504 - \u2705 Successfully wrote 1 headlines to log.
+2025-05-22 04:05:20,544 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-22 04:05:25,193 - \U0001f50e Fetched 1 headlines.
+2025-05-22 04:05:25,197 - \U0001f9e0 Scoring 1 new headlines with GPT...
+2025-05-22 04:05:26,245 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 04:05:32,112 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 04:05:32,116 - \u2705 Successfully wrote 1 headlines to log.
+2025-05-22 05:05:02,153 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-22 05:05:09,764 - \U0001f50e Fetched 0 headlines.
+2025-05-22 05:05:09,767 - \u23ed No new headlines to score.
+2025-05-22 06:05:09,808 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-22 06:05:14,892 - \U0001f50e Fetched 6 headlines.
+2025-05-22 06:05:14,894 - \U0001f9e0 Scoring 6 new headlines with GPT...
+2025-05-22 06:05:15,710 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 06:05:17,218 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 06:05:17,755 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 06:05:18,208 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 06:05:18,725 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 06:05:19,409 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 06:05:19,950 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 06:05:20,471 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 06:05:20,881 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 06:05:21,811 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 06:05:24,112 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 06:05:24,766 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 06:05:24,770 - \u2705 Successfully wrote 6 headlines to log.
+2025-05-22 07:05:24,805 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-22 07:05:29,217 - \U0001f50e Fetched 5 headlines.
+2025-05-22 07:05:29,220 - \U0001f9e0 Scoring 5 new headlines with GPT...
+2025-05-22 07:05:30,103 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 07:05:30,545 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 07:05:31,270 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 07:05:31,273 - \U0001f4c8 XRP bonus applied: Ripple’s Potential Circle Acquisition Could Shift Power in Stablecoins—and Sideline XRP
+2025-05-22 07:05:31,830 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 07:05:32,332 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 07:05:32,878 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 07:05:34,853 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 07:05:35,230 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 07:05:37,318 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 07:05:42,438 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 07:05:42,442 - \u2705 Successfully wrote 5 headlines to log.
+2025-05-22 08:05:12,485 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-22 08:05:17,425 - \U0001f50e Fetched 8 headlines.
+2025-05-22 08:05:17,428 - \U0001f9e0 Scoring 8 new headlines with GPT...
+2025-05-22 08:05:18,302 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 08:05:18,788 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 08:05:19,465 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 08:05:20,209 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 08:05:20,816 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 08:05:21,608 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 08:05:22,542 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 08:05:23,148 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 08:05:23,913 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 08:05:24,402 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 08:05:25,127 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 08:05:26,609 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 08:05:27,027 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 08:05:29,554 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 08:05:31,500 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 08:05:31,945 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 08:05:31,949 - \u2705 Successfully wrote 8 headlines to log.
+2025-05-22 09:05:01,990 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-22 09:05:09,261 - \U0001f50e Fetched 5 headlines.
+2025-05-22 09:05:09,263 - \U0001f9e0 Scoring 5 new headlines with GPT...
+2025-05-22 09:05:10,113 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 09:05:10,691 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 09:05:11,168 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 09:05:12,607 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 09:05:13,281 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 09:05:15,560 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 09:05:16,487 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 09:05:16,934 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 09:05:18,461 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 09:05:18,924 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 09:05:18,927 - \u2705 Successfully wrote 5 headlines to log.
+2025-05-22 10:05:18,963 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-22 10:05:23,891 - \U0001f50e Fetched 4 headlines.
+2025-05-22 10:05:23,895 - \U0001f9e0 Scoring 4 new headlines with GPT...
+2025-05-22 10:05:24,991 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 10:05:25,610 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 10:05:26,256 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 10:05:26,878 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 10:05:27,360 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 10:05:27,813 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 10:05:28,217 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 10:05:29,924 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 10:05:29,929 - \u2705 Successfully wrote 4 headlines to log.
+2025-05-22 11:05:29,965 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-22 11:05:33,953 - \U0001f50e Fetched 7 headlines.
+2025-05-22 11:05:33,956 - \U0001f9e0 Scoring 7 new headlines with GPT...
+2025-05-22 11:05:34,896 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 11:05:35,454 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 11:05:36,055 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 11:05:36,695 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 11:05:37,337 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 11:05:38,068 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 11:05:38,728 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 11:05:42,129 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 11:05:42,549 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 11:05:43,032 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 11:05:43,721 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 11:05:44,122 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 11:05:44,558 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 11:05:44,965 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 11:05:44,969 - \u2705 Successfully wrote 7 headlines to log.
+2025-05-22 12:05:15,004 - \U0001f4e5 Starting headline ingestion and scoring...
+2025-05-22 12:05:19,169 - \U0001f50e Fetched 8 headlines.
+2025-05-22 12:05:19,172 - \U0001f9e0 Scoring 8 new headlines with GPT...
+2025-05-22 12:05:20,002 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 12:05:20,636 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 12:05:21,406 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 12:05:21,983 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 12:05:22,751 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 12:05:23,403 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 12:05:24,017 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 12:05:24,856 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 12:05:25,446 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 12:05:26,466 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 12:05:35,963 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 12:05:44,377 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 12:05:44,767 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 12:05:48,905 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 12:05:52,556 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 12:05:53,106 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 12:05:53,110 - \u2705 Successfully wrote 8 headlines to log.
+2025-05-22 13:00:35,725 - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-22 13:00:35,729 - \U0001f4e2 Posting thread: news_summary
+2025-05-22 13:00:38,658 - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-05-22 13:00:42,243 - \u2705 Posted thread with 3 tweets.
