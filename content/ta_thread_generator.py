@@ -123,7 +123,7 @@ Create a 4-part tweet thread for ${context['token']} using this data:
 Each tweet should be clever and fact-based, in the first person. No emoji. Do not use asterisks or hashtags.
 
 Start Tweet 1 with this header:
-Daily Dobie Drawings
+Daily Dobie Drawings ✍️
 ${context['token']} Technical Outlook [{context['date']}]
 
 Add a line break, then your commentary. Do not repeat this header in later tweets.
@@ -142,16 +142,17 @@ As always, this is NFA — Hunter 🐾
         thread[i] = thread[i].replace("As always, this is NFA", "").strip()
     thread[3] += "\nAs always, this is NFA — Hunter 🐾"
 
-    log_ta_entry(
-        token=context["token"],
-        close=context["close"],
-        sma50=context["sma50"],
-        sma200=context["sma200"],
-        rsi=context["rsi"],
-        macd=context["macd"],
-        macd_signal=context["macd_signal"],
-        gpt_summary=thread[3]
-    )
+    full_thread_text = "\n---\n".join(thread)
+
+    log_ta_entry
+    token=context["token"],
+    close=context["close"],
+    sma50=context["sma50"],
+    sma200=context["sma200"],
+    rsi=context["rsi"],
+    macd=context["macd"],
+    macd_signal=context["macd_signal"],
+    gpt_summary=full_thread_text
 
     return thread
 

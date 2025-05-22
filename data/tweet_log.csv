@@ -18,3 +18,5 @@ tweet_id,date,type,url,likes,retweets,replies,engagement_score
 1925276017444200489,2025-05-21,original,https://x.com/None/status/1925276017444200489,0,0,0,0
 1925322090338451889,2025-05-21,news_opinion,https://x.com/None/status/1925322090338451889,0,0,0,0
 1925522180596519138,2025-05-22,news_summary,https://x.com/None/status/1925522180596519138,0,0,0,0
+1925537214613610866,2025-05-22,market_summary,https://x.com/None/status/1925537214613610866,0,0,0,0
+1925684397614707166,2025-05-22,news_opinion,https://x.com/None/status/1925684397614707166,0,0,0,0

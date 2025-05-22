@@ -16,17 +16,20 @@ Hunter is a fully autonomous AI-powered Twitter agent built to run a Web3-themed
 
 ## 📅 Posting Schedule
 
-- Randomise the random post times
+- Randomise the random post times, only on weekends
     schedule_random_post_between(16, 18)  # Morning window
     schedule_random_post_between(18, 20)  # Midday window
     schedule_random_post_between(20, 22)  # Afternoon window
 
 - **13:00 UTC** — Daily News Recap (3-part thread)
 - **14:00 UTC** — Market Summary (5-part thread)
-- **16:00 + 18:00 + 20:00 UTC** — Dynamic content (original/quote/reply)
+- **16:00 UTC** - TA thread on our 5 coins
 - **18:00 + 23:00 UTC** — Replies to followers' comments
 - **23:45 UTC** — GPT Opinion thread on top crypto headline (excl Friday)
 - **Friday 23:00 UTC** — "Hunter Explains" thread with link to Substack and write article for Substack
+
+## Weekends
+- **16:00 + 18:00 + 20:00 UTC** — Dynamic content (original/quote/reply)
 
 - ** Sunday evening** - rotate log files to D: drive
 
@@ -38,9 +41,10 @@ Hunter is a fully autonomous AI-powered Twitter agent built to run a Web3-themed
     news_recap.py             # Daily news summary thread
     opinion_thread.py         # Hunter reacts to top headline
     random_post.py            # Original, quote, or reply tweets
-    explainer.py	      # Write 3 part thread on top headline of last 7 days
+    explainer.py	          # Write 3 part thread on top headline of last 7 days
     explainer_writer.py	      # Write 1800 - 2000 word article for Substack
     reply_handler.py	      # Handle replies to comments and KOLs
+    ta_thread_generator.py    # Write 3 part TA thread on our 5 coins. Every day a different one. Compare to last week
 
 /utils/
     gpt.py                    # GPT-4 tweet/thread generation
@@ -62,6 +66,8 @@ README.md
 clean_headline_log.py		# manual clean-up of headline log in case of problem
 import_x_metrics.py		# manual download X analytics and parse file
 ```
+
+## Binance for mkt data
 
 ## 📦 Dependencies
 
