@@ -57,7 +57,7 @@ schedule.every().monday.at("16:00").do(post_ta_thread)
 schedule.every().tuesday.at("16:00").do(post_ta_thread)
 schedule.every().wednesday.at("16:00").do(post_ta_thread)
 schedule.every().thursday.at("16:00").do(post_ta_thread)
-schedule.every().friday.at("16:00").do(post_ta_thread)
+schedule.every().friday.at("19:00").do(post_ta_thread)
 
 schedule.every().day.at("13:00").do(post_news_thread)
 schedule.every().day.at("14:00").do(post_market_summary_thread)
