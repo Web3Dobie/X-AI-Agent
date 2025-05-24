@@ -51,7 +51,7 @@ def generate_market_summary_thread():
         return []
 
     bullet_points = "\n".join([
-        f"${{t['ticker']}}: ${{t['price']:.2f}} ({{t['change']:+.2f}}%)" for t in tokens
+        f"${t['ticker']}: ${t['price']:.2f} ({t['change']:+.2f}%)" for t in tokens
     ])
 
     if not bullet_points.strip():

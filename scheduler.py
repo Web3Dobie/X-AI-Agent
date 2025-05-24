@@ -38,7 +38,7 @@ def schedule_random_post_between(start_hour, end_hour):
 
 def setup_weekend_random_posts():
     clear_xrp_flag()
-    weekday = datetime.now(timezone.utc).weekday()
+    weekday = datetime.now().weekday()  #local timezone
     if weekday in [5, 6]:
         schedule_random_post_between(16, 18)
         schedule_random_post_between(18, 20)
