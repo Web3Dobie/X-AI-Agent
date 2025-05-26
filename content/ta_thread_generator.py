@@ -75,7 +75,7 @@ def fetch_ohlc(token, days=1000):
         "eth": "ETHUSDT",
         "sol": "SOLUSDT",
         "xrp": "XRPUSDT",
-        "op": "OPUSDT"
+        "doge": "DOGEUSDT"
     }
     symbol = symbol_map.get(token.lower())
     if not symbol:

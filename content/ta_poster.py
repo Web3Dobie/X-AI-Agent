@@ -10,7 +10,7 @@ def post_ta_thread():
         1: "eth",
         2: "sol",
         3: "xrp",
-        4: "op"
+        4: "doge"
     }
     weekday = datetime.now(timezone.utc).weekday()
     if weekday in weekday_token_map:

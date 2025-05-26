@@ -10,7 +10,7 @@ TOKENS = {
     "ethereum": "ETH",
     "solana": "SOL",
     "ripple": "XRP",
-    "optimism": "OP"
+    "dogecoin": "DOGE",
 }
 
 def get_top_tokens_data():
@@ -51,8 +51,10 @@ def generate_market_summary_thread():
         return []
 
     bullet_points = "\n".join([
-        f"${t['ticker']}: ${t['price']:.2f} ({t['change']:+.2f}%)" for t in tokens
+        f"${t['ticker']}: ${t['price']:,.2f} ({t['change']:+.2f}%)"
+        for t in tokens
     ])
+
 
     if not bullet_points.strip():
         logging.warning("⚠️ No bullet points to send to GPT.")
@@ -61,11 +63,13 @@ def generate_market_summary_thread():
     logging.debug(f"🧾 Bullet points for GPT:\n{bullet_points}")
 
     prompt = f"""
-Write short, clever summaries for each of these {len(tokens)} crypto tokens. 
-Use a Web3-savvy tone, rich with emojis and wit. End each with '— Hunter 🐾'. Do NOT number them. Do NOT include headers.
+    Here’s the price data for {len(tokens)} crypto tokens (symbol, USD price, 24h change):
+    {bullet_points}
 
-{bullet_points}
-"""
+    Write a short, clever tweet for each token that **includes the exact USD price and 24-hour % change** as shown above.  
+    Use a Web3-savvy tone with emojis, end each with '— Hunter 🐾'.  
+    Do NOT number them or add any extra headers.
+    """
 
     blurbs = generate_gpt_thread(prompt, max_parts=len(tokens), delimiter="---")
     if not blurbs or len(blurbs) < len(tokens):

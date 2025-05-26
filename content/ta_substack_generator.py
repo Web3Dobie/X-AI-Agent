@@ -21,7 +21,7 @@ TOKENS = {
     "ethereum": "ETHUSDT",
     "solana": "SOLUSDT",
     "ripple": "XRPUSDT",
-    "optimism": "OPUSDT"
+    "dogecoin": "DOGEUSDT"
 }
 CHART_DIR = "substack_posts/charts"
 VIDEO_DIR = "substack_posts/videos"
@@ -117,7 +117,7 @@ def generate_ta_substack_article():
 You are Hunter the Web3 Dobie 🐾 — a seasoned crypto analyst and educator.
 
 Write a detailed 4,000–5,000 word Substack article titled:
-"Weekly Technical Analysis for Bitcoin, Ethereum, Solana, XRP, and Optimism: A Dobie's Deep Dive"
+"Weekly Technical Analysis for Bitcoin, Ethereum, Solana, XRP, and Dogecoin: A Dobie's Deep Dive"
 
 Structure the article **per token** as follows:
 ### {data_summary[0][0]} (${data_summary[0][1]})
