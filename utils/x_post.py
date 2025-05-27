@@ -14,7 +14,8 @@ client = tweepy.Client(
     consumer_key=os.getenv("API_KEY"),
     consumer_secret=os.getenv("API_SECRET"),
     access_token=os.getenv("ACCESS_TOKEN"),
-    access_token_secret=os.getenv("ACCESS_TOKEN_SECRET")
+    access_token_secret=os.getenv("ACCESS_TOKEN_SECRET"),
+    wait_on_rate_limit=True,
 )
 
 def post_tweet(text, category="original"):
@@ -62,7 +63,7 @@ def post_thread(thread_parts, category="thread"):
 
         in_reply_to = tweet_id
         for part in thread_parts[1:]:
-            time.sleep(1.5)
+            time.sleep(5)
             try:
                 response = client.create_tweet(text=part, in_reply_to_tweet_id=in_reply_to)
                 in_reply_to = response.data["id"]
