@@ -1,69 +1,90 @@
-import os
+"""
+Pipeline to fetch, score, and select top headlines using RSS and GPT-based scoring.
+Logs and data paths are centralized in utils.config.
+"""
+
 import csv
 import logging
-from datetime import datetime
-from utils.scorer import score_headlines
-from utils.rss_fetch import fetch_headlines
+import os
+from datetime import datetime, timedelta
 
-os.makedirs("logs", exist_ok=True)
+from .config import DATA_DIR, LOG_DIR
+from .rss_fetch import fetch_headlines
+from .scorer import score_headline
+
+# Setup logging
+log_file = os.path.join(LOG_DIR, "headline_pipeline.log")
+os.makedirs(os.path.dirname(log_file), exist_ok=True)
 logging.basicConfig(
-    filename="logs/activity.log",
+    filename=log_file,
     level=logging.INFO,
-    format="%(asctime)s - %(message)s"
+    format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
-def fetch_and_score_headlines():
+SCORED_FILE = os.path.join(DATA_DIR, "scored_headlines.csv")
+
+
+def fetch_and_score_headlines(limit=25):
+    """
+    Fetch new headlines via RSS, score them, and append to SCORED_FILE.
+    """
     logging.info("📥 Starting headline ingestion and scoring...")
-    headlines = fetch_headlines(limit=25)
+    # Fetch headlines (returns list of dicts with 'headline', 'url')
+    headlines = fetch_headlines(limit=limit)
     logging.info(f"🔎 Fetched {len(headlines)} headlines.")
 
+    # Load seen headlines
     seen = set()
-    if os.path.exists("data/scored_headlines.csv"):
-        with open("data/scored_headlines.csv", newline="", encoding="utf-8") as f:
-            seen = {row["headline"] for row in csv.DictReader(f)}
+    if os.path.exists(SCORED_FILE):
+        with open(SCORED_FILE, newline="", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            seen = {row["headline"] for row in reader}
 
-    new_headlines = [h for h in headlines if h["headline"] not in seen]
-    if not new_headlines:
+    # Filter new
+    new = [h for h in headlines if h["headline"] not in seen]
+    if not new:
         logging.info("⏭ No new headlines to score.")
         return
 
-    logging.info(f"🧠 Scoring {len(new_headlines)} new headlines with GPT...")
-    score_headlines(new_headlines)
-
-    with open("data/scored_headlines.csv", "a", newline="", encoding="utf-8") as f:
-           writer = csv.DictWriter(f, fieldnames=["score", "headline", "url", "ticker", "timestamp"])
-           if f.tell() == 0:
+    # Score and append
+    with open(SCORED_FILE, "a", newline="", encoding="utf-8") as f:
+        fieldnames = ["headline", "url", "score", "timestamp"]
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        if f.tell() == 0:
             writer.writeheader()
-            writer.writerow({
-                "score": score,
-                "headline": headline["headline"],
-                "url": headline["url"],
-                "ticker": headline.get("ticker", "CRYPTO"),
-                "timestamp": datetime.utcnow().isoformat()
-            })
+        for h in new:
+            score = score_headline(h["headline"])
+            writer.writerow(
+                {
+                    "headline": h["headline"],
+                    "url": h["url"],
+                    "score": score,
+                    "timestamp": datetime.utcnow().isoformat(),
+                }
+            )
+    logging.info(f"✅ Scored and recorded {len(new)} headlines.")
 
 
 def get_top_headline_last_7_days():
-    """Return the highest-scoring headline from the last 7 days."""
+    """
+    Return the highest-scoring headline from the last 7 days.
+    """
     try:
-        with open("data/scored_headlines.csv", newline="", encoding="utf-8") as f:
+        with open(SCORED_FILE, newline="", encoding="utf-8") as f:
             reader = list(csv.DictReader(f))
     except FileNotFoundError:
         logging.warning("⚠️ No scored headlines file found.")
         return None
 
-    one_week_ago = datetime.utcnow().timestamp() - (7 * 86400)
-    filtered = [
-        row for row in reader
-        if float(row["score"]) > 0 and datetime.fromisoformat(row["timestamp"]).timestamp() >= one_week_ago
+    one_week_ago = datetime.utcnow() - timedelta(days=7)
+    recent = [
+        row
+        for row in reader
+        if datetime.fromisoformat(row["timestamp"]) >= one_week_ago
     ]
-
-    if not filtered:
+    if not recent:
         logging.info("❌ No headlines from past 7 days found.")
         return None
 
-    top = max(filtered, key=lambda x: float(x["score"]))
-    return {
-        "headline": top["headline"],
-        "url": top["url"]
-    }
+    top = max(recent, key=lambda x: float(x["score"]))
+    return {"headline": top["headline"], "url": top["url"]}

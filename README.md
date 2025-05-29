@@ -1,109 +1,199 @@
-# 🧠 Hunter X-AI Agent
+# XAIAgent
 
-Hunter is a fully autonomous AI-powered Twitter agent built to run a Web3-themed social media presence. It posts daily crypto commentary, market updates, threads, and replies — all powered by GPT-4 and real-time crypto news feeds.
-
-## 🚀 Features
-
-- ✅ **GPT-powered tweets**: Generates original, quote, and reply content in Hunter's distinct voice
-- ✅ **Dynamic news ingestion**: Pulls headlines from CoinDesk, Decrypt, Cointelegraph, and more
-- ✅ **Thread generation**: Posts 5-part market updates and 3-part opinion threads daily
-- ✅ **Metrics logging**: Tracks likes, retweets, replies, and stores logs in CSV and Notion
-- ✅ **Follower growth tracking**: Logs followers over time for monetization goals
-- ✅ **Rate limit safe**: Built-in protection against X API limits with toggles and fallback logic
-- ✅ **Verify URL and drop if 404 in "Hunter Reacts" (opinion_threads) 
-- ✅ **Substack-Integration**: Weekly “Hunter Explains” threads with long-form article links (1800 - 2000 words)
-- ✅ ** Rotate logs every Sunday evening and write history to D:
-
-## 📅 Posting Schedule
-
-- Randomise the random post times, only on weekends
-    schedule_random_post_between(16, 18)  # Morning window
-    schedule_random_post_between(18, 20)  # Midday window
-    schedule_random_post_between(20, 22)  # Afternoon window
-
-- **13:00 UTC** — Daily News Recap (3-part thread)
-- **14:00 UTC** — Market Summary (5-part thread)
-- **16:00 UTC** - TA thread on our 5 coins
-- **18:00 + 23:00 UTC** — Replies to followers' comments
-- **23:45 UTC** — GPT Opinion thread on top crypto headline (excl Friday)
-- **Friday 23:00 UTC** — "Hunter Explains" thread with link to Substack and write article for Substack
-
-## Weekends
-- **16:00 + 18:00 + 20:00 UTC** — Dynamic content (original/quote/reply)
-
-- ** Sunday evening** - rotate log files to D: drive
-
-## 🗂 Project Structure
-
-```
-/content/
-    market_summary.py         # 5-token market threads
-    news_recap.py             # Daily news summary thread
-    opinion_thread.py         # Hunter reacts to top headline
-    random_post.py            # Original, quote, or reply tweets
-    explainer.py	          # Write 3 part thread on top headline of last 7 days
-    explainer_writer.py	      # Write 1800 - 2000 word article for Substack
-    reply_handler.py	      # Handle replies to comments and KOLs
-    ta_thread_generator.py    # Write 3 part TA thread on our 5 coins. Every day a different one. Compare to last week
-
-/utils/
-    gpt.py                    # GPT-4 tweet/thread generation
-    x_post.py                 # All tweet/thread posting logic
-    limit_guard.py            # Daily tweet limit tracker
-    logger.py                 # CSV + Notion logging
-    rss_fetch.py              # News ingestion via RSS
-    headline_pipeline.py      # Score + store news
-    post_explainer_combo.py   # Call content.opinion_thread.py and content.explainer_writer.py
-    rotate_logs.py	      # Save last weeks headlines and tweets to D: and remove from .csv
-    scorer.py		      # Score headlines 
-    text_utils		      # Mentions and Cashtags
-    notion_helpers.py         # Substack post logging to Notion DB
-    notion_logger.py          # Tweet and Headline logging to Notion DB
-
-scheduler.py                  # Main execution scheduler
-README.md
-.gitignore
-clean_headline_log.py		# manual clean-up of headline log in case of problem
-import_x_metrics.py		# manual download X analytics and parse file
-```
-
-## Binance for mkt data
-
-## 📦 Dependencies
-
-- `openai`
-- `tweepy`
-- `python-dotenv`
-- `notion-client`
-- `pandas`, `schedule`, `feedparser`
-
-## 🔐 Secrets & API Keys
-
-Create a `.env` file with:
-```
-OPENAI_API_KEY=...
-X_API_KEY=...
-X_API_KEY_SECRET=...
-X_ACCESS_TOKEN=...
-X_ACCESS_TOKEN_SECRET=...
-X_USERNAME=Web3_Dobie
-NOTION_TOKEN=...
-TWEET_LOG_DB=...
-```
-
-## 🧠 Voice & Personality
-
-Hunter is a snarky, loyal, crypto-native Doberman with a Web3 sixth sense.
-All content is signed:
-```
-— Hunter 🐾
-```
-
-## ✅ Status
-
-🟢 Fully operational.  
-🐾 Let the dog tweet.
+Automated crypto news & analysis bot that fetches headlines, scores them with GPT, generates tweet threads and Substack posts, and schedules everything via a simple scheduler.
 
 ---
 
-Made with 🧠 by AI, trained by a human, and voiced by Hunter.
+## 📁 Repository Structure
+
+```
+XAIAgent/
+├── .env                   # environment variables (API keys, credentials)
+├── README.md              # this file
+├── requirements.txt       # Python dependencies
+├── scheduler.py           # job scheduler entry point
+├── content/               # high-level “orchestrator” scripts
+│   ├── __init__.py
+│   ├── headline_pipeline.py
+│   ├── market_summary.py
+│   ├── news_recap.py
+│   ├── explainer.py
+│   ├── explainer_writer.py
+│   ├── opinion_thread.py
+│   ├── random_post.py
+│   ├── reply_handler.py
+│   ├── ta_poster.py
+│   ├── ta_substack_generator.py
+│   ├── ta_thread_generator.py
+│   └── top_news_or_explainer.py
+└── utils/                 # reusable helper modules
+    ├── __init__.py        # unified public API for all helpers
+    ├── charts.py
+    ├── config.py
+    ├── email_sender.py
+    ├── generate_btc_technical_charts.py
+    ├── gpt.py
+    ├── headline_pipeline.py
+    ├── limit_guard.py
+    ├── logger.py
+    ├── notion_helpers.py
+    ├── notion_logger.py
+    ├── post_explainer_combo.py
+    ├── post_ta_weekly_combo.py
+    ├── publisher.py
+    ├── rotate_logs.py
+    ├── rss_fetch.py
+    ├── scorer.py
+    ├── substack_client.py
+    ├── text_utils.py
+    ├── x_post.py
+    └── … (other helpers)
+```
+
+---
+
+## 🔧 Installation
+
+1. **Clone** the repo:
+   ```bash
+   git clone https://github.com/your-org/XAIAgent.git
+   cd XAIAgent
+   ```
+
+2. **Create & activate** a virtual environment:
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate      # macOS/Linux
+   .\.venv\Scripts\activate.ps1   # Windows PowerShell
+   ```
+
+3. **Install** dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+---
+
+## ⚙️ Configuration
+
+1. Copy `.env.example` to `.env` and fill in your API keys and credentials:
+   ```
+   OPENAI_API_KEY=…
+   NOTION_TOKEN=…
+   SUBSTACK_EMAIL=…
+   SUBSTACK_API_KEY=…
+   TWITTER_BEARER_TOKEN=…
+   BOT_USER_ID=…
+   ```
+2. (Optional) Adjust paths or parameters in `utils/config.py`.
+
+---
+
+## 🚀 Usage
+
+### 1. Running Individual Scripts
+
+- **Fetch & score headlines**  
+  ```bash
+  python content/headline_pipeline.py
+  ```
+- **Post market summary to Substack & X**  
+  ```bash
+  python content/market_summary.py
+  ```
+- **Generate & post news recap thread**  
+  ```bash
+  python content/news_recap.py
+  ```
+- **Post “Hunter Explains” thread**  
+  ```bash
+  python content/explainer.py <SUBSTACK_URL>
+  ```
+- **Post random crypto tweet**  
+  ```bash
+  python content/random_post.py
+  ```
+- **Post weekly TA substack & thread**  
+  ```bash
+  python content/ta_substack_generator.py
+  python content/ta_thread_generator.py [btc|eth|sol|xrp|doge]
+  python content/ta_poster.py
+  ```
+
+### 2. Scheduler
+
+All jobs (headline ingestion, market summary, explainer threads, TA threads, log rotation, etc.) are orchestrated in `scheduler.py`. Simply run:
+
+```bash
+python scheduler.py
+```
+
+The scheduler will keep running, executing each job at its configured time. You can customize schedules directly in `scheduler.py`.
+
+---
+
+## 🛠️ Utilities API
+
+All low-level helpers live in `utils/` and are exposed via a single unified namespace:
+
+```python
+from utils import (
+    fetch_headlines,
+    score_headline,
+    generate_gpt_thread,
+    post_thread,
+    post_to_substack_via_email,
+    SubstackClient,
+    write_headlines,
+    clear_charts,
+    generate_charts,
+    fetch_binance_ohlcv,
+    rotate_logs,
+    log_tweet,
+    has_reached_daily_limit,
+    insert_cashtags,
+    insert_mentions,
+    # …more as needed
+)
+```
+
+- **`utils/rss_fetch.py`** → `fetch_headlines(limit)`  
+- **`utils/scorer.py`** → `score_headline(text)`, `score_headlines(list)`, `write_headlines(list)`  
+- **`utils/gpt.py`** → `generate_gpt_tweet()`, `generate_gpt_thread()`  
+- **`utils/x_post.py`** → `post_tweet()`, `post_thread()`, `post_quote_tweet()`  
+- **`utils/email_sender.py`** → `post_to_substack_via_email()`  
+- **`utils/substack_client.py`** → `SubstackClient`  
+- **…and more.**
+
+---
+
+## 🧪 Linting & Testing
+
+- **Formatting**:  
+  ```bash
+  black .
+  isort .
+  ```
+- **Lint**:  
+  ```bash
+  flake8 .
+  ```
+- **(Optional) Type-check**:  
+  ```bash
+  mypy .
+  ```
+
+---
+
+## 🙌 Contributing
+
+1. Fork the repo & create a feature branch.  
+2. Write code, add tests if needed.  
+3. Run lint & tests locally.  
+4. Submit a pull request.
+
+---
+
+## 📜 License
+
+MIT © Your Name / Your Organization

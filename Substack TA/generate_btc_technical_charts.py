@@ -1,7 +1,8 @@
-import pandas as pd
 import matplotlib.pyplot as plt
-import requests
+import pandas as pd
 import pandas_ta as ta
+import requests
+
 
 def fetch_binance_ohlcv(symbol="BTCUSDT", interval="1d", limit=200):
     """
@@ -12,15 +13,28 @@ def fetch_binance_ohlcv(symbol="BTCUSDT", interval="1d", limit=200):
     response = requests.get(url)
     response.raise_for_status()
     data = response.json()
-    df = pd.DataFrame(data, columns=[
-        "timestamp", "open", "high", "low", "close", "volume",
-        "close_time", "quote_asset_volume", "number_of_trades",
-        "taker_buy_base_asset_volume", "taker_buy_quote_asset_volume", "ignore"
-    ])
-    df["date"] = pd.to_datetime(df["timestamp"], unit='ms')
+    df = pd.DataFrame(
+        data,
+        columns=[
+            "timestamp",
+            "open",
+            "high",
+            "low",
+            "close",
+            "volume",
+            "close_time",
+            "quote_asset_volume",
+            "number_of_trades",
+            "taker_buy_base_asset_volume",
+            "taker_buy_quote_asset_volume",
+            "ignore",
+        ],
+    )
+    df["date"] = pd.to_datetime(df["timestamp"], unit="ms")
     df.set_index("date", inplace=True)
     df = df[["open", "high", "low", "close", "volume"]].astype(float)
     return df
+
 
 def main():
     # Fetch data
@@ -33,8 +47,8 @@ def main():
     # Chart 1: Price and Moving Averages
     plt.figure(figsize=(12, 6))
     plt.plot(btc_df["close"], label="BTC Close", linewidth=1.5)
-    plt.plot(btc_df["sma50"], label="50-day MA", linestyle='--')
-    plt.plot(btc_df["sma200"], label="200-day MA", linestyle=':')
+    plt.plot(btc_df["sma50"], label="50-day MA", linestyle="--")
+    plt.plot(btc_df["sma200"], label="200-day MA", linestyle=":")
     plt.title("Bitcoin Price & Moving Averages")
     plt.xlabel("Date")
     plt.ylabel("Price (USDT)")
@@ -71,6 +85,7 @@ def main():
     plt.close()
 
     print("✅ Charts saved as 'weekly_trend_channel.png' and 'daily_rsi_macd.png'")
+
 
 if __name__ == "__main__":
     main()

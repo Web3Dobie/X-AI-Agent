@@ -1,10 +1,12 @@
-import streamlit as st
-import pandas as pd
 import os
 from datetime import datetime, timedelta
 
+import pandas as pd
+import streamlit as st
+
 st.set_page_config(page_title="Web3 Dobie Dashboard", layout="wide")
 st.title("🐾 Web3 Dobie Performance Dashboard")
+
 
 # Load logs
 def load_csv(file):
@@ -12,15 +14,25 @@ def load_csv(file):
         return pd.read_csv(file)
     return pd.DataFrame()
 
+
 tweets = load_csv("logs/tweet_log.csv")
 performance = load_csv("logs/performance_log.csv")
 followers = load_csv("logs/follower_log.csv")
 
 # Merge with safe timestamp mapping
 if not tweets.empty and not performance.empty:
-    tweets["timestamp"] = pd.to_datetime(tweets["timestamp"], format='ISO8601', utc=True)
-    df = pd.merge(performance, tweets[["tweet_id", "content", "category"]], on="tweet_id", how="left")
-    df["timestamp"] = df["tweet_id"].map(dict(zip(tweets["tweet_id"], tweets["timestamp"])))
+    tweets["timestamp"] = pd.to_datetime(
+        tweets["timestamp"], format="ISO8601", utc=True
+    )
+    df = pd.merge(
+        performance,
+        tweets[["tweet_id", "content", "category"]],
+        on="tweet_id",
+        how="left",
+    )
+    df["timestamp"] = df["tweet_id"].map(
+        dict(zip(tweets["tweet_id"], tweets["timestamp"]))
+    )
     df["engagement_score"] = df["likes"] + df["retweets"] + df["replies"]
 else:
     df = pd.DataFrame()
@@ -43,12 +55,18 @@ with col2:
         recent = df[df["timestamp"] > pd.Timestamp.utcnow() - timedelta(days=7)]
         top3 = recent.sort_values("engagement_score", ascending=False).head(3)
         for _, row in top3.iterrows():
-            st.markdown(f"- [{row['content'][:80]}...](https://x.com/Web3_Dobie/status/{row['tweet_id']})")
-            st.write(f"❤️ {row['likes']}  🔁 {row['retweets']} 💬 {row['replies']} → Score: {row['engagement_score']}")
+            st.markdown(
+                f"- [{row['content'][:80]}...](https://x.com/Web3_Dobie/status/{row['tweet_id']})"
+            )
+            st.write(
+                f"❤️ {row['likes']}  🔁 {row['retweets']} 💬 {row['replies']} → Score: {row['engagement_score']}"
+            )
 
 st.header("📈 Follower Growth")
 if not followers.empty:
-    followers["timestamp"] = pd.to_datetime(followers["timestamp"], format='ISO8601', utc=True)
+    followers["timestamp"] = pd.to_datetime(
+        followers["timestamp"], format="ISO8601", utc=True
+    )
     followers["date"] = followers["timestamp"].dt.date
     growth = followers.groupby("date")["followers"].mean()
     st.line_chart(growth)
