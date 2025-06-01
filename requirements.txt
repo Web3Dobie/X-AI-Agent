@@ -1,0 +1,7 @@
+matplotlib
+pandas
+pandas-ta
+requests
+schedule
+notion-client
+openai
