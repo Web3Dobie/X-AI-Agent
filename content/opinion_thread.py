@@ -93,7 +93,7 @@ Headline:
         return []
 
     date_str = datetime.utcnow().strftime("%Y-%m-%d")
-    thread_parts[0] = f"🔥 Hunter Reacts [{date_str}]" + thread_parts[0]
+    thread_parts[0] = f"🔥 Hunter Reacts [{date_str}]\n\n" + thread_parts[0]
     # Remove any accidental sign-offs
     thread_parts[-1] = thread_parts[-1].replace("— Hunter 🐾", "").strip()
 

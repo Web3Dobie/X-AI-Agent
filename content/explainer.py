@@ -1,13 +1,19 @@
+# explainer.py
+
 """
 Generates and posts a 3-part "Hunter Explains" thread on X for the top weekly headline.
 """
 
 import logging
-import os
 from datetime import datetime
+import os
 
-from utils import (LOG_DIR, generate_gpt_thread, get_top_headline_last_7_days,
-                   post_thread)
+from utils import (
+    LOG_DIR,
+    generate_gpt_thread,
+    get_top_headline_last_7_days,
+    post_thread,
+)
 
 # Configure logging
 log_file = os.path.join(LOG_DIR, "explainer.log")
@@ -22,10 +28,11 @@ logging.basicConfig(
 def post_dobie_explainer_thread(substack_url: str):
     """
     Fetch the top headline, generate a 3-part thread, and post on X.
-    Appends the Substack article link at the end of the thread.
+    Appends the Substack article link exactly once at the end of the final tweet.
     """
     logging.info("🧵 Starting Dobie explainer thread generation")
 
+    # 1) Grab last week's top headline
     headline_entry = get_top_headline_last_7_days()
     if not headline_entry:
         logging.warning("❌ No headline found for explainer thread; aborting")
@@ -35,14 +42,14 @@ def post_dobie_explainer_thread(substack_url: str):
     source_url = headline_entry["url"]
     today_str = datetime.utcnow().strftime("%Y-%m-%d")
 
+    # 2) Build a prompt that asks for a 3-part thread BUT does not insert the header/ link itself
     prompt = f"""
 Write a 3-part Twitter thread called 'Hunter Explains' about:
-"{topic}"
+\"{topic}\"
 
 Make it simple, clever, and accessible for casual readers. Add emojis and bold takes.
 Each tweet must be <280 characters and end with '— Hunter 🐾'.
-End the last tweet with a call to action and this link: {substack_url}
-Start with: Hunter Explains 🧵 [{today_str}]
+(Do NOT include the header "Hunter Explains 🧵 [date]" or the Substack link in the tweets themselves—those will be added manually.)
 """
 
     thread = generate_gpt_thread(prompt, max_parts=3)
@@ -50,10 +57,15 @@ Start with: Hunter Explains 🧵 [{today_str}]
         logging.warning("⚠️ GPT returned no content for explainer thread; aborting")
         return
 
-    # Prepend and append formatting
-    thread[0] = f"Hunter Explains 🧵 [{today_str}]" + thread[0]
-    thread[-1] += f" Read more: {substack_url}"
+    # 3) Prepend exactly one "Hunter Explains 🧵 [YYYY-MM-DD]" header + blank line to the first tweet
+    header = f"Hunter Explains 🧵 [{today_str}]\n\n"
+    thread[0] = header + thread[0].lstrip()  # lstrip() to avoid accidental leading whitespace
 
+    # 4) Append "Read more: {substack_url}" exactly once on the last tweet
+    #    (remove any trailing whitespace before adding)
+    thread[-1] = thread[-1].rstrip() + f" Read more: {substack_url}"
+
+    # 5) Post the 3-part thread on X
     try:
         post_thread(thread, category="explainer")
         logging.info("✅ Explainer thread posted successfully")
