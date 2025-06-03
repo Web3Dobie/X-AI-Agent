@@ -1,32 +1,50 @@
-"""
-Notion logging utility for recording tweets and headline vault entries.
-Uses centralized config.py values for all env vars.
-"""
+﻿# notion_logger.py
 
 import logging
 import os
+from datetime import datetime
 
+import requests
 from notion_client import Client
-from .config import LOG_DIR, NOTION_API_KEY, NOTION_TWEET_LOG_DB, HEADLINE_VAULT_DB_ID
+from dotenv import load_dotenv
 
-# Ensure log directory
+from .config import (
+    LOG_DIR,
+    NOTION_API_KEY,
+    NOTION_TWEET_LOG_DB,
+    HEADLINE_VAULT_DB_ID,
+    NOTION_SUBSTACK_ARCHIVE_DB_ID,
+)
+
+# ─── Load environment vars ───────────────────────────────────────────────
+load_dotenv()
+# ────────────────────────────────────────────────────────────────────────
+
+# ─── Ensure log directory exists ────────────────────────────────────────
 os.makedirs(LOG_DIR, exist_ok=True)
 log_file = os.path.join(LOG_DIR, "notion_logger.log")
+# ────────────────────────────────────────────────────────────────────────
 
-# Dedicated logger
+# ─── Set up a single “notion_logger” ────────────────────────────────────
 logger = logging.getLogger("notion_logger")
-logger.setLevel(logging.DEBUG)
-if not any(isinstance(h, logging.FileHandler) and h.baseFilename == log_file
-           for h in logger.handlers):
-    fh = logging.FileHandler(log_file)
+logger.setLevel(logging.INFO)
+
+# Only add FileHandler if it isn’t already attached
+if not any(
+    isinstance(h, logging.FileHandler) and h.baseFilename == log_file
+    for h in logger.handlers
+):
+    fh = logging.FileHandler(log_file, encoding="utf-8")
     fh.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
     logger.addHandler(fh)
+# ────────────────────────────────────────────────────────────────────────
 
-# Initialize Notion client
+# ─── Initialize Notion client ──────────────────────────────────────────
 notion = Client(auth=NOTION_API_KEY)
+# ────────────────────────────────────────────────────────────────────────
 
 
-def log_to_notion(tweet_id, date, tweet_type, url, likes, retweets, replies, engagement_score):
+def log_to_notion_tweet(tweet_id, date, tweet_type, url, likes, retweets, replies, engagement_score):
     """
     Append a tweet entry to the Notion tweet log database.
     """
@@ -49,14 +67,14 @@ def log_to_notion(tweet_id, date, tweet_type, url, likes, retweets, replies, eng
         logger.error(f"[ERROR] Failed to log tweet {tweet_id} to Notion: {e}")
 
 
-def log_headline(date_ingested, headline, relevance_score, viral_score, used, source_url):
+def log_headline_to_vault(date_ingested, headline, relevance_score, viral_score, used, source_url):
     """
     Append a headline entry to the Notion headline vault database.
     """
     logger.debug(
-        f"[Notion] Payload for headline vault: db={HEADLINE_VAULT_DB_ID}, "
-        f"headline={headline!r}, date={date_ingested}, rel={relevance_score}, "
-        f"viral={viral_score}, used={used}, url={source_url!r}"
+        "[Notion] Preparing payload for headline vault: "
+        f"db={HEADLINE_VAULT_DB_ID}, headline={headline!r}, date={date_ingested}, "
+        f"rel={relevance_score}, viral={viral_score}, used={used}, url={source_url!r}"
     )
 
     try:
@@ -74,3 +92,36 @@ def log_headline(date_ingested, headline, relevance_score, viral_score, used, so
         logger.info(f"[OK] Logged headline '{headline}' to Notion DB {HEADLINE_VAULT_DB_ID}")
     except Exception as e:
         logger.error(f"[ERROR] Failed to log headline '{headline}' to Notion: {e}")
+
+
+def log_substack_post_to_notion(headline: str, filename: str) -> bool:
+    """
+    Create a new page in the Notion database for a Substack post.
+    Returns True if logged successfully, False otherwise.
+    """
+    url = "https://api.notion.com/v1/pages"
+    payload = {
+        "parent": {"database_id": NOTION_SUBSTACK_ARCHIVE_DB_ID},
+        "properties": {
+            "Headline": {"title": [{"text": {"content": headline}}]},
+            "Date":     {"date":  {"start": datetime.utcnow().isoformat()}},
+            "File":     {"rich_text": [{"text": {"content": filename}}]},
+            "Status":   {"select":    {"name": "Draft"}},
+        },
+    }
+    headers = {
+        "Authorization": f"Bearer {NOTION_API_KEY}",
+        "Content-Type":  "application/json",
+        "Notion-Version": "2022-06-28",
+    }
+
+    try:
+        response = requests.post(url, headers=headers, json=payload)
+        response.raise_for_status()
+        logger.info(f"[OK] Logged '{headline}' to Notion DB {NOTION_SUBSTACK_ARCHIVE_DB_ID}")
+        return True
+    except Exception as e:
+        # If the exception has a response with text, include it for debugging:
+        resp_text = getattr(e, "response", "")
+        logger.error(f"[ERROR] Failed to log '{headline}' to Notion: {e} – Response: {resp_text}")
+        return False

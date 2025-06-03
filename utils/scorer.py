@@ -9,7 +9,7 @@ from datetime import datetime
 
 from .config import DATA_DIR, LOG_DIR
 from .gpt import generate_gpt_text
-from .notion_logger import log_headline as notion_log_headline
+from .notion_logger import log_headline_to_vault as notion_log_headline
 from .text_utils import extract_ticker
 
 # Configure logging

@@ -11,16 +11,9 @@ from datetime import datetime
 
 from content.reply_handler import reply_to_comments
 from utils import (DATA_DIR, LOG_DIR, generate_gpt_tweet, insert_cashtags,
-                   insert_mentions, post_quote_tweet, post_tweet)
+                   insert_mentions, post_quote_tweet, post_tweet, get_module_logger)
 
-# Configure logging
-log_file = os.path.join(LOG_DIR, "random_post.log")
-os.makedirs(os.path.dirname(log_file), exist_ok=True)
-logging.basicConfig(
-    filename=log_file,
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-)
+logger = get_module_logger(__name__)
 
 # Path to scored headlines CSV
 HEADLINE_LOG = os.path.join(DATA_DIR, "scored_headlines.csv")
@@ -33,7 +26,7 @@ def get_top_xrp_headline(threshold=7):
     Return today's top XRP headline with score >= threshold.
     """
     if not os.path.exists(HEADLINE_LOG):
-        logging.warning("Scored headlines file not found.")
+        logger.warning("Scored headlines file not found.")
         return None
     try:
         with open(HEADLINE_LOG, newline="", encoding="utf-8") as f:
@@ -49,7 +42,7 @@ def get_top_xrp_headline(threshold=7):
                     if ts == today_str:
                         return row
     except Exception as e:
-        logging.error(f"Error fetching XRP headline: {e}")
+        logger.error(f"Error fetching XRP headline: {e}")
     return None
 
 
@@ -61,7 +54,7 @@ def post_random_content():
     choice = random.choices(
         ["original", "quote", "reply"], weights=[0.98, 0.01, 0.01], k=1
     )[0]
-    logging.info(f"Selected random post type: {choice}")
+    logger.info(f"Selected random post type: {choice}")
 
     if choice == "original":
         xrp = None
@@ -72,7 +65,7 @@ def post_random_content():
                 os.makedirs(LOG_DIR, exist_ok=True)
                 with open(XRP_FLAG, "w", encoding="utf-8") as f:
                     f.write(xrp["headline"])
-                logging.info(f"Using XRP headline: {xrp['headline']}")
+                logger.info(f"Using XRP headline: {xrp['headline']}")
 
         if xrp:
             prompt = (

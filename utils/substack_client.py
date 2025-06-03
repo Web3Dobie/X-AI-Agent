@@ -4,8 +4,6 @@ import logging
 import tempfile
 import time
 import calendar
-from substack import Api
-from substack.post import Post
 from .config import SUBSTACK_COOKIE, SUBSTACK_PUBLICATION_URL
 
 logger = logging.getLogger(__name__)

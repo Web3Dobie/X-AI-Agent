@@ -15,14 +15,20 @@ from utils import (
     post_thread,
 )
 
-# Configure logging
-log_file = os.path.join(LOG_DIR, "explainer.log")
-os.makedirs(os.path.dirname(log_file), exist_ok=True)
-logging.basicConfig(
-    filename=log_file,
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-)
+# ─── Configure a module-specific logger for explainer ───────────────────
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+# Only add one FileHandler even if this module is re-imported
+if not any(isinstance(h, logging.FileHandler) for h in logger.handlers):
+    log_file = os.path.join(LOG_DIR, "explainer.log")
+    os.makedirs(os.path.dirname(log_file), exist_ok=True)
+
+    fh = logging.FileHandler(log_file, encoding="utf-8")
+    fmt = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+    fh.setFormatter(fmt)
+    logger.addHandler(fh)
+# ────────────────────────────────────────────────────────────────────────────
 
 
 def post_dobie_explainer_thread(substack_url: str):
@@ -30,12 +36,12 @@ def post_dobie_explainer_thread(substack_url: str):
     Fetch the top headline, generate a 3-part thread, and post on X.
     Appends the Substack article link exactly once at the end of the final tweet.
     """
-    logging.info("🧵 Starting Dobie explainer thread generation")
+    logger.info("🧵 Starting Dobie explainer thread generation")
 
     # 1) Grab last week's top headline
     headline_entry = get_top_headline_last_7_days()
     if not headline_entry:
-        logging.warning("❌ No headline found for explainer thread; aborting")
+        logger.warning("❌ No headline found for explainer thread; aborting")
         return
 
     topic = headline_entry["headline"]
@@ -54,7 +60,7 @@ Each tweet must be <280 characters and end with '— Hunter 🐾'.
 
     thread = generate_gpt_thread(prompt, max_parts=3)
     if not thread:
-        logging.warning("⚠️ GPT returned no content for explainer thread; aborting")
+        logger.warning("⚠️ GPT returned no content for explainer thread; aborting")
         return
 
     # 3) Prepend exactly one "Hunter Explains 🧵 [YYYY-MM-DD]" header + blank line to the first tweet
@@ -68,6 +74,6 @@ Each tweet must be <280 characters and end with '— Hunter 🐾'.
     # 5) Post the 3-part thread on X
     try:
         post_thread(thread, category="explainer")
-        logging.info("✅ Explainer thread posted successfully")
+        logger.info("✅ Explainer thread posted successfully")
     except Exception as e:
-        logging.error(f"❌ Failed to post explainer thread: {e}")
+        logger.error(f"❌ Failed to post explainer thread: {e}")

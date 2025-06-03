@@ -8,7 +8,7 @@ import os
 from datetime import datetime
 
 from .config import DATA_DIR, LOG_DIR
-from .notion_logger import log_to_notion
+from .notion_logger import log_to_notion_tweet as log_to_notion
 
 # Setup Python logging
 log_file = os.path.join(LOG_DIR, "logger.log")

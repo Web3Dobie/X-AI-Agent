@@ -8,17 +8,9 @@ import os
 from datetime import datetime, timezone
 
 from content.ta_thread_generator import generate_ta_thread_with_memory
-from utils import LOG_DIR, post_thread
+from utils import LOG_DIR, post_thread, get_module_logger
 
-# Configure logging
-log_file = os.path.join(LOG_DIR, "ta_poster.log")
-os.makedirs(os.path.dirname(log_file), exist_ok=True)
-logging.basicConfig(
-    filename=log_file,
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-)
-
+logger = get_module_logger(__name__)
 
 def post_ta_thread():
     """
@@ -31,20 +23,20 @@ def post_ta_thread():
 
     if weekday in weekday_token_map:
         token = weekday_token_map[weekday]
-        logging.info(
+        logger.info(
             f"🔍 Generating TA thread for {token.upper()} ({today.strftime('%Y-%m-%d')})"
         )
         try:
             thread_parts = generate_ta_thread_with_memory(token)
             if not thread_parts:
-                logging.warning(f"⚠️ No TA thread generated for {token.upper()}")
+                logger.warning(f"⚠️ No TA thread generated for {token.upper()}")
                 return
             post_thread(thread_parts, category=f"ta_{token}")
-            logging.info(f"✅ Posted TA thread for {token.upper()}")
+            logger.info(f"✅ Posted TA thread for {token.upper()}")
         except Exception as e:
-            logging.error(f"❌ TA thread failed for {token.upper()}: {e}")
+            logger.error(f"❌ TA thread failed for {token.upper()}: {e}")
     else:
-        logging.info(f"⏭ No TA thread today (weekday {weekday})")
+        logger.info(f"⏭ No TA thread today (weekday {weekday})")
 
 
 if __name__ == "__main__":

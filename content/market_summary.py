@@ -9,16 +9,9 @@ from datetime import datetime
 
 import requests
 
-from utils import LOG_DIR, generate_gpt_thread, post_thread
+from utils import LOG_DIR, generate_gpt_thread, post_thread, get_module_logger
 
-# Configure logging
-log_file = os.path.join(LOG_DIR, "market_summary.log")
-os.makedirs(os.path.dirname(log_file), exist_ok=True)
-logging.basicConfig(
-    filename=log_file,
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-)
+logger = get_module_logger(__name__)
 
 # Token mapping: name -> ticker
 TOKENS = {
@@ -51,17 +44,17 @@ def get_top_tokens_data():
             price = info.get("usd")
             change = info.get("usd_24h_change")
             if price is None or change is None:
-                logging.warning(f"⚠️ Incomplete data for {name}")
+                logger.warning(f"⚠️ Incomplete data for {name}")
                 continue
             results.append({"ticker": ticker, "price": price, "change": change})
 
         if len(results) < 3:
-            logging.warning("⚠️ Fewer than 3 valid tokens—skipping.")
+            logger.warning("⚠️ Fewer than 3 valid tokens—skipping.")
             return []
 
         return results
     except Exception as e:
-        logging.error(f"❌ Error fetching prices: {e}")
+        logger.error(f"❌ Error fetching prices: {e}")
         return []
 
 
@@ -86,7 +79,7 @@ Use emojis and end each with '— Hunter 🐾'.
 Do NOT number them—just separate by newlines."""
     thread = generate_gpt_thread(prompt, max_parts=len(tokens_data), delimiter="---")
     if not thread or len(thread) < len(tokens_data):
-        logging.warning("⚠️ GPT returned insufficient parts.")
+        logger.warning("⚠️ GPT returned insufficient parts.")
         return []
 
     today = datetime.utcnow().strftime("%Y-%m-%d")
@@ -105,15 +98,15 @@ def post_market_summary_thread():
     start = time.time()
 
     for i in range(1, max_attempts + 1):
-        logging.info(f"📈 Attempt {i} for market summary thread.")
+        logger.info(f"📈 Attempt {i} for market summary thread.")
         thread = generate_market_summary_thread()
         if thread:
             post_thread(thread, category="market_summary")
-            logging.info("✅ Market summary posted.")
+            logger.info("✅ Market summary posted.")
             return
         if time.time() - start < max_attempts * delay:
-            logging.warning(f"⚠️ Attempt {i} failed—retrying in {delay//60}m.")
+            logger.warning(f"⚠️ Attempt {i} failed—retrying in {delay//60}m.")
             time.sleep(delay)
         else:
             break
-    logging.error("❌ All attempts for market summary thread failed.")
+    logger.error("❌ All attempts for market summary thread failed.")

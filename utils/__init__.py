@@ -26,10 +26,11 @@ from .headline_pipeline import (fetch_and_score_headlines,
                                 get_top_headline_last_7_days)
 from .limit_guard import has_reached_daily_limit
 # --- Tweet metrics logging & limits ---
+from .logging_helper import get_module_logger
 from .logger import log_tweet
-from .notion_helpers import log_substack_post_to_notion
+from .notion_logger import log_substack_post_to_notion
 # --- Notion logging ---
-from .notion_logger import log_headline, log_to_notion
+from .notion_logger import log_headline_to_vault, log_to_notion_tweet
 # --- Generic publisher helper ---
 from .publisher import publish_and_announce
 # --- Log rotation ---

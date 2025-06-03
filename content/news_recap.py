@@ -8,16 +8,10 @@ import os
 from datetime import datetime
 
 from utils import (DATA_DIR, LOG_DIR, generate_gpt_thread, insert_cashtags,
-                   insert_mentions, post_thread)
+                   insert_mentions, post_thread, get_module_logger)
 
-# Configure logging
-log_file = os.path.join(LOG_DIR, "news_recap.log")
-os.makedirs(os.path.dirname(log_file), exist_ok=True)
-logging.basicConfig(
-    filename=log_file,
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-)
+logger = get_module_logger(__name__)
+
 
 HEADLINE_LOG = os.path.join(DATA_DIR, "scored_headlines.csv")
 
@@ -36,7 +30,7 @@ def get_today_headlines():
                 if ts == today:
                     headlines.append(row)
     except Exception as e:
-        logging.error(f"❌ Error reading {HEADLINE_LOG}: {e}")
+        logger.error(f"❌ Error reading {HEADLINE_LOG}: {e}")
     return headlines
 
 
@@ -46,7 +40,7 @@ def generate_summary_thread():
     """
     headlines = get_today_headlines()
     if not headlines or len(headlines) < 3:
-        logging.warning("⚠️ Not enough fresh headlines for news thread.")
+        logger.warning("⚠️ Not enough fresh headlines for news thread.")
         return []
 
     # Validate and sort by score
@@ -56,7 +50,7 @@ def generate_summary_thread():
             h["score"] = float(h["score"])
             valid.append(h)
         except (ValueError, TypeError):
-            logging.warning(f"⚠️ Skipped malformed headline during sorting: {h}")
+            logger.warning(f"⚠️ Skipped malformed headline during sorting: {h}")
     top3 = sorted(valid, key=lambda h: h["score"], reverse=True)[:3]
 
     # Build GPT prompt
@@ -66,7 +60,7 @@ def generate_summary_thread():
 
     thread_parts = generate_gpt_thread(prompt, max_parts=3, delimiter="---")
     if not thread_parts or len(thread_parts) < 3:
-        logging.warning("⚠️ GPT returned insufficient parts for news recap.")
+        logger.warning("⚠️ GPT returned insufficient parts for news recap.")
         return []
 
     # Prepend header and apply cashtags/mentions
@@ -81,10 +75,10 @@ def post_news_thread():
     """
     Generate and post the news recap thread on X.
     """
-    logging.info("🔄 Starting daily news recap thread")
+    logger.info("🔄 Starting daily news recap thread")
     thread = generate_summary_thread()
     if thread:
         post_thread(thread, category="news_summary")
-        logging.info("✅ News recap thread posted")
+        logger.info("✅ News recap thread posted")
     else:
-        logging.info("⏭ No news recap thread posted")
+        logger.info("⏭ No news recap thread posted")

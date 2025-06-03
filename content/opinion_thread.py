@@ -10,17 +10,9 @@ from datetime import datetime
 import requests
 
 from utils import (DATA_DIR, LOG_DIR, generate_gpt_thread, insert_cashtags,
-                   insert_mentions, post_thread)
+                   insert_mentions, post_thread, get_module_logger)
 
-# Configure logging
-log_file = os.path.join(LOG_DIR, "opinion_thread.log")
-os.makedirs(os.path.dirname(log_file), exist_ok=True)
-logging.basicConfig(
-    filename=log_file,
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-)
-
+logger = get_module_logger(__name__)
 
 def get_top_headline():
     """
@@ -37,11 +29,11 @@ def get_top_headline():
                 if datetime.fromisoformat(row["timestamp"]).date() == today
             ]
     except Exception as e:
-        logging.error(f"❌ Error reading scored headlines: {e}")
+        logger.error(f"❌ Error reading scored headlines: {e}")
         return None, None
 
     if not headlines:
-        logging.warning("⚠️ No headlines found for today.")
+        logger.warning("⚠️ No headlines found for today.")
         return None, None
 
     valid = []
@@ -50,10 +42,10 @@ def get_top_headline():
             h["score"] = float(h["score"])
             valid.append(h)
         except Exception:
-            logging.warning(f"⚠️ Skipped malformed headline: {h}")
+            logger.warning(f"⚠️ Skipped malformed headline: {h}")
 
     if not valid:
-        logging.warning("❌ No valid headlines found for today.")
+        logger.warning("❌ No valid headlines found for today.")
         return None, None
 
     top = max(valid, key=lambda h: h["score"])
@@ -89,7 +81,7 @@ Headline:
 
     thread_parts = generate_gpt_thread(prompt, max_parts=3, delimiter="---")
     if not thread_parts or len(thread_parts) < 3:
-        logging.warning("⚠️ GPT returned insufficient parts.")
+        logger.warning("⚠️ GPT returned insufficient parts.")
         return []
 
     date_str = datetime.utcnow().strftime("%Y-%m-%d")
@@ -99,10 +91,10 @@ Headline:
 
     # Append URL if valid
     if url and is_valid_url(url):
-        logging.info(f"📌 reacting to headline: {headline} — {url}")
+        logger.info(f"📌 reacting to headline: {headline} — {url}")
         thread_parts[-1] += f"— Hunter 🐾 🔗 {url}"
     else:
-        logging.warning(f"⚠️ Skipping broken or missing URL for headline: {headline}")
+        logger.warning(f"⚠️ Skipping broken or missing URL for headline: {headline}")
         thread_parts[-1] += "— Hunter 🐾"
 
     return thread_parts
@@ -117,8 +109,8 @@ def post_top_news_thread():
         if parts:
             parts = [insert_cashtags(insert_mentions(p)) for p in parts]
             post_thread(parts, category="news_opinion")
-            logging.info("✅ Opinion thread posted")
+            logger.info("✅ Opinion thread posted")
         else:
-            logging.info("⏭ No opinion thread to post")
+            logger.info("⏭ No opinion thread to post")
     except Exception as e:
-        logging.error(f"❌ Error in opinion thread pipeline: {e}")
+        logger.error(f"❌ Error in opinion thread pipeline: {e}")
