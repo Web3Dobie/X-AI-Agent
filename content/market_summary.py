@@ -90,7 +90,7 @@ Do NOT number them—just separate by newlines."""
         return []
 
     today = datetime.utcnow().strftime("%Y-%m-%d")
-    header = f"Daily Dobie Market Update [{today}] 📅"
+    header = f"Daily Dobie Market Update [{today}] 📅\n\n"
     thread[0] = f"{header}" + thread[0]
     return thread
 

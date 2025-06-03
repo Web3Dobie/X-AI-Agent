@@ -166,7 +166,7 @@ def generate_ta_thread_with_memory(token: str) -> list[str]:
         f"SMA50={context['sma50']}, SMA200={context['sma200']}, RSI={context['rsi']}, "
         f"MACD={context['macd']} vs signal={context['macd_signal']}.{memory} "
         "Each tweet <280 chars, no emojis, no hashtags. "
-        "Start first tweet with 'Daily Dobie Drawings'. "
+        "Start first tweet with 'Daily Dobie Drawings\n\n'. "
         "End final tweet with 'As always, this is NFA — Hunter'. "
         "Separate tweets with '---'."
     )

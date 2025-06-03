@@ -1,26 +1,18 @@
-"""
-Generates a comprehensive weekly technical analysis Substack article
-with static charts and RSI animations for each tracked token.
-Preserves original logic; centralizes directories and logging.
-"""
-
 import logging
 import os
 import re
 from datetime import datetime
 from pathlib import Path
 
-import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 import pandas as pd
 import pandas_ta as ta
 import requests
 
-from utils import (CHART_DIR, LOG_DIR, TA_POST_DIR, generate_gpt_text,
-                   log_substack_post_to_notion)
+from utils import (TA_POST_DIR, generate_gpt_text, log_substack_post_to_notion)
 
 # Configure logging
-log_file = os.path.join(LOG_DIR, "ta_substack_generator.log")
+log_file = os.path.join(TA_POST_DIR, "ta_substack_generator.log")
 os.makedirs(os.path.dirname(log_file), exist_ok=True)
 logging.basicConfig(
     filename=log_file,
@@ -33,7 +25,7 @@ def slugify(text: str) -> str:
     return re.sub(r"\W+", "-", text.lower()).strip("-")
 
 
-# Token-market symbols mapping
+# Token‐market symbols mapping
 TOKENS = {
     "bitcoin": "BTCUSDT",
     "ethereum": "ETHUSDT",
@@ -43,14 +35,13 @@ TOKENS = {
 }
 
 # Define directories
-VIDEO_DIR = os.path.join(TA_POST_DIR, "videos")
+CHART_DIR = os.path.join(TA_POST_DIR, "charts")
 os.makedirs(CHART_DIR, exist_ok=True)
-os.makedirs(VIDEO_DIR, exist_ok=True)
 os.makedirs(TA_POST_DIR, exist_ok=True)
 
 
 def fetch_ohlcv(symbol: str, limit: int = 365) -> pd.DataFrame:
-    url = f"https://api.binance.com/api/v3/klines"
+    url = "https://api.binance.com/api/v3/klines"
     params = {"symbol": symbol, "interval": "1d", "limit": limit}
     resp = requests.get(url, params=params)
     resp.raise_for_status()
@@ -79,6 +70,7 @@ def fetch_ohlcv(symbol: str, limit: int = 365) -> pd.DataFrame:
 def generate_static_chart(df: pd.DataFrame, token_label: str) -> str:
     sma50 = df["close"].rolling(50).mean()
     sma200 = df["close"].rolling(200).mean()
+
     plt.figure(figsize=(10, 4))
     plt.plot(df["close"], label="Close")
     plt.plot(sma50, linestyle="--", label="50D MA")
@@ -86,80 +78,59 @@ def generate_static_chart(df: pd.DataFrame, token_label: str) -> str:
     plt.title(f"{token_label} Price & Moving Averages")
     plt.legend()
     plt.tight_layout()
+
     path = os.path.join(CHART_DIR, f"{token_label.lower()}_weekly.png")
     plt.savefig(path)
     plt.close()
+
     return path
-
-
-def generate_animation_mp4(df: pd.DataFrame, token_label: str) -> str:
-    df["rsi"] = ta.rsi(df["close"], length=14)
-    window = df.tail(90)
-    fig, ax = plt.subplots(figsize=(8, 4))
-    ax.set_title(f"{token_label} RSI (14D)")
-    ax.set_ylim(0, 100)
-    (line,) = ax.plot([], [], lw=2)
-
-    def init():
-        line.set_data([], [])
-        return (line,)
-
-    def animate(i):
-        x = window.index[:i]
-        y = window["rsi"].values[:i]
-        line.set_data(x, y)
-        return (line,)
-
-    ani = animation.FuncAnimation(
-        fig, animate, frames=len(window), init_func=init, blit=True, interval=100
-    )
-    mp4_path = os.path.join(VIDEO_DIR, f"{token_label.lower()}_rsi.mp4")
-    Writer = animation.writers["ffmpeg"]
-    writer = Writer(fps=10, metadata=dict(artist="Dobie"), bitrate=1800)
-    ani.save(mp4_path, writer=writer)
-    plt.close(fig)
-    return mp4_path
 
 
 def generate_ta_substack_article() -> str:
     logging.info("🔍 Starting TA Substack article generation")
     data_summary = []
     img_paths = []
-    video_paths = []
 
     for name, symbol in TOKENS.items():
         token_label = name.title()
         df = fetch_ohlcv(symbol)
-        chart = generate_static_chart(df, token_label)
-        img_paths.append(chart)
-        video = generate_animation_mp4(df, token_label)
-        video_paths.append(video)
 
+        # Generate and store the static chart PNG
+        chart_path = generate_static_chart(df, token_label)
+        img_paths.append(chart_path)
+
+        # Compute latest close, moving averages, and RSI
         latest = df["close"].iloc[-1]
         sma50 = df["close"].rolling(50).mean().iloc[-1]
         sma200 = df["close"].rolling(200).mean().iloc[-1]
         rsi_val = ta.rsi(df["close"], length=14).iloc[-1]
+
         data_summary.append((token_label, symbol[:-4], latest, sma50, sma200, rsi_val))
 
+    # Build date string and summary bullet points
     date_str = datetime.utcnow().strftime("%B %d, %Y")
     summary_lines = "\n".join(
         f"- {n} (${t}): Close={v:.2f}, 50D MA={s50:.2f}, 200D MA={s200:.2f}, RSI={r:.1f}"
         for n, t, v, s50, s200, r in data_summary
     )
 
+    # Build per‐token sections (chart embed only)
     sections = ""
-    for (n, t, v, s50, s200, r), img, vid in zip(data_summary, img_paths, video_paths):
+    for (n, t, v, s50, s200, r), img in zip(data_summary, img_paths):
         sections += (
             f"## {n} (${t})\n"
-            f"![Chart]({img})\n"
-            f'<video controls src="{vid}"></video>\n\n'
+            f"![Chart]({img})\n\n"
         )
 
+    # The static headline for this weekly column
+    headline = "Weekly Technical Analysis for Bitcoin, Ethereum, Solana, XRP, and Dogecoin: A Dobie's Deep Dive"
+
+    # Compose the GPT prompt
     prompt = f"""
 You are Hunter the Web3 Dobie 🐾 — a seasoned crypto analyst and educator.
 
 Write a detailed 4,000–5,000 word Substack article titled:
-"Weekly Technical Analysis for Bitcoin, Ethereum, Solana, XRP, and Dogecoin: A Dobie's Deep Dive"
+"{headline}"
 
 Include data summary:
 {summary_lines}
@@ -172,16 +143,30 @@ Conclude with cross-token insights, actionable tips, and a reminder to follow @W
 Today is {date_str}.
 """
 
-    article = generate_gpt_text(prompt, max_tokens=6500)
+    # Generate the GPT‐written Markdown article body
+    article_body = generate_gpt_text(prompt, max_tokens=6500)
+
+    # If article_body already starts with the exact same "# <headline>" line, do NOT prepend again
+    article_lines = article_body.splitlines()
+    if article_lines and article_lines[0].strip() == f"# {headline}":
+        full_md = article_body
+    else:
+        full_md = f"# {headline}\n\n{article_body}"
+
+    # Slugify date and build filename
     slug = slugify(f"weekly-ta-{date_str}")
-    filename = os.path.join(TA_POST_DIR, f"{date_str.replace(' ', '_')}_{slug}.md")
+    sanitized_date = date_str.replace(" ", "_")
+    filename = os.path.join(TA_POST_DIR, f"{sanitized_date}_{slug}.md")
+
+    # Write to disk
     with open(filename, "w", encoding="utf-8") as f:
-        f.write(article)
+        f.write(full_md)
     logging.info(f"📝 TA Substack article written to {filename}")
 
     # Log to Notion
     try:
-        log_substack_post_to_notion(article.splitlines()[0], filename)
+        # Use the first line ("# <headline>") as the Notion title
+        log_substack_post_to_notion(f"# {headline}", filename)
         logging.info("✅ Logged TA article to Notion")
     except Exception as e:
         logging.error(f"❌ Notion logging failed: {e}")

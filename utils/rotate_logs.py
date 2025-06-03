@@ -6,6 +6,7 @@ Preserves original functions: rotate_file, rotate_logs, clear_xrp_flag.
 import os
 import shutil
 from datetime import datetime
+from wsgiref import headers
 
 from .config import BACKUP_DIR, DATA_DIR, LOG_DIR
 
@@ -69,7 +70,7 @@ def rotate_logs():
     # Rotate scored headlines CSV
     rotate_file(
         os.path.join(DATA_DIR, "scored_headlines.csv"),
-        headers="timestamp,headline,url,score",
+        headers = ["score", "headline", "url", "ticker", "timestamp"],
     )
     # Rotate tweet log CSV
     rotate_file(

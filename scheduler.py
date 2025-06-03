@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 import schedule
 from dotenv import load_dotenv
 
-from utils.post_explainer_combo import post_explainer_combo
+# from utils.post_explainer_combo import post_explainer_combo
 from content.market_summary import post_market_summary_thread
 from content.news_recap import post_news_thread
 from content.random_post import post_random_content
@@ -85,7 +85,7 @@ schedule.every().day.at("23:00").do(
     lambda: reply_to_comments(bot_id=os.getenv("BOT_USER_ID"))
 )
 schedule.every().day.at("23:45").do(post_top_news_or_skip)
-schedule.every().friday.at("23:45").do(post_explainer_combo)
+# schedule.every().friday.at("23:45").do(post_explainer_combo)
 schedule.every().sunday.at("23:50").do(rotate_logs)
 
 while True:

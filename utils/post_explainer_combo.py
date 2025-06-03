@@ -2,6 +2,7 @@
 
 import logging
 import os
+import re
 from datetime import datetime
 
 from content.explainer import post_dobie_explainer_thread
@@ -57,17 +58,34 @@ def post_explainer_combo():
     # 2) Pull out the headline and raw body
     headline = article.get("headline", "").strip()
     raw_body = article.get("content", "").strip()
+    logger.info(">>> RAW BODY STARTS HERE <<<")
+    for i, line in enumerate(raw_body.splitlines()[:10]):
+        logger.info(f"  {i+1}: {repr(line)}")
+    logger.info(">>> RAW BODY ENDS <<<\n")
     if not headline or not raw_body:
         logger.error("[ERROR] Missing headline or content in generated article.")
         return
 
-    # 3) Remove any "**Title:** ..." line from raw_body
+    # 3) Remove any "Title:" (with or without asterisks) from raw_body
     clean_lines = []
     for line in raw_body.splitlines():
-        if line.strip().startswith("**Title:"):
+        stripped = line.strip()
+        normalized = re.sub(r'^[^A-Za-z0-9]+', '', stripped).lower()
+        # If after stripping punctuation it begins with "title:" or "subtitle:", skip it
+        if normalized.startswith("title:") or normalized.startswith("subtitle:"):
             continue
         clean_lines.append(line)
     clean_body_md = "\n".join(clean_lines).strip()
+
+    # Sanity check: ensure clean_body_md now starts with “TL;DR:”
+    if not clean_body_md:
+        logger.error("After cleanup, clean_body_md is empty! Raw body was:")
+        for i, line in enumerate(raw_body.splitlines()):
+            logger.error(f"{i+1}: {repr(line)}")
+        return
+    else:
+        first_line = clean_body_md.splitlines()[0]
+        logger.info(f"clean_body_md now starts with: {repr(first_line)}")
 
     # 4) Turn any plain @Web3_Dobie into a Markdown link
     #    so it renders as: [@Web3_Dobie](https://twitter.com/Web3_Dobie)
@@ -76,7 +94,13 @@ def post_explainer_combo():
     )
 
     # 5) Prepend "# <headline>" so publish() can extract the title cleanly
-    full_md = f"# {headline}\n\n{clean_body_md}"
+    subtitle = "Don't worry: Hunter Explains 🐾"
+    full_md = (
+        f"# {headline}\n\n"
+        f"{subtitle}\n\n"
+        f"\n\n"
+        f"{clean_body_md}"
+    )
 
     # 6) Decide on publish timestamp (immediate, in UTC)
     publish_at = datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
@@ -84,9 +108,10 @@ def post_explainer_combo():
     # 7) Publish via Substack API
     try:
         logger.info("[WRITE] Publishing to Substack")
-        post = client.publish(body_md=full_md, published_at=publish_at)
+        post = client.publish(body_md=full_md)
 
         post_data = post.get("post", {}) or post
+        canonical = post.get("canonical_url") or post.get("url") or f"https://{SUBSTACK_PUBLICATION_URL}/p/{post.get('slug')}"
         substack_url = (
             post_data.get("canonical_url")
             or f"https://{client.slug}.substack.com/p/{post_data.get('slug')}"
@@ -97,12 +122,12 @@ def post_explainer_combo():
         return
 
     # 8) Post the 3-part thread on X
-    try:
-        logger.info("[INFO] Posting explainer thread on X")
-        post_dobie_explainer_thread(substack_url=substack_url)
-        logger.info("[OK] Explainer thread posted")
-    except Exception as e:
-        logger.error(f"[ERROR] Failed to post explainer thread: {e}")
+#    try:
+#        logger.info("[INFO] Posting explainer thread on X")
+#        post_dobie_explainer_thread(substack_url=substack_url)
+#        logger.info("[OK] Explainer thread posted")
+#    except Exception as e:
+#        logger.error(f"[ERROR] Failed to post explainer thread: {e}")
 
 if __name__ == "__main__":
     post_explainer_combo()
