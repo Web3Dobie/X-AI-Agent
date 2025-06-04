@@ -171,6 +171,19 @@ Today is {date_str}.
     except Exception as e:
         logging.error(f"❌ Notion logging failed: {e}")
 
+    try:
+        from utils.mailer import send_email_alert
+        subject = f"[XAIAgent] TA article ready: {headline}"
+        body = (
+            f"A TA (Technical Analysis) Substack article has just been generated.\n\n"
+            f"Headline: {headline}\n"
+            f"Local file path: {filename}\n\n"
+            f"Please review and publish this on Substack.\n"
+        )
+        send_email_alert(subject, body)
+    except Exception as e:
+        logging.error(f"Failed to send TA email alert: {e}")
+
     return filename
 
 

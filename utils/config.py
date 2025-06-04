@@ -48,5 +48,14 @@ RSS_FEED_URLS = {
     "cryptoslate":   "https://cryptoslate.com/feed/",
     "beincrypto":    "https://www.beincrypto.com/feed/",
     "cointelegraph": "https://cointelegraph.com/rss",
+    "bitcoinmag":    "https://bitcoinmagazine.com",
+    "cryptobriefing":"https://cryptobriefing.com",
+    "theblock":      "https://www.theblockcrypto.com",
+    "cryptonews":    "https://cryptonews.com",
+    "bitcoinist":    "https://bitcoinist.com",
+    "blockchainnews":"https://www.the-blockchain.com",
+    "cryptopotato":  "https://cryptopotato.com",
+    "newsbtc":       "https://www.newsbtc.com",
+    "bitcoinnews":   "https://news.bitcoin.com",
 }
 

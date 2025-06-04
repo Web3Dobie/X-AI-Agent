@@ -4,7 +4,7 @@ import re
 from datetime import datetime
 
 from utils import (LOG_DIR, SUBSTACK_POST_DIR, generate_gpt_text,
-                   get_top_headline_last_7_days, log_substack_post_to_notion)
+                   get_top_headline_last_7_days, log_substack_post_to_notion,)
 
 # ─── Configure a module‐specific logger ──────────────────────────────────
 
@@ -98,4 +98,22 @@ Today is {date_str}.
     except Exception as e:
         logger.error(f"❌ Notion logging failed: {e}")
 
+    # ────── Send an email alert that the explainer is ready ──────
+    try:
+        from utils.mailer import send_email_alert
+        subject = f"[XAIAgent] Explainer ready: {topic}"
+        body = (
+            f"An explainer article has just been generated.\n\n"
+            f"Headline: {topic}\n"
+            f"Local file path: {filepath}\n\n"
+            f"Please review and publish this on Substack.\n"
+        )
+        send_email_alert(subject, body)
+    except Exception as e:
+        logger.error(f"Failed to send explainer email alert: {e}")
+
     return {"headline": topic, "content": article, "filename": filepath}
+
+if __name__ == "__main__":
+    generate_substack_explainer()
+

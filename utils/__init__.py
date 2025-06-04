@@ -16,7 +16,7 @@ from utils.headline_pipeline import get_top_headline_last_7_days
 from .charts import clear_charts, generate_charts
 from .config import BACKUP_DIR, CHART_DIR, DATA_DIR, LOG_DIR, TA_POST_DIR
 # --- Email & Substack publishing ---
-from .email_sender import post_to_substack_via_email
+from .mailer import send_email_alert
 from .generate_btc_technical_charts import fetch_binance_ohlcv
 from .generate_btc_technical_charts import main as generate_btc_charts
 # --- GPT wrappers ---

@@ -13,6 +13,8 @@ from content.random_post import post_random_content
 from content.reply_handler import reply_to_comments
 from content.ta_poster import post_ta_thread
 from content.top_news_or_explainer import post_top_news_or_skip
+from content.explainer_writer import generate_substack_explainer
+from content.ta_substack_generator import generate_ta_substack_article
 from utils import (clear_xrp_flag, fetch_and_score_headlines, rotate_logs)
 
 load_dotenv()
@@ -85,7 +87,8 @@ schedule.every().day.at("23:00").do(
     lambda: reply_to_comments(bot_id=os.getenv("BOT_USER_ID"))
 )
 schedule.every().day.at("23:45").do(post_top_news_or_skip)
-# schedule.every().friday.at("23:45").do(post_explainer_combo)
+schedule.every().friday.at("23:45").do(generate_substack_explainer)
+schedule.every().sunday.at("18:00").do(generate_ta_substack_article)
 schedule.every().sunday.at("23:50").do(rotate_logs)
 
 while True:
