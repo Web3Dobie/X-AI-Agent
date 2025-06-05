@@ -65,7 +65,10 @@ def generate_market_summary_thread():
     """
     tokens_data = get_top_tokens_data()
     if not tokens_data:
+        logger.warning("⚠️ No valid token data available.")
         return []
+
+    logger.info(f"📊 Fetched prices for {len(tokens_data)} tokens.")
 
     bullet_points = " ".join(
         f"${t['ticker']}: ${t['price']:,.2f} ({t['change']:+.2f}%)" for t in tokens_data
@@ -80,8 +83,10 @@ Do NOT number them—just separate by newlines."""
     thread = generate_gpt_thread(prompt, max_parts=len(tokens_data), delimiter="---")
     if not thread or len(thread) < len(tokens_data):
         logger.warning("⚠️ GPT returned insufficient parts.")
+        logger.info(f"📝 GPT raw output: {thread}")
         return []
 
+    logger.info(f"📝 GPT returned thread of {len(thread)} parts.")   
     today = datetime.utcnow().strftime("%Y-%m-%d")
     header = f"Daily Dobie Market Update [{today}] 📅\n\n"
     thread[0] = f"{header}" + thread[0]
