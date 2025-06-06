@@ -13,13 +13,10 @@ import feedparser
 from .config import DATA_DIR, LOG_DIR, RSS_FEED_URLS
 
 # Configure logging
-log_file = os.path.join(LOG_DIR, "rss_fetch.log")
-os.makedirs(os.path.dirname(log_file), exist_ok=True)
-logging.basicConfig(
-    filename=log_file,
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-)
+from .logging_helper import get_module_logger
+
+logger = get_module_logger(__name__)
+
 
 # RSS_FEEDS = [
 #    "https://www.coindesk.com/arc/outboundfeeds/rss/",
@@ -62,12 +59,12 @@ def fetch_headlines(limit=10):
                 # Only keep it if we haven't seen it before, or already queued just now in this batch
                 if title not in seen and title not in [h["headline"] for h in headlines]:
                    headlines.append({"headline": title, "url": link})
-                   logging.info(f"New headline fetched from {source_name}: {title}")
+                   logger.info(f"New headline fetched from {source_name}: {title}")
                 if len(headlines) >= limit:
                     break
             if len(headlines) >= limit:
                 break
     except Exception as e:
-        logging.error(f"[ERROR] Error fetching RSS feeds: {e}")
+        logger.error(f"[ERROR] Error fetching RSS feeds: {e}")
 
     return headlines
