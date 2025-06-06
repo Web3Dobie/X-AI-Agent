@@ -34,6 +34,12 @@ logging.basicConfig(
 print("🕒 Hunter Scheduler is live. Waiting for scheduled posts…")
 sys.stdout.flush()
 
+import threading
+
+def run_in_thread(job_func):
+    threading.Thread(target=job_func).start()
+
+
 
 # function now moved to top_news_or_explainer.py
 #    if datetime.now(timezone.utc).weekday() != 4:  # 0 = Monday, 4 = Friday
@@ -72,14 +78,14 @@ schedule.every().hour.at(":05").do(fetch_and_score_headlines)
 # --- Posting Schedule ---
 schedule.every().saturday.at("00:01").do(setup_weekend_random_posts)
 schedule.every().sunday.at("00:01").do(setup_weekend_random_posts)
-schedule.every().monday.at("16:00").do(post_ta_thread)
-schedule.every().tuesday.at("16:00").do(post_ta_thread)
-schedule.every().wednesday.at("16:00").do(post_ta_thread)
-schedule.every().thursday.at("16:00").do(post_ta_thread)
-schedule.every().friday.at("16:00").do(post_ta_thread)
+schedule.every().monday.at("16:00").do(lambda: run_in_thread(post_ta_thread))
+schedule.every().tuesday.at("16:00").do(lambda: run_in_thread(post_ta_thread))
+schedule.every().wednesday.at("16:00").do(lambda: run_in_thread(post_ta_thread))
+schedule.every().thursday.at("16:00").do(lambda: run_in_thread(post_ta_thread))
+schedule.every().friday.at("16:00").do(lambda: run_in_thread(post_ta_thread))
 
-schedule.every().day.at("13:00").do(post_news_thread)
-schedule.every().day.at("14:00").do(post_market_summary_thread)
+schedule.every().day.at("13:00").do(lambda: run_in_thread(post_news_thread))
+schedule.every().day.at("14:00").do(lambda: run_in_thread(post_market_summary_thread))
 schedule.every().day.at("18:00").do(
     lambda: reply_to_comments(bot_id=os.getenv("BOT_USER_ID"))
 )

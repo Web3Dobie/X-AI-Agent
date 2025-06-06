@@ -78,7 +78,12 @@ def post_news_thread():
     logger.info("🔄 Starting daily news recap thread")
     thread = generate_summary_thread()
     if thread:
-        post_thread(thread, category="news_summary")
-        logger.info("✅ News recap thread posted")
+
+        result = post_thread(thread, category="news_summary")
+
+        if result["posted"] == result["total"]:
+            logger.info("✅ Posted news recap thread")
+        else:
+            logger.warning(f"⚠️ News recap thread incomplete: {result['posted']}/{result['total']} tweets posted (error: {result['error']})")
     else:
         logger.info("⏭ No news recap thread posted")

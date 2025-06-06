@@ -31,8 +31,13 @@ def post_ta_thread():
             if not thread_parts:
                 logger.warning(f"⚠️ No TA thread generated for {token.upper()}")
                 return
-            post_thread(thread_parts, category=f"ta_{token}")
-            logger.info(f"✅ Posted TA thread for {token.upper()}")
+            result = post_thread(thread_parts, category=f"ta_{token}")
+
+            if result["posted"] == result["total"]:
+                logger.info(f"✅ Posted TA thread for {token.upper()}")
+            else:
+                logger.warning(f"⚠️ TA thread incomplete for {token.upper()}: {result['posted']}/{result['total']} tweets posted (error: {result['error']})")
+
         except Exception as e:
             logger.error(f"❌ TA thread failed for {token.upper()}: {e}")
     else:

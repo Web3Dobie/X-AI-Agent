@@ -108,6 +108,13 @@ def post_top_news_thread():
         parts = generate_top_news_opinion()
         if parts:
             parts = [insert_cashtags(insert_mentions(p)) for p in parts]
+
+            result = post_thread(parts, category="news_opinion")
+
+            if result["posted"] == result["total"]:
+                logger.info("✅ Posted news opinion thread")
+            else:
+                logger.warning(f"⚠️ News opinion thread incomplete: {result['posted']}/{result['total']} tweets posted (error: {result['error']})")
             post_thread(parts, category="news_opinion")
             logger.info("✅ Opinion thread posted")
         else:

@@ -106,8 +106,14 @@ def post_market_summary_thread():
         logger.info(f"📈 Attempt {i} for market summary thread.")
         thread = generate_market_summary_thread()
         if thread:
-            post_thread(thread, category="market_summary")
-            logger.info("✅ Market summary posted.")
+
+            result = post_thread(thread, category="market_summary")
+
+            if result["posted"] == result["total"]:
+                logger.info("✅ Posted market summary thread")
+            else:
+                logger.warning(f"⚠️ Market summary thread incomplete: {result['posted']}/{result['total']} tweets posted (error: {result['error']})")
+           
             return
         if time.time() - start < max_attempts * delay:
             logger.warning(f"⚠️ Attempt {i} failed—retrying in {delay//60}m.")
