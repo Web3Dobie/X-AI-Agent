@@ -40,8 +40,7 @@ client = tweepy.Client(
     consumer_secret=TWITTER_CONSUMER_SECRET,
     access_token=TWITTER_ACCESS_TOKEN,
     access_token_secret=TWITTER_ACCESS_SECRET,
-    wait_on_rate_limit=True,
-    timeout=60
+    wait_on_rate_limit=True
 )
 
 
