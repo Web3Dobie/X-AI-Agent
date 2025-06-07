@@ -171,22 +171,32 @@ def generate_ta_thread_with_memory(token: str) -> list[str]:
         "Separate tweets with '---'."
     )
     logging.info(f"Generating TA thread for {token.upper()} ({context['date']})")
-    thread = generate_gpt_thread(prompt, max_parts=4, delimiter="---")
-
+    try:
+        thread = generate_gpt_thread(prompt, max_parts=4, delimiter="---")
+        logging.info(f"DEBUG: generate_gpt_thread() returned: {thread}")
+    except Exception as e:
+        logging.error(f"ERROR calling generate_gpt_thread(): {e}")
+        return [f"⚠️ GPT call failed for {token.upper()}"]
     if not thread or len(thread) < 4:
         logging.error(f"Incomplete GPT thread for {token.upper()}")
         return [f"⚠️ GPT returned incomplete thread for {context['token']}"]
 
-    # Clean up any stray sign-offs and ensure final sign-off
-    for i in range(4):
-        thread[i] = thread[i].replace("— Hunter", "").strip()
-    thread[3] += " As always, this is NFA — Hunter"
+    else:
+        # Clean up any stray sign-offs and ensure final sign-off
+        for i in range(4):
+            thread[i] = thread[i].replace("— Hunter", "").strip()
 
-    # Log TA entry
-    summary_text = " ".join(thread)
-    log_ta_entry(token, context, summary_text)
+        # Remove any accidental "As always, this is NFA" from part 4
+        thread[3] = thread[3].replace("As always, this is NFA", "").strip()
 
-    return thread
+        # Append clean sign-off
+        thread[3] += " As always, this is NFA — Hunter"
+
+        # Log TA entry
+        summary_text = " ".join(thread)
+        log_ta_entry(token, context, summary_text)
+
+        return thread
 
 
 if __name__ == "__main__":
