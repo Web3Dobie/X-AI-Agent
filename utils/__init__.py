@@ -10,7 +10,7 @@ from datetime import datetime
 from utils.config           import LOG_DIR, SUBSTACK_POST_DIR
 from utils.headline_pipeline import get_top_headline_last_7_days
 
-# … rest of your imports …
+# ï¿½ rest of your imports ï¿½
 
 # --- Chart generation ---
 from .charts import clear_charts, generate_charts
@@ -44,3 +44,8 @@ from .substack_client import SubstackClient
 from .text_utils import insert_cashtags, insert_mentions
 # --- X/Twitter posting ---
 from .x_post import post_quote_tweet, post_thread, post_tweet
+# --- Telegram handler ---
+# utils/__init__.py
+# Mark as a package; import only the essentials here
+from .tg_notifier import send_telegram_message
+from .telegram_log_handler import TelegramHandler
