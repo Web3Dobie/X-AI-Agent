@@ -44,7 +44,7 @@ def score_headlines(items: list[dict]) -> list[dict]:
         url = item.get("url", "")
         ticker = item.get("ticker", "")
 
-        # If pipeline didn’t supply a ticker, backfill:
+        # If pipeline didnÂ’t supply a ticker, backfill:
         if not ticker:
             ticker = extract_ticker(headline)
 

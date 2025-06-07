@@ -20,7 +20,7 @@ def get_module_logger(name: str = None) -> logging.Logger:
     # Ensure the log directory exists
     os.makedirs(LOG_DIR, exist_ok=True)
 
-    # Build the absolute path to this module’s log file
+    # Build the absolute path to this moduleÂ’s log file
     log_file = os.path.join(LOG_DIR, f"{module_name}.log")
 
     # Check whether a FileHandler for this exact file already exists
