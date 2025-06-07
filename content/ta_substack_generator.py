@@ -180,7 +180,7 @@ Today is {date_str}.
             f"Local file path: {filename}\n\n"
             f"Please review and publish this on Substack.\n"
         )
-        send_email_alert(subject, body)
+        send_email_alert(subject, body, attachments=[filename])
     except Exception as e:
         logging.error(f"Failed to send TA email alert: {e}")
 

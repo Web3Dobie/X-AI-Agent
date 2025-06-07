@@ -108,7 +108,7 @@ Today is {date_str}.
             f"Local file path: {filepath}\n\n"
             f"Please review and publish this on Substack.\n"
         )
-        send_email_alert(subject, body)
+        send_email_alert(subject, body, attachments=[filepath])
     except Exception as e:
         logger.error(f"Failed to send explainer email alert: {e}")
 
