@@ -8,6 +8,7 @@ import logging
 import os
 import threading
 from datetime import datetime, timezone
+from utils.telegram_log_handler import TelegramHandler
 
 import tweepy
 
@@ -33,6 +34,14 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
+
+# Attach the TelegramHandler
+tg_handler = TelegramHandler()
+tg_handler.setLevel(logging.ERROR)  # only send ERROR and CRITICAL
+tg_handler.setFormatter(
+    logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+)
+logging.getLogger().addHandler(tg_handler)
 
 # Tweepy Client
 client = tweepy.Client(
