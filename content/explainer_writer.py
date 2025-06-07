@@ -92,11 +92,11 @@ Today is {date_str}.
     logger.info(f"📝 Article saved locally at {filepath}")
 
     # Log to Notion
-    try:
-        log_substack_post_to_notion(topic, filepath)
+    success = log_substack_post_to_notion(topic, filepath)
+    if success:
         logger.info("✅ Logged Substack post to Notion")
-    except Exception as e:
-        logger.error(f"❌ Notion logging failed: {e}")
+    else:
+        logger.error("❌ Notion logging failed")
 
     # ────── Send an email alert that the explainer is ready ──────
     try:

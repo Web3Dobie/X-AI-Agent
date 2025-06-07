@@ -2,6 +2,7 @@
 
 import logging
 import os
+import json
 from datetime import datetime
 
 import requests
@@ -99,29 +100,23 @@ def log_substack_post_to_notion(headline: str, filename: str) -> bool:
     Create a new page in the Notion database for a Substack post.
     Returns True if logged successfully, False otherwise.
     """
-    url = "https://api.notion.com/v1/pages"
-    payload = {
-        "parent": {"database_id": NOTION_SUBSTACK_ARCHIVE_DB_ID},
-        "properties": {
-            "Headline": {"title": [{"text": {"content": headline}}]},
-            "Date":     {"date":  {"start": datetime.utcnow().isoformat()}},
-            "File":     {"rich_text": [{"text": {"content": filename}}]},
-            "Status":   {"select":    {"name": "Draft"}},
-        },
-    }
-    headers = {
-        "Authorization": f"Bearer {NOTION_API_KEY}",
-        "Content-Type":  "application/json",
-        "Notion-Version": "2022-06-28",
-    }
-
     try:
-        response = requests.post(url, headers=headers, json=payload)
-        response.raise_for_status()
+        notion.pages.create(
+            parent={"database_id": NOTION_SUBSTACK_ARCHIVE_DB_ID},
+            properties={
+                "Headline": {"title":     [{"text": {"content": headline}}]},
+                "Date":     {"date":      {"start": datetime.utcnow().isoformat()}},
+                "File":     {"rich_text": [{"text": {"content": filename}}]},
+                "Status":   {"select":    {"name": "Draft"}},
+            },
+        )
         logger.info(f"[OK] Logged '{headline}' to Notion DB {NOTION_SUBSTACK_ARCHIVE_DB_ID}")
         return True
     except Exception as e:
-        # If the exception has a response with text, include it for debugging:
-        resp_text = getattr(e, "response", "")
-        logger.error(f"[ERROR] Failed to log '{headline}' to Notion: {e} – Response: {resp_text}")
+        status = getattr(e, 'status', None)
+        body   = getattr(e, 'body', None)
+        logger.error(
+            f"[ERROR] Couldn’t log Substack post '{headline}': {e} "
+            f"(status={status}, body={body})"
+        )
         return False
