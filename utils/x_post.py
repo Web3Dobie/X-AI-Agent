@@ -95,6 +95,9 @@ def post_thread(thread_parts: list[str], category: str = "thread", previous_id=N
             parts_to_post = thread_parts
         else:
             first = thread_parts[0]
+            if first is None:
+                logging.warning("⚠️ First thread part is None — skipping thread.")
+                return
             resp = client.create_tweet(text=first)
             tweet_id = resp.data["id"]
             date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -106,6 +109,9 @@ def post_thread(thread_parts: list[str], category: str = "thread", previous_id=N
             parts_to_post = thread_parts[1:]
 
         for i, part in enumerate(parts_to_post):
+            if part is None:
+                logging.warning(f"⚠️ Skipping None part {posted+1} in thread_parts")
+                continue
             threading.Event().wait(5)
             try:
                 resp = client.create_tweet(text=part, in_reply_to_tweet_id=in_reply_to)
@@ -120,15 +126,11 @@ def post_thread(thread_parts: list[str], category: str = "thread", previous_id=N
                 return
             except Exception as e:
                 logging.error(f"❌ Error posting thread part {posted+1}: {e}")
-    except Exception as e:
-        error_str = str(e).lower()
-        if "timeout" in error_str or "connection" in error_str:
-            logging.warning(f"⚠️ Timeout/connection error on part {posted+1}/{len(thread_parts)} — scheduling retry of this tweet in 10 minutes.")
-            schedule_retry_single_tweet(part, in_reply_to, category, retries=1)
-            return
-        else:
-            logging.error(f"❌ Error posting thread part {posted+1}: {e}")
 
+    except Exception as e:
+        # Final catch-all — no reference to 'part' here to avoid undefined variable errors
+        logging.error(f"❌ General error posting thread: {e}")
+        return
 
 def schedule_retry_thread(remaining_parts, reply_to_id, category):
     def retry():
