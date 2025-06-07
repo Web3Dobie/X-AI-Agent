@@ -37,7 +37,7 @@ logging.basicConfig(
 
 # Attach the TelegramHandler
 tg_handler = TelegramHandler()
-tg_handler.setLevel(logging.ERROR)  # only send ERROR and CRITICAL
+tg_handler.setLevel(logging.INFO)  # only send ERROR and CRITICAL
 tg_handler.setFormatter(
     logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 )
