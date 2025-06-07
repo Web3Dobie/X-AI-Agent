@@ -87,10 +87,10 @@ schedule.every().friday.at("16:00").do(lambda: run_in_thread(post_ta_thread))
 schedule.every().day.at("13:00").do(lambda: run_in_thread(post_news_thread))
 schedule.every().day.at("14:00").do(lambda: run_in_thread(post_market_summary_thread))
 schedule.every().day.at("18:00").do(
-    lambda: reply_to_comments(bot_id=os.getenv("BOT_USER_ID"))
+    lambda: reply_to_comments(bot_id=os.getenv("X_BOT_USER_ID"))
 )
 schedule.every().day.at("23:00").do(
-    lambda: reply_to_comments(bot_id=os.getenv("BOT_USER_ID"))
+    lambda: reply_to_comments(bot_id=os.getenv("X_BOT_USER_ID"))
 )
 schedule.every().day.at("23:45").do(post_top_news_or_skip)
 schedule.every().friday.at("23:45").do(generate_substack_explainer)

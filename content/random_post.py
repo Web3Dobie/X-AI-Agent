@@ -8,6 +8,7 @@ import logging
 import os
 import random
 from datetime import datetime
+from utils.influencers import INFLUENCER_IDS
 
 from content.reply_handler import reply_to_comments
 from utils import (DATA_DIR, LOG_DIR, generate_gpt_tweet, insert_cashtags,
