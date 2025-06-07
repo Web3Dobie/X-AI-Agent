@@ -73,12 +73,20 @@ Each tweet must be <280 characters and end with '— Hunter 🐾'.
 
     # 5) Post the 3-part thread on X
     try:
-        result = post_thread(thread, category="explainer")
+        result = post_thread(thread, category="explainer") or{}
+        # Provide defaults if helper returned None or incomplete dict
+        posted = result.get("posted", len(thread))
+        total  = result.get("total", len(thread))
+        error  = result.get("error")
 
-        if result["posted"] == result["total"]:
-            logger.info("✅ Posted explainer thread")
+        if posted == total:
+            url = result.get("thread_url") or (result.get("tweets", [])[0].get("url") if result.get("tweets") else None)
+            logger.info(f"✅ Posted explainer thread: {url} ({posted}/{total})")
         else:
-            logger.warning(f"⚠️ explainer thread incomplete: {result['posted']}/{result['total']} tweets posted (error: {result['error']})")
-        
+            logger.warning(
+                f"⚠️ Explainer thread incomplete: {posted}/{total} tweets posted"
+                + (f" (error: {error})" if error else "")
+            )
+
     except Exception as e:
         logger.error(f"❌ Failed to post explainer thread: {e}")
