@@ -30,14 +30,19 @@ def import_metrics():
     print(f"📥 Using X export file: {export_path}")
 
     tweet_log = load_csv_dict(TWEET_LOG_FILE, key_field="tweet_id")
+    print("tweet_log keys (first 5):", list(tweet_log.keys())[:5])
 
     with open(export_path, newline="", encoding="utf-8") as f:
         export = list(csv.DictReader(f))
+    export_ids = [str(row.get("Post id", "")).strip().split(".")[0] for row in export]
+    print("export tweet_ids (first 5):", export_ids[:5])
 
     enriched_rows = []
+    # filepath: /home/Hunter/X-AI-Agent/import_x_metrics.py
     for row in export:
         tweet_id = str(row.get("Post id", "")).strip().split(".")[0]
-        if not tweet_id or tweet_id not in tweet_log:
+        if tweet_id not in tweet_log:
+            print(f"Not found in tweet_log: '{tweet_id}'")
             continue
 
         base = tweet_log[tweet_id]
@@ -54,9 +59,9 @@ def import_metrics():
             enriched_rows.append(
                 {
                     "tweet_id": tweet_id,
-                    "date": base["date"],
+                    "date": base["timestamp"],
                     "type": base["type"],
-                    "url": base["url"],
+                    "url": base["category"],
                     "likes": likes,
                     "retweets": retweets,
                     "replies": replies,
