@@ -60,7 +60,7 @@ def post_tweet(text: str, category: str = "original"):
     try:
         response = client.create_tweet(text=text)
         tweet_id = response.data["id"]
-        date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
         url = f"https://x.com/{BOT_USER_ID}/status/{tweet_id}"
         log_tweet(tweet_id, date_str, category, url, 0, 0, 0, 0)
         logging.info(f"[OK] Posted tweet: {url}")
@@ -76,7 +76,7 @@ def post_quote_tweet(text: str, tweet_url: str):
         quote_id = tweet_url.rstrip("/").split("/")[-1]
         response = client.create_tweet(text=text, quote_tweet_id=quote_id)
         tweet_id = response.data["id"]
-        date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
         url = f"https://x.com/{BOT_USER_ID}/status/{tweet_id}"
         log_tweet(tweet_id, date_str, "quote", url, 0, 0, 0, 0)
         logging.info(f"✅ Posted quote tweet: {url}")
@@ -109,7 +109,7 @@ def post_thread(thread_parts: list[str], category: str = "thread", previous_id=N
                 return
             resp = client.create_tweet(text=first)
             tweet_id = resp.data["id"]
-            date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+            date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
             url = f"https://x.com/{BOT_USER_ID}/status/{tweet_id}"
             log_tweet(tweet_id, date_str, category, url, 0, 0, 0, 0)
             logging.info(f"✅ Posted thread first tweet: {url}")
@@ -126,7 +126,7 @@ def post_thread(thread_parts: list[str], category: str = "thread", previous_id=N
                 resp = client.create_tweet(text=part, in_reply_to_tweet_id=in_reply_to)
                 in_reply_to = resp.data["id"]
                 reply_url = f"https://x.com/{BOT_USER_ID}/status/{in_reply_to}"
-                log_tweet(in_reply_to, datetime.now(timezone.utc).strftime("%Y-%m-%d"), category, reply_url, 0, 0, 0, 0)
+                log_tweet(in_reply_to, datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S"), category, reply_url, 0, 0, 0, 0)
                 logging.info(f"↪️ Posted thread reply: {reply_url}")
                 posted += 1
             except tweepy.TooManyRequests as e:
@@ -158,7 +158,7 @@ def schedule_retry_single_tweet(part, reply_to_id, category, retries):
             resp = client.create_tweet(text=part, in_reply_to_tweet_id=reply_to_id)
             in_reply_to = resp.data["id"]
             reply_url = f"https://x.com/{BOT_USER_ID}/status/{in_reply_to}"
-            log_tweet(in_reply_to, datetime.now(timezone.utc).strftime("%Y-%m-%d"), category, reply_url, 0, 0, 0, 0)
+            log_tweet(in_reply_to, datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S"), category, reply_url, 0, 0, 0, 0)
             logging.info(f"✅ Retry success: Posted thread reply: {reply_url}")
         except Exception as e:
             error_str = str(e).lower()
