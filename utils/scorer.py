@@ -97,22 +97,39 @@ def _append_to_csv(record: dict):
     """
     Append a scored record to the CSV file with standardized header.
     """
-    header = ["score", "headline", "url", "ticker", "timestamp"]
-    os.makedirs(DATA_DIR, exist_ok=True)
-    write_header = not os.path.exists(SCORED_CSV)
-    with open(SCORED_CSV, "a", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=header)
-        if write_header:
-            writer.writeheader()
-        # Ensure all fields are present
-        row = {
-            "score": record.get("score", 0),
-            "headline": record.get("headline", ""),
-            "url": record.get("url", ""),
-            "ticker": record.get("ticker", ""),
-            "timestamp": record.get("timestamp", ""),
-        }
-        writer.writerow(row)
+    try:
+        logging.info(f"Attempting to write headline to CSV: '{record.get('headline', '')}'")
+        
+        header = ["score", "headline", "url", "ticker", "timestamp"]
+        os.makedirs(DATA_DIR, exist_ok=True)
+        write_header = not os.path.exists(SCORED_CSV)
+        
+        with open(SCORED_CSV, "a", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=header)
+            if write_header:
+                writer.writeheader()
+                logging.info(f"Created new CSV file with header at {SCORED_CSV}")
+            
+            # Ensure all fields are present
+            row = {
+                "score": record.get("score", 0),
+                "headline": record.get("headline", ""),
+                "url": record.get("url", ""),
+                "ticker": record.get("ticker", ""),
+                "timestamp": record.get("timestamp", ""),
+            }
+            writer.writerow(row)
+            logging.info(f"Successfully wrote headline to CSV: '{row['headline']}'")
+            
+    except PermissionError:
+        logging.error(f"Permission denied when writing to {SCORED_CSV}")
+        raise
+    except IOError as e:
+        logging.error(f"IO Error writing to CSV: {str(e)}")
+        raise
+    except Exception as e:
+        logging.error(f"Unexpected error writing to CSV: {str(e)}")
+        raise
 
 
 def write_headlines(records: list[dict]):
