@@ -166,7 +166,7 @@ def generate_ta_thread_with_memory(token: str) -> list[str]:
         f"SMA50={context['sma50']}, SMA200={context['sma200']}, RSI={context['rsi']}, "
         f"MACD={context['macd']} vs signal={context['macd_signal']}.{memory} "
         "Each tweet <280 chars, no emojis, no hashtags. "
-        "Start first tweet with 'Daily Dobie Drawings\n\n'. "
+        "Start first tweet with 'Daily Dobie Drawings 🎨\n\n'. "
         "End final tweet with 'As always, this is NFA — Hunter'. "
         "Separate tweets with '---'."
     )
@@ -190,7 +190,7 @@ def generate_ta_thread_with_memory(token: str) -> list[str]:
         thread[3] = thread[3].replace("As always, this is NFA", "").strip()
 
         # Append clean sign-off
-        thread[3] += " As always, this is NFA — Hunter"
+        thread[3] += " As always, this is NFA — Hunter 🐾"
 
         # Log TA entry
         summary_text = " ".join(thread)
