@@ -53,9 +53,12 @@ def rotate_file(src, headers=None):
         return
 
     if headers:
-        try:
+       try:
             with open(src, "w", encoding="utf-8") as f:
-                f.write(headers + "\n")
+                if isinstance(headers, list):
+                    f.write(",".join(headers) + "\n")
+                else:
+                    f.write(headers + "\n")
             print(f"[NEW] Recreated {src} with headers.")
         except Exception as e:
             print(f"[ALERT] Could not recreate {src}: {e}")
