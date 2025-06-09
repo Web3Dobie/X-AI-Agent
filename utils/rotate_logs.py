@@ -52,8 +52,9 @@ def rotate_file(src, headers=None):
         print(f"[ERROR] Failed to move {src}: {e}")
         return
 
+    # Only recreate the file with headers if requested
     if headers:
-       try:
+        try:
             with open(src, "w", encoding="utf-8") as f:
                 if isinstance(headers, list):
                     f.write(",".join(headers) + "\n")
@@ -62,7 +63,6 @@ def rotate_file(src, headers=None):
             print(f"[NEW] Recreated {src} with headers.")
         except Exception as e:
             print(f"[ALERT] Could not recreate {src}: {e}")
-
 
 def rotate_logs():
     """
