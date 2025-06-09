@@ -34,7 +34,7 @@ os.makedirs(LOG_DIR, exist_ok=True)
 log_file = os.path.join(LOG_DIR, 'x_post.log')
 logging.basicConfig(
     filename=log_file,
-    level=logging.INFO,
+    level=logging.WARNING,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 # Telegram handler for errors
