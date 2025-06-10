@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 
 from content.ta_thread_generator import generate_ta_thread_with_memory
 from utils import LOG_DIR, post_thread, get_module_logger
+from utils.x_post import upload_media
 
 logger = get_module_logger(__name__)
 
