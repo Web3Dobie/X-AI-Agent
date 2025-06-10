@@ -216,7 +216,7 @@ def generate_ta_thread_with_memory(token: str) -> tuple[list[str], str]:
         thread[3] = thread[3].replace("As always, this is NFA", "").strip()
 
         # Append clean sign-off
-        thread[3] += " Waht do you think? - As always, this is NFA — Hunter 🐾"
+        thread[3] += " What do you think? - As always, this is NFA — Hunter 🐾"
 
         # Log TA entry
         summary_text = " ".join(thread)
