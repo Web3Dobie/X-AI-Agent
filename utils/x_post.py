@@ -102,15 +102,16 @@ def ping_twitter_api():
         return False
 
 # ─── Timing Wrapper ─────────────────────────────────────────────────────
-def timed_create_tweet(text: str, in_reply_to_tweet_id=None, part_index: int = None):
+def timed_create_tweet(text: str, in_reply_to_tweet_id=None, part_index: int = None, media_ids=None):
     start = time.monotonic()
     try:
         logging.debug(f"Making API request: POST https://api.twitter.com/2/tweets")
         logging.debug(f"Parameters: text={text[:50]}..., in_reply_to_tweet_id={in_reply_to_tweet_id}, part_index={part_index}")
         resp = client.create_tweet(
-            text=text,
-            in_reply_to_tweet_id=in_reply_to_tweet_id
-        )
+        text=text,
+        in_reply_to_tweet_id=in_reply_to_tweet_id,
+        media_ids=media_ids
+    )
         elapsed = time.monotonic() - start
         logging.debug(f"HTTP POST /2/tweets succeeded in {elapsed:.2f}s (part {part_index})")
         return resp
@@ -134,6 +135,14 @@ def timed_create_tweet(text: str, in_reply_to_tweet_id=None, part_index: int = N
         elapsed = time.monotonic() - start
         logging.debug(f"HTTP POST /2/tweets succeeded in {elapsed:.2f}s (part {part_index})")
         return resp
+
+# --- Upload Media
+def upload_media(image_path):
+    """
+    Uploads an image to Twitter/X and returns the media_id.
+    """
+    media = client.media_upload(image_path)
+    return media.media_id
 
 # ─── Standalone Tweet ────────────────────────────────────────────────────
 def post_tweet(text: str, category: str = 'original'):
@@ -167,7 +176,13 @@ def post_quote_tweet(text: str, tweet_url: str):
         logging.error(f"❌ Error posting quote tweet: {e}")
 
 # ─── Thread Posting ─────────────────────────────────────────────────────
-def post_thread(thread_parts: list[str], category: str = 'thread', previous_id=None, retry=False):
+def post_thread(
+    thread_parts: list[str],
+    category: str = 'thread',
+    previous_id=None,
+    retry=False,
+    media_id_first=None  # <-- Add this argument
+):
     if has_reached_daily_limit():
         logging.warning('🚫 Daily tweet limit reached — skipping thread.')
         return {
@@ -203,7 +218,11 @@ def post_thread(thread_parts: list[str], category: str = 'thread', previous_id=N
         else:
             first = thread_parts[0]
             logging.debug(f"Posting first thread tweet: {first[:60]}...")
-            resp = timed_create_tweet(text=first, part_index=1)
+            # Attach media only to the first tweet if media_id_first is provided
+            if media_id_first:
+                resp = timed_create_tweet(text=first, part_index=1, media_ids=[media_id_first])
+            else:
+                resp = timed_create_tweet(text=first, part_index=1)
             tweet_id = resp.data['id']
             date_str = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
             url = f"https://x.com/{BOT_USER_ID}/status/{tweet_id}"
@@ -233,7 +252,6 @@ def post_thread(thread_parts: list[str], category: str = 'thread', previous_id=N
                 return
             except (tweepy.errors.TweepyException, requests.exceptions.RequestException, ConnectionError) as e:
                 logging.error(f"❌ Connection error posting part {posted+1}: {e}")
-                # Optionally, you could retry here as well
                 raise
             except Exception as e:
                 logging.error(f"❌ Error posting part {posted+1}: {e}")

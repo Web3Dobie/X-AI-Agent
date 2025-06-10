@@ -27,11 +27,12 @@ def post_ta_thread():
             f"🔍 Generating TA thread for {token.upper()} ({today.strftime('%Y-%m-%d')})"
         )
         try:
-            thread_parts = generate_ta_thread_with_memory(token)
+            thread_parts, chart_path = generate_ta_thread_with_memory(token)
+            media_id = upload_media(chart_path)
             if not thread_parts:
                 logger.warning(f"⚠️ No TA thread generated for {token.upper()}")
                 return
-            result = post_thread(thread_parts, category=f"ta_{token}")
+            result = post_thread(thread_parts, category=f"ta_{token}", media_id_first=media_id)
 
             if result["posted"] == result["total"]:
                 logger.info(f"✅ Posted TA thread for {token.upper()}")

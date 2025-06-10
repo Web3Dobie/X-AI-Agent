@@ -11,6 +11,7 @@ from datetime import datetime
 import pandas as pd
 import pandas_ta as ta
 import requests
+import matplotlib.pyplot as plt
 
 from utils import DATA_DIR, LOG_DIR, generate_gpt_thread
 
@@ -53,6 +54,27 @@ def fetch_ohlc_binance(symbol="BTCUSDT", interval="1d", limit=1000) -> pd.DataFr
         logging.error(f"Error fetching OHLC for {symbol}: {e}")
         return pd.DataFrame()
 
+
+def save_token_chart(df, token, out_dir="content/charts"):
+    """
+    Saves a price chart with indicators for the given token DataFrame.
+    """
+    os.makedirs(out_dir, exist_ok=True)
+    plt.figure(figsize=(10, 5))
+    plt.plot(df.index, df['close'], label='Close', color='blue')
+    if 'sma50' in df:
+        plt.plot(df.index, df['sma50'], label='SMA50', color='orange')
+    if 'sma200' in df:
+        plt.plot(df.index, df['sma200'], label='SMA200', color='green')
+    plt.title(f"{token.upper()} Price Chart")
+    plt.xlabel("Date")
+    plt.ylabel("Price (USDT)")
+    plt.legend()
+    img_path = os.path.join(out_dir, f"{token.lower()}_chart.png")
+    plt.tight_layout()
+    plt.savefig(img_path)
+    plt.close()
+    return img_path
 
 def add_indicators(df: pd.DataFrame) -> pd.DataFrame:
     """
@@ -129,15 +151,19 @@ def fetch_ohlc(token: str, days: int = 1000) -> pd.DataFrame:
     return fetch_ohlc_binance(symbol, limit=days)
 
 
-def generate_ta_thread_with_memory(token: str) -> list[str]:
+def generate_ta_thread_with_memory(token: str) -> tuple[list[str], str]:
     """
     Generates a 4-part TA thread with memory of previous call.
+    Returns (thread, chart_path)
     """
     df = fetch_ohlc(token)
     df = add_indicators(df)
     if df.empty:
         logging.warning(f"No data to generate TA for {token.upper()}")
-        return [f"⚠️ Not enough data to analyze {token.upper()} yet."]
+        return [f"⚠️ Not enough data to analyze {token.upper()} yet."], None
+
+    # Generate and save the chart here
+    chart_path = save_token_chart(df, token)
 
     recent = df.iloc[-1]
     context = {
@@ -176,10 +202,10 @@ def generate_ta_thread_with_memory(token: str) -> list[str]:
         logging.info(f"DEBUG: generate_gpt_thread() returned: {thread}")
     except Exception as e:
         logging.error(f"ERROR calling generate_gpt_thread(): {e}")
-        return [f"⚠️ GPT call failed for {token.upper()}"]
+        return [f"⚠️ GPT call failed for {token.upper()}"], chart_path
     if not thread or len(thread) < 4:
         logging.error(f"Incomplete GPT thread for {token.upper()}")
-        return [f"⚠️ GPT returned incomplete thread for {context['token']}"]
+        return [f"⚠️ GPT returned incomplete thread for {context['token']}"], chart_path
 
     else:
         # Clean up any stray sign-offs and ensure final sign-off
@@ -190,13 +216,13 @@ def generate_ta_thread_with_memory(token: str) -> list[str]:
         thread[3] = thread[3].replace("As always, this is NFA", "").strip()
 
         # Append clean sign-off
-        thread[3] += " As always, this is NFA — Hunter 🐾"
+        thread[3] += " Waht do you think? - As always, this is NFA — Hunter 🐾"
 
         # Log TA entry
         summary_text = " ".join(thread)
         log_ta_entry(token, context, summary_text)
 
-        return thread
+        return thread, chart_path
 
 
 if __name__ == "__main__":
