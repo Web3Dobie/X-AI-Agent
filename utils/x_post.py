@@ -22,12 +22,46 @@ from .config import (
 )
 from .limit_guard import has_reached_daily_limit
 from .logger import log_tweet
+import requests
+import sys
+
+
+# ...existing imports...
 
 # ─── HTTP & Library Debug Setup ─────────────────────────────────────────
-# Enable HTTPConnection debug for low-level connection tracing
-http_client.HTTPConnection.debuglevel = 1
+
+# Create a dedicated HTTP debug log file
+http_log_file = os.path.join(LOG_DIR, 'x_post_http.log')
+http_handler = logging.FileHandler(http_log_file)
+http_handler.setLevel(logging.DEBUG)
+http_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+
+# Set up a dedicated logger for HTTP debug
+http_logger = logging.getLogger('http_debug')
+http_logger.setLevel(logging.DEBUG)
+http_logger.addHandler(http_handler)
+
+# Redirect urllib3 and tweepy debug logs to this logger
+logging.getLogger('urllib3').handlers = [http_handler]
 logging.getLogger('urllib3').setLevel(logging.DEBUG)
+logging.getLogger('tweepy').handlers = [http_handler]
 logging.getLogger('tweepy').setLevel(logging.DEBUG)
+
+# Enable low-level HTTPConnection debug output
+http_client.HTTPConnection.debuglevel = 1
+
+# Optionally, also capture http.client output (stdout) into the file
+import sys
+class HTTPDebugStream:
+    def write(self, msg):
+        if msg.strip():
+            http_logger.debug(msg.strip())
+    def flush(self): pass
+
+http_client.HTTPSConnection.debuglevel = 1
+# sys.stdout = HTTPDebugStream()  # Comment this out if you don't want ALL stdout redirected
+
+# ...rest of your code...
 
 # ─── Logging: File + Telegram ────────────────────────────────────────────
 os.makedirs(LOG_DIR, exist_ok=True)
@@ -56,20 +90,45 @@ client = tweepy.Client(
 
 MAX_TWEET_RETRIES = 3
 
+# --- Ping Twitter API to ensure connection is alive ---
+def ping_twitter_api():
+    """Optional: Ping Twitter API to check if reachable before posting."""
+    try:
+        resp = requests.get("https://api.twitter.com/2/tweets", timeout=5)
+        logging.debug(f"Ping Twitter API status: {resp.status_code}")
+        return resp.status_code == 200 or resp.status_code == 401  # 401 if no auth, but endpoint is up
+    except Exception as e:
+        logging.error(f"Ping to Twitter API failed: {e}")
+        return False
+
 # ─── Timing Wrapper ─────────────────────────────────────────────────────
 def timed_create_tweet(text: str, in_reply_to_tweet_id=None, part_index: int = None):
-    """
-    Wraps client.create_tweet to log duration and re-raise exceptions.
-    """
     start = time.monotonic()
     try:
+        logging.debug(f"Making API request: POST https://api.twitter.com/2/tweets")
+        logging.debug(f"Parameters: text={text[:50]}..., in_reply_to_tweet_id={in_reply_to_tweet_id}, part_index={part_index}")
         resp = client.create_tweet(
             text=text,
             in_reply_to_tweet_id=in_reply_to_tweet_id
         )
-    except Exception:
         elapsed = time.monotonic() - start
-        logging.debug(f"HTTP POST /2/tweets failed after {elapsed:.2f}s (part {part_index})")
+        logging.debug(f"HTTP POST /2/tweets succeeded in {elapsed:.2f}s (part {part_index})")
+        return resp
+    except tweepy.errors.Unauthorized as e:
+        elapsed = time.monotonic() - start
+        logging.error(f"HTTP POST /2/tweets 401 Unauthorized after {elapsed:.2f}s (part {part_index}): {e}")
+        raise
+    except tweepy.errors.TooManyRequests as e:
+        elapsed = time.monotonic() - start
+        logging.error(f"HTTP POST /2/tweets 429 Rate limit after {elapsed:.2f}s (part {part_index}): {e}")
+        raise
+    except (tweepy.errors.TweepyException, requests.exceptions.RequestException, ConnectionError) as e:
+        elapsed = time.monotonic() - start
+        logging.error(f"HTTP POST /2/tweets failed after {elapsed:.2f}s (part {part_index}): {e}")
+        raise
+    except Exception as e:
+        elapsed = time.monotonic() - start
+        logging.error(f"HTTP POST /2/tweets failed after {elapsed:.2f}s (part {part_index}): {e}")
         raise
     else:
         elapsed = time.monotonic() - start
@@ -125,6 +184,15 @@ def post_thread(thread_parts: list[str], category: str = 'thread', previous_id=N
             "error": "No thread parts provided"
         }
 
+    # Optional: Pre-flight check
+    if not ping_twitter_api():
+        logging.error("❌ Twitter API is unreachable before posting thread.")
+        return {
+            "posted": 0,
+            "total": len(thread_parts),
+            "error": "Twitter API unreachable"
+        }
+
     logging.info(f"{'🔁 Retrying' if retry else '📢 Posting'} thread of {len(thread_parts)} parts under category '{category}'.")
     posted = 0
     try:
@@ -134,6 +202,7 @@ def post_thread(thread_parts: list[str], category: str = 'thread', previous_id=N
             parts_to_post = thread_parts
         else:
             first = thread_parts[0]
+            logging.debug(f"Posting first thread tweet: {first[:60]}...")
             resp = timed_create_tweet(text=first, part_index=1)
             tweet_id = resp.data['id']
             date_str = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
@@ -151,6 +220,7 @@ def post_thread(thread_parts: list[str], category: str = 'thread', previous_id=N
                 continue
             time.sleep(5)
             try:
+                logging.debug(f"Posting thread reply {posted+1}: {part[:60]}...")
                 resp = timed_create_tweet(text=part, in_reply_to_tweet_id=in_reply_to, part_index=posted+1)
                 in_reply_to = resp.data['id']
                 reply_url = f"https://x.com/{BOT_USER_ID}/status/{in_reply_to}"
@@ -161,6 +231,10 @@ def post_thread(thread_parts: list[str], category: str = 'thread', previous_id=N
                 logging.warning(f"⚠️ Rate limit hit on part {posted+1} — scheduling retry.")
                 schedule_retry_thread(thread_parts[posted:], in_reply_to, category)
                 return
+            except (tweepy.errors.TweepyException, requests.exceptions.RequestException, ConnectionError) as e:
+                logging.error(f"❌ Connection error posting part {posted+1}: {e}")
+                # Optionally, you could retry here as well
+                raise
             except Exception as e:
                 logging.error(f"❌ Error posting part {posted+1}: {e}")
                 raise
