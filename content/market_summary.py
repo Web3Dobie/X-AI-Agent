@@ -5,7 +5,8 @@ Fetches crypto prices, generates a market summary thread via GPT, and posts it t
 import logging
 import os
 import time
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
+from threading import Lock
 
 import requests
 
@@ -57,12 +58,16 @@ def get_top_tokens_data():
         logger.error(f"❌ Error fetching prices: {e}")
         return []
 
+# Thread safety lock
+_market_summary_lock = Lock()
+_last_attempt_time = None
 
 def generate_market_summary_thread():
     """
     Build a GPT thread summarizing prices for tracked tokens.
     Returns a list of tweet-part strings.
     """
+
     tokens_data = get_top_tokens_data()
     if not tokens_data:
         logger.warning("⚠️ No valid token data available.")
@@ -80,6 +85,7 @@ Write a short, clever tweet for each line above,
 including the exact USD price and 24h % change.
 Use emojis and end each with '— Hunter 🐾'.
 Do NOT number them—just separate by newlines."""
+
     thread = generate_gpt_thread(prompt, max_parts=len(tokens_data), delimiter="---")
     if not thread or len(thread) < len(tokens_data):
         logger.warning("⚠️ GPT returned insufficient parts.")
@@ -98,26 +104,46 @@ def post_market_summary_thread():
     Attempts to generate and post the market summary thread,
     retrying up to 5 times with delays if generation fails.
     """
-    max_attempts = 5
-    delay = 900  # seconds (15m)
-    start = time.time()
 
-    for i in range(1, max_attempts + 1):
-        logger.info(f"📈 Attempt {i} for market summary thread.")
-        thread = generate_market_summary_thread()
-        if thread:
-
-            result = post_thread(thread, category="market_summary")
-
-            if result["posted"] == result["total"]:
-                logger.info("✅ Posted market summary thread")
-            else:
-                logger.warning(f"⚠️ Market summary thread incomplete: {result['posted']}/{result['total']} tweets posted (error: {result['error']})")
-           
+    global _last_attempt_time
+    
+    # Ensure only one thread can post at a time
+    if not _market_summary_lock.acquire(blocking=False):
+        logger.warning("⚠️ Another market summary thread is already running")
+        return
+        
+    try:
+        # Check if we've attempted recently (within 5 minutes)
+        now = datetime.now(timezone.utc)
+        if _last_attempt_time and (now - _last_attempt_time) < timedelta(minutes=5):
+            logger.warning("⚠️ Skipping market summary - too soon since last attempt")
             return
-        if time.time() - start < max_attempts * delay:
-            logger.warning(f"⚠️ Attempt {i} failed—retrying in {delay//60}m.")
-            time.sleep(delay)
-        else:
-            break
-    logger.error("❌ All attempts for market summary thread failed.")
+
+        _last_attempt_time = now
+        max_attempts = 5
+        delay = 900  # seconds (15m)
+        start = time.time()
+
+        for i in range(1, max_attempts + 1):
+            logger.info(f"📈 Attempt {i} for market summary thread.")
+            thread = generate_market_summary_thread()
+            if thread:
+
+                result = post_thread(thread, category="market_summary")
+
+                if result["posted"] == result["total"]:
+                    logger.info("✅ Posted market summary thread")
+                else:
+                    logger.warning(f"⚠️ Market summary thread incomplete: {result['posted']}/{result['total']} tweets posted (error: {result['error']})")
+           
+                return
+            if time.time() - start < max_attempts * delay:
+                logger.warning(f"⚠️ Attempt {i} failed—retrying in {delay//60}m.")
+                time.sleep(delay)
+            else:
+                break
+        logger.error("❌ All attempts for market summary thread failed.")
+
+    finally:
+        _market_summary_lock.release()
+        logger.info("🔒 Market summary lock released.")

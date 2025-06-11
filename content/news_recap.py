@@ -5,13 +5,17 @@ Generate and post a daily news recap thread on X summarizing the top crypto head
 import csv
 import logging
 import os
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
+from threading import Lock
 
 from utils import (DATA_DIR, LOG_DIR, generate_gpt_thread, insert_cashtags,
                    insert_mentions, post_thread, get_module_logger)
 
 logger = get_module_logger(__name__)
 
+# Thread safety lock
+_news_thread_lock = Lock()
+_last_news_attempt = None
 
 HEADLINE_LOG = os.path.join(DATA_DIR, "scored_headlines.csv")
 
@@ -74,16 +78,38 @@ def generate_summary_thread():
 def post_news_thread():
     """
     Generate and post the news recap thread on X.
+    Thread-safe implementation.
     """
-    logger.info("🔄 Starting daily news recap thread")
-    thread = generate_summary_thread()
-    if thread:
+    global _last_news_attempt
 
-        result = post_thread(thread, category="news_summary")
+    # Ensure only one thread can post at a time
+    if not _news_thread_lock.acquire(blocking=False):
+        logger.warning("⚠️ Another news recap thread is already running")
+        return
 
-        if result["posted"] == result["total"]:
-            logger.info("✅ Posted news recap thread")
+    try:
+        # Check if we've attempted recently (within 5 minutes)
+        now = datetime.now(timezone.utc)
+        if _last_news_attempt and (now - _last_news_attempt) < timedelta(minutes=5):
+            logger.warning("⚠️ Skipping news recap - too soon since last attempt")
+            return
+
+        _last_news_attempt = now
+        logger.info("🔄 Starting daily news recap thread")
+        thread = generate_summary_thread()
+        
+        if thread:
+            result = post_thread(thread, category="news_summary")
+            if result["posted"] == result["total"]:
+                logger.info("✅ Posted news recap thread")
+            else:
+                logger.warning(f"⚠️ News recap thread incomplete: {result['posted']}/{result['total']} tweets posted (error: {result['error']})")
         else:
-            logger.warning(f"⚠️ News recap thread incomplete: {result['posted']}/{result['total']} tweets posted (error: {result['error']})")
-    else:
-        logger.info("⏭ No news recap thread posted")
+            logger.info("⏭ No news recap thread posted")
+
+    except Exception as e:
+        logger.error(f"❌ News recap thread failed: {e}")
+
+    finally:
+        _news_thread_lock.release()
+        logger.info("🔒 News recap thread lock released.")

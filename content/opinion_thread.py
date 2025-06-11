@@ -5,7 +5,8 @@ Generate and post a 3-part "Hunter Reacts" thread on X for the top headline of t
 import csv
 import logging
 import os
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
+from threading import Lock
 
 import requests
 
@@ -13,6 +14,10 @@ from utils import (DATA_DIR, LOG_DIR, generate_gpt_thread, insert_cashtags,
                    insert_mentions, post_thread, get_module_logger)
 
 logger = get_module_logger(__name__)
+
+# add thread safety lock
+_opinion_thread_lock = Lock()
+_last_opinion_attempt = None
 
 def get_top_headline():
     """
@@ -103,21 +108,38 @@ Headline:
 def post_top_news_thread():
     """
     Fetch, generate, and post the opinion thread on X.
+    Thread-safe implementation.
     """
+    global _last_opinion_attempt
+
+    # Ensure only one thread can post at a time
+    if not _opinion_thread_lock.acquire(blocking=False):
+        logger.warning("⚠️ Another opinion thread is already running")
+        return
+
     try:
+        # Check if we've attempted recently (within 5 minutes)
+        now = datetime.now(timezone.utc)
+        if _last_opinion_attempt and (now - _last_opinion_attempt) < timedelta(minutes=5):
+            logger.warning("⚠️ Skipping opinion thread - too soon since last attempt")
+            return
+
+        _last_opinion_attempt = now
         parts = generate_top_news_opinion()
         if parts:
             parts = [insert_cashtags(insert_mentions(p)) for p in parts]
-
             result = post_thread(parts, category="news_opinion")
 
             if result["posted"] == result["total"]:
                 logger.info("✅ Posted news opinion thread")
             else:
-                logger.warning(f"⚠️ News opinion thread incomplete: {result['posted']}/{result['total']} tweets posted (error: {result['error']})")
-            post_thread(parts, category="news_opinion")
-            logger.info("✅ Opinion thread posted")
+                logger.warning(f"⚠️ News opinion thread incomplete: {result['posted']}/{result['total']} tweets posted (error: {result['error']}")
         else:
             logger.info("⏭ No opinion thread to post")
+
     except Exception as e:
         logger.error(f"❌ Error in opinion thread pipeline: {e}")
+
+    finally:
+        _opinion_thread_lock.release()
+        logger.info("🔒 Opinion thread lock released.")
