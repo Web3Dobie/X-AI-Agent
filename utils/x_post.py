@@ -75,6 +75,15 @@ client = tweepy.Client(
 
 MAX_TWEET_RETRIES = 3
 
+# Initialize v1.1 API client for media uploads
+auth = tweepy.OAuth1UserHandler(
+    TWITTER_CONSUMER_KEY,
+    TWITTER_CONSUMER_SECRET,
+    TWITTER_ACCESS_TOKEN,
+    TWITTER_ACCESS_SECRET
+)
+api = tweepy.API(auth)
+
 # --- Ping Twitter API to ensure connection is alive ---
 def ping_twitter_api():
     """Optional: Ping Twitter API to check if reachable before posting."""
@@ -125,9 +134,14 @@ def timed_create_tweet(text: str, in_reply_to_tweet_id=None, part_index: int = N
 def upload_media(image_path):
     """
     Uploads an image to Twitter/X and returns the media_id.
+    Uses v1.1 API for media upload.
     """
-    media = client.media_upload(image_path)
-    return media.media_id
+    try:
+        media = api.media_upload(filename=image_path)
+        return media.media_id
+    except Exception as e:
+        logging.error(f"❌ Failed to upload media {image_path}: {e}")
+        return None
 
 # ─── Standalone Tweet ────────────────────────────────────────────────────
 def post_tweet(text: str, category: str = 'original'):
