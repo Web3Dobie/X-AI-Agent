@@ -3,9 +3,7 @@ X Post Utilities: posting tweets, quote tweets, and threads to X.
 Includes retry-safe, non-blocking logic and HTTP timing for diagnostics.
 """
 
-import logging
 import http.client as http_client
-import os
 import threading
 import time
 from datetime import datetime, timezone
@@ -26,9 +24,9 @@ import requests
 import sys
 
 
-# ...existing imports...
-
 # ─── HTTP & Library Debug Setup ─────────────────────────────────────────
+import logging
+import os
 
 # Create a dedicated HTTP debug log file
 http_log_file = os.path.join(LOG_DIR, 'x_post_http.log')
@@ -36,34 +34,20 @@ http_handler = logging.FileHandler(http_log_file)
 http_handler.setLevel(logging.DEBUG)
 http_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
 
-# Set up a dedicated logger for HTTP debug
+# Create HTTP debug logger
 http_logger = logging.getLogger('http_debug')
 http_logger.setLevel(logging.DEBUG)
 http_logger.addHandler(http_handler)
+http_logger.propagate = False
 
-# Redirect urllib3 and tweepy debug logs to this logger
-logging.getLogger('urllib3').handlers = [http_handler]
-logging.getLogger('urllib3').setLevel(logging.DEBUG)
-logging.getLogger('tweepy').handlers = [http_handler]
-logging.getLogger('tweepy').setLevel(logging.DEBUG)
+# Set up other HTTP loggers to only write to file
+for logger_name in ['urllib3', 'tweepy']:
+    logger = logging.getLogger(logger_name)
+    logger.handlers = [http_handler]
+    logger.setLevel(logging.DEBUG)
+    logger.propagate = False
 
-# Enable low-level HTTPConnection debug output
-http_client.HTTPConnection.debuglevel = 1
-
-# Optionally, also capture http.client output (stdout) into the file
-import sys
-class HTTPDebugStream:
-    def write(self, msg):
-        if msg.strip():
-            http_logger.debug(msg.strip())
-    def flush(self): pass
-
-http_client.HTTPSConnection.debuglevel = 1
-# sys.stdout = HTTPDebugStream()  # Comment this out if you don't want ALL stdout redirected
-
-# ...rest of your code...
-
-# ─── Logging: File + Telegram ────────────────────────────────────────────
+# Main application logging - WARNING level for terminal
 os.makedirs(LOG_DIR, exist_ok=True)
 log_file = os.path.join(LOG_DIR, 'x_post.log')
 logging.basicConfig(
@@ -71,7 +55,8 @@ logging.basicConfig(
     level=logging.WARNING,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
-# Telegram handler for errors
+
+# Add Telegram handler for errors
 tg_handler = TelegramHandler()
 tg_handler.setLevel(logging.ERROR)
 tg_handler.setFormatter(
