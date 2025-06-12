@@ -12,7 +12,7 @@ from utils import (
     LOG_DIR,
     generate_gpt_thread,
     get_top_headline_last_7_days,
-    post_thread,
+    post_thread, upload_media,
 )
 
 # ─── Configure a module-specific logger for explainer ───────────────────
@@ -65,15 +65,20 @@ Each tweet must be <280 characters and end with '— Hunter 🐾'.
 
     # 3) Prepend exactly one "Hunter Explains 🧵 [YYYY-MM-DD]" header + blank line to the first tweet
     header = f"Hunter Explains 🧵 [{today_str}]\n\n"
-    thread[0] = header + thread[0].lstrip()  # lstrip() to avoid accidental leading whitespace
+    thread[0] = header + thread[0].lstrip()
 
     # 4) Append "Read more: {substack_url}" exactly once on the last tweet
-    #    (remove any trailing whitespace before adding)
     thread[-1] = thread[-1].rstrip() + f" Read more: {substack_url}"
+
+    # 4.5) Prepare image for first tweet
+    img_path = os.path.join(
+        os.path.dirname(os.path.dirname(__file__)), "assets", "hunter_poses", "explaining.png"
+    )
+    media_id = upload_media(img_path) if os.path.exists(img_path) else None
 
     # 5) Post the 3-part thread on X
     try:
-        result = post_thread(thread, category="explainer") or{}
+        result = post_thread(thread, category="explainer", media_id_first=media_id) or {}
         # Provide defaults if helper returned None or incomplete dict
         posted = result.get("posted", len(thread))
         total  = result.get("total", len(thread))
