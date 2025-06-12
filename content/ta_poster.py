@@ -44,8 +44,22 @@ def post_ta_thread():
         if weekday in weekday_token_map:
             token = weekday_token_map[weekday]
             logger.info(f"🔍 Generating TA thread for {token.upper()} ({now.strftime('%Y-%m-%d')})")
-            
-            # ... rest of the existing logic ...
+
+            # Generate thread and chart
+            thread_parts, chart_path = generate_ta_thread_with_memory(token)
+            if not thread_parts or not isinstance(thread_parts, list) or not thread_parts[0]:
+                logger.error(f"❌ TA thread generation failed or returned empty for {token.upper()}")
+                return
+
+            # Upload chart image if available
+            media_id = upload_media(chart_path) if chart_path else None
+
+            # Post the thread
+            result = post_thread(thread_parts, category=f"ta_{token}", media_id_first=media_id)
+            if not result or result.get("posted", 0) == 0:
+                logger.error(f"❌ TA thread post_thread() failed: {result}")
+            else:
+                logger.info(f"✅ Posted TA thread for {token.upper()}")
 
     except Exception as e:
         logger.error(f"❌ TA thread failed: {e}")

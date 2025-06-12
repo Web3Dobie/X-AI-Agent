@@ -229,6 +229,7 @@ if __name__ == "__main__":
     import sys
 
     tok = sys.argv[1] if len(sys.argv) > 1 else "btc"
-    tweets = generate_ta_thread_with_memory(tok)
+    tweets, chart_path = generate_ta_thread_with_memory(tok)
     for idx, txt in enumerate(tweets, 1):
         print(f"--- Tweet {idx} ---\n{txt}\n")
+    print(f"Chart path for tweet 1: {chart_path}")
