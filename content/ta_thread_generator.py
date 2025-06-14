@@ -55,31 +55,95 @@ def fetch_ohlc_binance(symbol="BTCUSDT", interval="1d", limit=1000) -> pd.DataFr
         return pd.DataFrame()
 
 
-def save_token_chart(df, token, out_dir="content/charts"):
+def save_token_chart(df, token, out_dir="content/charts", timeframe_days=365):
     """
-    Saves a price chart with indicators for the given token DataFrame.
+    Saves a multi-panel chart with candlesticks, SMAs, RSI and MACD.
     """
     os.makedirs(out_dir, exist_ok=True)
-    plt.figure(figsize=(10, 5))
-    plt.plot(df.index, df['close'], label='Close', color='blue')
-    if 'sma50' in df:
-        plt.plot(df.index, df['sma50'], label='SMA50', color='orange')
-    if 'sma200' in df:
-        plt.plot(df.index, df['sma200'], label='SMA200', color='green')
-    plt.title(f"{token.upper()} Price Chart")
-    plt.xlabel("Date")
-    plt.ylabel("Price (USDT)")
-    plt.legend()
+    
+    # Get last year of data using proper pandas filtering
+    df_year = df.loc[df.index > (df.index[-1] - pd.Timedelta(days=timeframe_days))]
+    
+    # Create figure with better spacing
+    fig = plt.figure(figsize=(12, 8))
+    # Adjust GridSpec with proper spacing
+    gs = fig.add_gridspec(3, 1, height_ratios=[2, 1, 1], hspace=0.4)
+    
+    # Price panel
+    ax1 = fig.add_subplot(gs[0])
+    
+    # Plot candlesticks
+    for idx, row in df_year.iterrows():
+        color = 'green' if row['close'] >= row['open'] else 'red'
+        bottom = min(row['open'], row['close'])
+        height = abs(row['close'] - row['open'])
+        
+        # Plot body
+        ax1.bar(idx, height, bottom=bottom, width=0.8, 
+                color=color, alpha=0.6)
+        
+        # Plot wicks
+        ax1.plot([idx, idx], [row['low'], row['high']], 
+                 color=color, linewidth=1)
+
+    # Add SMAs
+    if 'sma10' in df_year.columns:
+        ax1.plot(df_year.index, df_year['sma10'], 
+                 label='SMA10', color='purple', linewidth=1)
+    if 'sma50' in df_year.columns:
+        ax1.plot(df_year.index, df_year['sma50'], 
+                 label='SMA50', color='orange', linewidth=1)
+    if 'sma200' in df_year.columns:
+        ax1.plot(df_year.index, df_year['sma200'], 
+                 label='SMA200', color='blue', linewidth=1)
+
+    # Format axes before adding shared axes
+    ax1.set_title(f"{token.upper()} Price Chart - Last 365 Days")
+    ax1.grid(True, alpha=0.3)
+    ax1.legend()
+    plt.setp(ax1.get_xticklabels(), visible=False)  # Hide x-labels for top panel
+
+    # RSI panel with proper spacing
+    ax2 = fig.add_subplot(gs[1])
+    if 'rsi' in df_year.columns:
+        ax2.plot(df_year.index, df_year['rsi'], color='purple', label='RSI')
+        ax2.axhline(y=70, color='r', linestyle='--', alpha=0.3)
+        ax2.axhline(y=30, color='g', linestyle='--', alpha=0.3)
+        ax2.set_ylabel('RSI')
+        ax2.grid(True, alpha=0.3)
+        ax2.legend()
+    plt.setp(ax2.get_xticklabels(), visible=False)  # Hide x-labels for middle panel
+
+    # MACD panel with proper spacing
+    ax3 = fig.add_subplot(gs[2])
+    if all(x in df_year.columns for x in ['macd', 'macd_signal']):
+        ax3.plot(df_year.index, df_year['macd'], color='blue', label='MACD')
+        ax3.plot(df_year.index, df_year['macd_signal'], color='orange', label='Signal')
+        hist = df_year['macd'] - df_year['macd_signal']
+        ax3.bar(df_year.index, hist, color=['red' if x < 0 else 'green' for x in hist], 
+                alpha=0.3)
+        ax3.set_ylabel('MACD')
+        ax3.grid(True, alpha=0.3)
+        ax3.legend()
+
+    # Format x-axis on bottom panel only
+    plt.xticks(rotation=45)
+    
+    # Adjust spacing between subplots
+    fig.align_ylabels([ax1, ax2, ax3])
+    
+    # Save with proper bounds
     img_path = os.path.join(out_dir, f"{token.lower()}_chart.png")
-    plt.tight_layout()
-    plt.savefig(img_path)
+    plt.savefig(img_path, dpi=300, bbox_inches='tight', pad_inches=0.2)
     plt.close()
+    
     return img_path
 
 def add_indicators(df: pd.DataFrame) -> pd.DataFrame:
     """
     Adds SMA, RSI, MACD indicators to DataFrame.
     """
+    df["sma10"] = ta.sma(df["close"], length=10)
     df["sma50"] = ta.sma(df["close"], length=50)
     df["sma200"] = ta.sma(df["close"], length=200)
     df["rsi"] = ta.rsi(df["close"], length=14)
@@ -98,6 +162,7 @@ def log_ta_entry(token: str, context: dict, summary: str):
         "date": datetime.utcnow().strftime("%Y-%m-%d"),
         "token": token.upper(),
         "close": context["close"],
+        "sma10": context["sma10"],  # Added SMA10
         "sma50": context["sma50"],
         "sma200": context["sma200"],
         "rsi": context["rsi"],
@@ -150,6 +215,43 @@ def fetch_ohlc(token: str, days: int = 1000) -> pd.DataFrame:
         raise ValueError(f"Unsupported token: {token}")
     return fetch_ohlc_binance(symbol, limit=days)
 
+def analyze_chart_patterns(df: pd.DataFrame) -> dict:
+    """
+    Analyzes recent price action for common chart patterns.
+    """
+    # Get last 30 days of data for pattern analysis
+    recent = df.loc[df.index > (df.index[-1] - pd.Timedelta(days=30))]  # Fixed deprecated last()
+    
+    # Find local highs and lows with adaptive window
+    window = min(5, len(recent) // 4)  # Adaptive window size
+    highs = recent['high'].rolling(window=window, center=True).max()
+    lows = recent['low'].rolling(window=window, center=True).min()
+    
+    # Analyze trend
+    patterns = {
+        'trend': 'neutral',
+        'pattern': 'none',
+        'support': round(lows.mean(), 2),
+        'resistance': round(highs.mean(), 2)
+    }
+    
+    # Trend analysis with more granular checks
+    high_changes = highs.diff()
+    low_changes = lows.diff()
+    
+    if (high_changes > 0).sum() / len(high_changes) > 0.7:  # 70% of highs are higher
+        patterns['trend'] = 'uptrend'
+        patterns['pattern'] = 'higher highs and higher lows'
+    elif (high_changes < 0).sum() / len(high_changes) > 0.7:  # 70% of highs are lower
+        patterns['trend'] = 'downtrend'
+        patterns['pattern'] = 'lower highs and lower lows'
+    
+    # Enhanced channel detection
+    price_range = (highs.mean() - lows.mean()) / lows.mean()
+    if price_range < 0.05:  # 5% range for channel
+        patterns['pattern'] = 'trading channel'
+    
+    return patterns
 
 def generate_ta_thread_with_memory(token: str) -> tuple[list[str], str]:
     """
@@ -162,7 +264,6 @@ def generate_ta_thread_with_memory(token: str) -> tuple[list[str], str]:
         logging.warning(f"No data to generate TA for {token.upper()}")
         return [f"⚠️ Not enough data to analyze {token.upper()} yet."], None
 
-    # Generate and save the chart here
     chart_path = save_token_chart(df, token)
 
     recent = df.iloc[-1]
@@ -170,12 +271,22 @@ def generate_ta_thread_with_memory(token: str) -> tuple[list[str], str]:
         "token":  token.upper(),
         "date":   datetime.utcnow().strftime("%b %d"),
         "close":  round(recent["close"], 2),
+        "sma10":  round(recent["sma10"], 2),  # Added SMA10
         "sma50":  round(recent["sma50"], 2),
         "sma200": round(recent["sma200"], 2),
         "rsi":    round(recent["rsi"], 1),
         "macd":   round(recent["macd"], 2),
         "macd_signal": round(recent["macd_signal"], 2),
     }
+
+    # Add chart pattern analysis
+    patterns = analyze_chart_patterns(df)
+    context.update({
+        "trend": patterns['trend'],
+        "pattern": patterns['pattern'],
+        "support": patterns['support'],
+        "resistance": patterns['resistance']
+    })
 
     last = fetch_last_ta(token)
     memory = ""
@@ -189,11 +300,15 @@ def generate_ta_thread_with_memory(token: str) -> tuple[list[str], str]:
     prompt = (
         f"You are Hunter, a crypto analyst. Create a 4-part tweet thread for "
         f"${context['token']} as of {context['date']}: close=${context['close']}, "
-        f"SMA50={context['sma50']}, SMA200={context['sma200']}, RSI={context['rsi']}, "
-        f"MACD={context['macd']} vs signal={context['macd_signal']}.{memory} "
+        f"SMA10={context['sma10']}, SMA50={context['sma50']}, SMA200={context['sma200']}, "
+        f"RSI={context['rsi']}, MACD={context['macd']} vs signal={context['macd_signal']}. "
+        f"Chart shows {context['pattern']}, overall {context['trend']} "
+        f"with support ~${context['support']} and resistance ~${context['resistance']}."
+        f"{memory} "
         "Each tweet <280 chars, no emojis, no hashtags. "
         "Start first tweet with 'Daily Dobie Drawings 🎨\n\n'. "
         "End final tweet with 'As always, this is NFA — Hunter'. "
+        "Focus on both indicators and visible chart patterns in your analysis. "
         "Separate tweets with '---'."
     )
     logging.info(f"Generating TA thread for {token.upper()} ({context['date']})")
