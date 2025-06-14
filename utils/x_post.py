@@ -28,6 +28,17 @@ import sys
 import logging
 import os
 
+def log_thread_diagnostics(thread_parts: list[str], category: str):
+    """Log detailed diagnostics about the thread being posted"""
+    logging.info("-" * 80)
+    logging.info(f"🔍 Thread Diagnostics:")
+    logging.info(f"Category: {category}")
+    logging.info(f"Parts: {len(thread_parts)}")
+    logging.info(f"Total characters: {sum(len(p) for p in thread_parts)}")
+    for i, part in enumerate(thread_parts):
+        logging.info(f"Part {i+1} length: {len(part)} chars")
+    logging.info("-" * 80)
+
 # Create a dedicated HTTP debug log file
 http_log_file = os.path.join(LOG_DIR, 'x_post_http.log')
 http_handler = logging.FileHandler(http_log_file)
@@ -74,6 +85,11 @@ client = tweepy.Client(
 )
 
 MAX_TWEET_RETRIES = 3
+MAX_RETRY_ATTEMPTS = 3
+RETRY_DELAYS = [300, 600, 900]  # 5min, 10min, 15min progressive delays
+THREAD_RETRY_DELAY = 900  # 15 minutes for thread retries
+SINGLE_TWEET_RETRY_DELAY = 600  # 10 minutes for single tweet retries
+RATE_LIMIT_DELAY = 5  # 5 seconds between tweets to avoid hitting rate limits
 
 # Initialize v1.1 API client for media uploads
 auth = tweepy.OAuth1UserHandler(
@@ -96,39 +112,42 @@ def ping_twitter_api():
         return False
 
 # ─── Timing Wrapper ─────────────────────────────────────────────────────
-def timed_create_tweet(text: str, in_reply_to_tweet_id=None, part_index: int = None, media_ids=None):
+def timed_create_tweet(text: str, in_reply_to_tweet_id=None, part_index: int = None, media_ids=None, retry_count=0):
+    """Wrapped tweet creation with timing, retries and error handling"""
     start = time.monotonic()
     try:
         logging.debug(f"Making API request: POST https://api.twitter.com/2/tweets")
         logging.debug(f"Parameters: text={text[:50]}..., in_reply_to_tweet_id={in_reply_to_tweet_id}, part_index={part_index}")
+        
+        # Try to create tweet
         resp = client.create_tweet(
-        text=text,
-        in_reply_to_tweet_id=in_reply_to_tweet_id,
-        media_ids=media_ids
-    )
+            text=text,
+            in_reply_to_tweet_id=in_reply_to_tweet_id,
+            media_ids=media_ids
+        )
         elapsed = time.monotonic() - start
         logging.debug(f"HTTP POST /2/tweets succeeded in {elapsed:.2f}s (part {part_index})")
         return resp
-    except tweepy.errors.Unauthorized as e:
-        elapsed = time.monotonic() - start
-        logging.error(f"HTTP POST /2/tweets 401 Unauthorized after {elapsed:.2f}s (part {part_index}): {e}")
-        raise
-    except tweepy.errors.TooManyRequests as e:
-        elapsed = time.monotonic() - start
-        logging.error(f"HTTP POST /2/tweets 429 Rate limit after {elapsed:.2f}s (part {part_index}): {e}")
-        raise
+
     except (tweepy.errors.TweepyException, requests.exceptions.RequestException, ConnectionError) as e:
         elapsed = time.monotonic() - start
+        error_str = str(e).lower()
+        
+        # Handle connection timeouts and errors
+        if ('timeout' in error_str or 'connection' in error_str) and retry_count < MAX_RETRY_ATTEMPTS:
+            delay = RETRY_DELAYS[retry_count]
+            logging.warning(f"Connection issue on attempt {retry_count + 1}/{MAX_RETRY_ATTEMPTS}. Retrying in {delay}s")
+            time.sleep(delay)
+            return timed_create_tweet(text, in_reply_to_tweet_id, part_index, media_ids, retry_count + 1)
+            
+        # If max retries reached or other error, log and raise
         logging.error(f"HTTP POST /2/tweets failed after {elapsed:.2f}s (part {part_index}): {e}")
         raise
+
     except Exception as e:
         elapsed = time.monotonic() - start
         logging.error(f"HTTP POST /2/tweets failed after {elapsed:.2f}s (part {part_index}): {e}")
         raise
-    else:
-        elapsed = time.monotonic() - start
-        logging.debug(f"HTTP POST /2/tweets succeeded in {elapsed:.2f}s (part {part_index})")
-        return resp
 
 # --- Upload Media
 def upload_media(image_path):
@@ -182,6 +201,18 @@ def post_thread(
     retry=False,
     media_id_first=None  # <-- Add this argument
 ):
+
+    """Post a thread with enhanced diagnostics and retry handling"""
+    # Add detailed diagnostics
+    log_thread_diagnostics(thread_parts, category)
+    
+    # Add connection quality check
+    start_ping = time.monotonic()
+    api_status = ping_twitter_api()
+    ping_time = time.monotonic() - start_ping
+    logging.info(f"🌐 API Connection Check: {'✅' if api_status else '❌'} ({ping_time:.2f}s)")
+
+
     if has_reached_daily_limit():
         logging.warning('🚫 Daily tweet limit reached — skipping thread.')
         return {
@@ -217,42 +248,49 @@ def post_thread(
         else:
             first = thread_parts[0]
             logging.debug(f"Posting first thread tweet: {first[:60]}...")
-            # Attach media only to the first tweet if media_id_first is provided
-            if media_id_first:
-                resp = timed_create_tweet(text=first, part_index=1, media_ids=[media_id_first])
-            else:
-                resp = timed_create_tweet(text=first, part_index=1)
-            tweet_id = resp.data['id']
-            date_str = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
-            url = f"https://x.com/{BOT_USER_ID}/status/{tweet_id}"
-            log_tweet(tweet_id, date_str, category, url, 0, 0, 0, 0)
-            logging.info(f"✅ Posted thread first tweet: {url}")
-            in_reply_to = tweet_id
-            posted = 1
-            parts_to_post = thread_parts[1:]
-
+            try:
+                resp = timed_create_tweet(
+                    text=first,
+                    part_index=1,
+                    media_ids=[media_id_first] if media_id_first else None
+                )
+                tweet_id = resp.data['id']
+                date_str = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
+                url = f"https://x.com/{BOT_USER_ID}/status/{tweet_id}"
+                log_tweet(tweet_id, date_str, category, url, 0, 0, 0, 0)
+                logging.info(f"✅ Posted thread first tweet: {url}")
+                in_reply_to = tweet_id
+                posted = 1
+                parts_to_post = thread_parts[1:]
+            except Exception as e:
+                logging.error(f"❌ Failed to post first tweet: {e}")
+                raise
+    
         # Replies
         for part in parts_to_post:
             if not part:
                 logging.warning(f"⚠️ Skipping empty part {posted+1}")
                 continue
-            time.sleep(5)
+            
+            time.sleep(RATE_LIMIT_DELAY)  # Basic rate limiting
             try:
                 logging.debug(f"Posting thread reply {posted+1}: {part[:60]}...")
-                resp = timed_create_tweet(text=part, in_reply_to_tweet_id=in_reply_to, part_index=posted+1)
+                resp = timed_create_tweet(
+                    text=part,
+                    in_reply_to_tweet_id=in_reply_to,
+                    part_index=posted+1
+                )
                 in_reply_to = resp.data['id']
                 reply_url = f"https://x.com/{BOT_USER_ID}/status/{in_reply_to}"
-                log_tweet(in_reply_to, datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'), category, reply_url, 0, 0, 0, 0)
+                log_tweet(in_reply_to, datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'), 
+                         category, reply_url, 0, 0, 0, 0)
                 logging.info(f"↪️ Posted thread reply: {reply_url}")
                 posted += 1
-            except tweepy.TooManyRequests:
-                logging.warning(f"⚠️ Rate limit hit on part {posted+1} — scheduling retry.")
-                schedule_retry_thread(thread_parts[posted:], in_reply_to, category)
-                return
-            except (tweepy.errors.TweepyException, requests.exceptions.RequestException, ConnectionError) as e:
-                logging.error(f"❌ Connection error posting part {posted+1}: {e}")
-                raise
             except Exception as e:
+                # If we've posted at least one tweet, schedule retry for remaining
+                if posted > 0:
+                    remaining = thread_parts[posted:]
+                    schedule_retry_thread(remaining, in_reply_to, category)
                 logging.error(f"❌ Error posting part {posted+1}: {e}")
                 raise
 
@@ -275,7 +313,7 @@ def schedule_retry_thread(remaining_parts: list[str], reply_to_id: str, category
     logging.info(f"⏳ Scheduling retry for {len(remaining_parts)} parts in 15 minutes.")
     def retry_call():
         post_thread(remaining_parts, category=category, previous_id=reply_to_id, retry=True)
-    threading.Timer(900, retry_call).start()
+    threading.Timer(THREAD_RETRY_DELAY, retry_call).start()
 
 
 def schedule_retry_single_tweet(part: str, reply_to_id: str, category: str, retries: int = 1):
@@ -297,4 +335,4 @@ def schedule_retry_single_tweet(part: str, reply_to_id: str, category: str, retr
                 schedule_retry_single_tweet(part, reply_to_id, category, retries=retries+1)
             else:
                 logging.error(f"❌ Retry failed with non-retryable error: {e}")
-    threading.Timer(600, retry_call).start()
+    threading.Timer(SINGLE_TWEET_RETRY_DELAY, retry_call).start()

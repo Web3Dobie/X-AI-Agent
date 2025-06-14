@@ -11,7 +11,8 @@ from utils.config           import LOG_DIR, SUBSTACK_POST_DIR
 from utils.headline_pipeline import get_top_headline_last_7_days
 
 # � rest of your imports �
-
+# --- X/Twitter posting ---
+from .x_post import post_quote_tweet, post_thread, post_tweet, upload_media
 # --- Chart generation ---
 from .charts import clear_charts, generate_charts
 from .config import BACKUP_DIR, CHART_DIR, DATA_DIR, LOG_DIR, TA_POST_DIR
