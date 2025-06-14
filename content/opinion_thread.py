@@ -11,7 +11,7 @@ from threading import Lock
 import requests
 
 from utils import (DATA_DIR, LOG_DIR, generate_gpt_thread, insert_cashtags,
-                   insert_mentions, post_thread, get_module_logger)
+                   insert_mentions, post_thread, get_module_logger, upload_media)
 
 logger = get_module_logger(__name__)
 
@@ -107,31 +107,39 @@ Headline:
 
 def post_top_news_thread():
     """
-    Fetch, generate, and post the opinion thread on X.
+    Fetch, generate, and post the opinion thread on X with Hunter's explaining pose.
     Thread-safe implementation.
     """
     global _last_opinion_attempt
 
-    # Ensure only one thread can post at a time
     if not _opinion_thread_lock.acquire(blocking=False):
         logger.warning("⚠️ Another opinion thread is already running")
         return
 
     try:
-        # Check if we've attempted recently (within 5 minutes)
         now = datetime.now(timezone.utc)
         if _last_opinion_attempt and (now - _last_opinion_attempt) < timedelta(minutes=5):
             logger.warning("⚠️ Skipping opinion thread - too soon since last attempt")
             return
 
         _last_opinion_attempt = now
+        
+        # Upload Hunter's explaining pose
+        try:
+            media_id = upload_media("content/hunter_poses/explaining.png")
+            logger.info("✅ Uploaded Hunter's explaining pose")
+        except Exception as e:
+            logger.error(f"❌ Failed to upload image: {e}")
+            media_id = None
+
         parts = generate_top_news_opinion()
         if parts:
             parts = [insert_cashtags(insert_mentions(p)) for p in parts]
-            result = post_thread(parts, category="news_opinion")
+            # Pass media_id to post_thread for the first tweet
+            result = post_thread(parts, category="news_opinion", media_id_first=media_id)
 
             if result["posted"] == result["total"]:
-                logger.info("✅ Posted news opinion thread")
+                logger.info("✅ Posted news opinion thread with image")
             else:
                 logger.warning(f"⚠️ News opinion thread incomplete: {result['posted']}/{result['total']} tweets posted (error: {result['error']}")
         else:
