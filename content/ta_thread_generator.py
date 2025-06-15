@@ -307,7 +307,7 @@ def generate_ta_thread_with_memory(token: str) -> tuple[list[str], str]:
         f"{memory} "
         "Each tweet <280 chars, no emojis, no hashtags. "
         "Start first tweet with 'Daily Dobie Drawings 🎨\n\n'. "
-        "End final tweet with 'As always, this is NFA — Hunter'. "
+        "End final tweet with 'What do you think ? - As always, this is NFA — Hunter'. "
         "Focus on both indicators and visible chart patterns in your analysis. "
         "Separate tweets with '---'."
     )
