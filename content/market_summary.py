@@ -10,7 +10,8 @@ from threading import Lock
 
 import requests
 
-from utils import LOG_DIR, generate_gpt_thread, post_thread, get_module_logger
+from utils import (LOG_DIR, generate_gpt_thread, post_thread, get_module_logger, 
+                  upload_media) 
 
 logger = get_module_logger(__name__)
 
@@ -101,7 +102,8 @@ Do NOT number them—just separate by newlines."""
 
 def post_market_summary_thread():
     """
-    Attempts to generate and post the market summary thread,
+    Attempts to generate and post the market summary thread with appropriate Hunter pose
+    based on market sentiment (pointing up for bullish, thinking for bearish).
     retrying up to 5 times with delays if generation fails.
     """
 
@@ -128,15 +130,39 @@ def post_market_summary_thread():
             logger.info(f"📈 Attempt {i} for market summary thread.")
             thread = generate_market_summary_thread()
             if thread:
+                # Get token data to analyze market sentiment
+                tokens_data = get_top_tokens_data()
+                if tokens_data:
+                    # Count positive vs negative price changes
+                    positive_changes = sum(1 for t in tokens_data if t['change'] > 0)
+                    negative_changes = len(tokens_data) - positive_changes
+                    
+                    # Choose image based on majority sentiment
+                    image_path = (
+                        "content/assets/hunter_poses/market_up.png" 
+                        if positive_changes > negative_changes
+                        else "content/assets/hunter_poses/market_down.png"
+                    )
+                    
+                    try:
+                        media_id = upload_media(image_path)
+                        sentiment = "bullish" if positive_changes > negative_changes else "bearish"
+                        logger.info(f"✅ Uploaded {sentiment} Hunter pose")
+                    except Exception as e:
+                        logger.error(f"❌ Failed to upload image: {e}")
+                        media_id = None
+                else:
+                    media_id = None
 
-                result = post_thread(thread, category="market_summary")
+                result = post_thread(thread, category="market_summary", media_id_first=media_id)
 
                 if result["posted"] == result["total"]:
-                    logger.info("✅ Posted market summary thread")
+                    logger.info("✅ Posted market summary thread with sentiment-based image")
                 else:
                     logger.warning(f"⚠️ Market summary thread incomplete: {result['posted']}/{result['total']} tweets posted (error: {result['error']})")
            
                 return
+
             if time.time() - start < max_attempts * delay:
                 logger.warning(f"⚠️ Attempt {i} failed—retrying in {delay//60}m.")
                 time.sleep(delay)
