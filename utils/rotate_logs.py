@@ -89,6 +89,19 @@ def rotate_file(src, headers=None, rolling=False):
         except Exception as e:
             print(f"[ALERT] Could not recreate {src}: {e}")
 
+def clear_xrp_flag():
+    """
+    Clear the XRP flag file if it exists.
+    Used to reset XRP tweet tracking between rotations.
+    """
+    flag_file = os.path.join(DATA_DIR, ".xrp_tweeted")
+    if os.path.exists(flag_file):
+        try:
+            os.remove(flag_file)
+            print("[FLAG] Cleared XRP tweet flag")
+        except Exception as e:
+            print(f"[ERROR] Failed to clear XRP flag: {e}")
+
 def rotate_logs():
     """
     Perform weekly rotation of logs and rolling retention for headlines.
