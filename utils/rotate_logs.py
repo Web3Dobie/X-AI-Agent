@@ -1,23 +1,35 @@
 """
 Rotate key CSVs and logs weekly by moving them into dated subfolders under BACKUP_DIR.
-Preserves original functions: rotate_file, rotate_logs, clear_xrp_flag.
+Handles rolling retention for scored headlines and weekly rotation for other logs.
 """
 
 import os
 import shutil
-from datetime import datetime
-from wsgiref import headers
+import csv
+from datetime import datetime, timedelta
+import pandas as pd
 
 from .config import BACKUP_DIR, DATA_DIR, LOG_DIR
 
 # Ensure backup directory exists
 os.makedirs(BACKUP_DIR, exist_ok=True)
 
+# List of log files to rotate weekly
+LOG_FILES = [
+    "gpt.log",
+    "content.market_summary.log",
+    "content.news_recap.log",
+    "content.opinion_thread.log",
+    "content.ta_poster.log",
+    "utils.rss_fetch.log",
+    "notion_logger.log",
+    "x_post_http.log"
+]
 
-def rotate_file(src, headers=None):
+def rotate_file(src, headers=None, rolling=False):
     """
     Move the source file to BACKUP_DIR with a date suffix.
-    If the file is locked (e.g., activity.log), rename/truncate accordingly.
+    For rolling retention, only moves records older than 7 days.
     Optionally recreate the file with headers.
     """
     if not os.path.exists(src):
@@ -26,33 +38,46 @@ def rotate_file(src, headers=None):
     date_str = datetime.utcnow().strftime("%Y-%m-%d")
     base = os.path.basename(src)
     name, ext = os.path.splitext(base)
-    # Create a subdirectory per file type for organization
     subdir = f"{name}_backup"
     dst_dir = os.path.join(BACKUP_DIR, subdir)
     os.makedirs(dst_dir, exist_ok=True)
 
     dst = os.path.join(dst_dir, f"{name}_{date_str}{ext}")
 
+    if rolling and ext == '.csv':
+        try:
+            # Read CSV with pandas
+            df = pd.read_csv(src)
+            df['timestamp'] = pd.to_datetime(df['timestamp'])
+            
+            # Split into recent and old data
+            cutoff = datetime.utcnow() - timedelta(days=7)
+            recent = df[df['timestamp'] > cutoff]
+            old = df[df['timestamp'] <= cutoff]
+
+            # Save old data to backup
+            if not old.empty:
+                old.to_csv(dst, index=False)
+                print(f"[ROLLING] Moved {len(old)} old records to {dst}")
+
+            # Keep recent data in original file
+            recent.to_csv(src, index=False)
+            print(f"[KEEP] Retained {len(recent)} recent records in {src}")
+            return
+            
+        except Exception as e:
+            print(f"[ERROR] Failed to process rolling retention for {src}: {e}")
+            return
+
+    # Standard file rotation
     try:
         shutil.move(src, dst)
         print(f"[FOLDER] Moved {src} → {dst}")
-    except PermissionError:
-        if "activity.log" in src:
-            print("[ALERT] activity.log is locked. Truncating instead.")
-            try:
-                with open(src, "w", encoding="utf-8"):
-                    pass  # truncate
-                print("Truncated activity.log.")
-            except Exception as e:
-                print(f"[ERROR] Failed to truncate {src}: {e}")
-        else:
-            print(f"[ERROR] Permission denied moving {src}")
-        return
     except Exception as e:
         print(f"[ERROR] Failed to move {src}: {e}")
         return
 
-    # Only recreate the file with headers if requested
+    # Recreate file with headers if needed
     if headers:
         try:
             with open(src, "w", encoding="utf-8") as f:
@@ -66,35 +91,28 @@ def rotate_file(src, headers=None):
 
 def rotate_logs():
     """
-    Perform weekly rotation of key data and log files.
+    Perform weekly rotation of logs and rolling retention for headlines.
     """
-    print("Rotating weekly logs...")
+    print("Starting log rotation...")
 
-    # Rotate scored headlines CSV
+    # Rolling retention for scored headlines
     rotate_file(
         os.path.join(DATA_DIR, "scored_headlines.csv"),
-        headers = ["score", "headline", "url", "ticker", "timestamp"],
+        headers=["score", "headline", "url", "ticker", "timestamp"],
+        rolling=True
     )
-    # Rotate tweet log CSV
+
+    # Weekly rotation for tweet log
     rotate_file(
         os.path.join(DATA_DIR, "tweet_log.csv"),
-        headers="tweet_id,timestamp,type,category,text,engagement_score",
+        headers="tweet_id,timestamp,type,category,text,engagement_score"
     )
-    # Rotate activity log
-    rotate_file(os.path.join(LOG_DIR, "activity.log"))
 
-    print("[OK] Weekly log rotation complete.")
+    # Rotate all log files
+    for log_file in LOG_FILES:
+        rotate_file(os.path.join(LOG_DIR, log_file))
 
-
-def clear_xrp_flag():
-    """
-    Remove the xrp_used.flag daily to reset the flag state.
-    """
-    flag_path = os.path.join(LOG_DIR, "xrp_used.flag")
-    if os.path.exists(flag_path):
-        os.remove(flag_path)
-        print("Reset xrp_used.flag")
-
+    print("[OK] Log rotation complete.")
 
 if __name__ == "__main__":
     rotate_logs()
