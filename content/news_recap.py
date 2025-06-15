@@ -95,13 +95,23 @@ def post_news_thread():
             return
 
         _last_news_attempt = now
+
+        # Upload Hunter's explaining pose
+        try:
+            media_id = upload_media("content/assets/hunter_poses/explaining.png")
+            logger.info("✅ Uploaded Hunter's explaining pose")
+        except Exception as e:
+            logger.error(f"❌ Failed to upload image: {e}")
+            media_id = None
+
         logger.info("🔄 Starting daily news recap thread")
         thread = generate_summary_thread()
         
         if thread:
-            result = post_thread(thread, category="news_summary")
+            # Pass media_id to post_thread for the first tweet
+            result = post_thread(thread, category="news_summary", media_id_first=media_id)
             if result["posted"] == result["total"]:
-                logger.info("✅ Posted news recap thread")
+                logger.info("✅ Posted news recap thread with image")
             else:
                 logger.warning(f"⚠️ News recap thread incomplete: {result['posted']}/{result['total']} tweets posted (error: {result['error']})")
         else:
