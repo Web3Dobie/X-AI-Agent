@@ -9,7 +9,7 @@ from datetime import datetime, timezone, timedelta
 from threading import Lock
 
 from utils import (DATA_DIR, LOG_DIR, generate_gpt_thread, insert_cashtags,
-                   insert_mentions, post_thread, get_module_logger, media_upload)
+                   insert_mentions, post_thread, get_module_logger, upload_media)
 
 logger = get_module_logger(__name__)
 
@@ -98,7 +98,7 @@ def post_news_thread():
 
         # Upload Hunter's explaining pose
         try:
-            media_id = media_upload("content/assets/hunter_poses/explaining.png")
+            media_id = upload_media("content/assets/hunter_poses/explaining.png")
             logger.info("✅ Uploaded Hunter's explaining pose")
         except Exception as e:
             logger.error(f"❌ Failed to upload image: {e}")
