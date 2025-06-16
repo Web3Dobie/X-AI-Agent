@@ -24,6 +24,18 @@ TOKENS = {
     "dogecoin": "DOGE",
 }
 
+TOKEN_IMAGES = {
+    "BTC": {"up": "content/assets/hunter_poses/BTC_up.png", 
+            "down": "content/assets/hunter_poses/BTC_down.png"},
+    "ETH": {"up": "content/assets/hunter_poses/ETH_up.png", 
+            "down": "content/assets/hunter_poses/ETH_down.png"},
+    "SOL": {"up": "content/assets/hunter_poses/SOL_up.png", 
+            "down": "content/assets/hunter_poses/SOL_down.png"},
+    "XRP": {"up": "content/assets/hunter_poses/XRP_up.png", 
+            "down": "content/assets/hunter_poses/XRP_down.png"},
+    "DOGE": {"up": "content/assets/hunter_poses/DOGE_up.png", 
+             "down": "content/assets/hunter_poses/DOGE_down.png"}
+}
 
 def get_top_tokens_data():
     """
@@ -53,6 +65,10 @@ def get_top_tokens_data():
         if len(results) < 3:
             logger.warning("⚠️ Fewer than 3 valid tokens—skipping.")
             return []
+
+        # Sort by change percentage (descending for gains, ascending for losses)
+        all_negative = all(t['change'] < 0 for t in results)
+        results.sort(key=lambda x: x['change'], reverse=not all_negative)
 
         return results
     except Exception as e:
@@ -130,24 +146,19 @@ def post_market_summary_thread():
             logger.info(f"📈 Attempt {i} for market summary thread.")
             thread = generate_market_summary_thread()
             if thread:
-                # Get token data to analyze market sentiment
+                # Get sorted token data
                 tokens_data = get_top_tokens_data()
                 if tokens_data:
-                    # Count positive vs negative price changes
-                    positive_changes = sum(1 for t in tokens_data if t['change'] > 0)
-                    negative_changes = len(tokens_data) - positive_changes
+                    leading_token = tokens_data[0]['ticker']
+                    all_negative = all(t['change'] < 0 for t in tokens_data)
                     
-                    # Choose image based on majority sentiment
-                    image_path = (
-                        "content/assets/hunter_poses/market_up.png" 
-                        if positive_changes > negative_changes
-                        else "content/assets/hunter_poses/market_down.png"
-                    )
+                    # Get appropriate image based on leading token and sentiment
+                    image_type = "down" if all_negative else "up"
+                    image_path = TOKEN_IMAGES[leading_token][image_type]
                     
                     try:
                         media_id = upload_media(image_path)
-                        sentiment = "bullish" if positive_changes > negative_changes else "bearish"
-                        logger.info(f"✅ Uploaded {sentiment} Hunter pose")
+                        logger.info(f"✅ Uploaded {leading_token}_{image_type} Hunter pose")
                     except Exception as e:
                         logger.error(f"❌ Failed to upload image: {e}")
                         media_id = None
