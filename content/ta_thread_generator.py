@@ -270,13 +270,13 @@ def generate_ta_thread_with_memory(token: str) -> tuple[list[str], str]:
     context = {
         "token":  token.upper(),
         "date":   datetime.utcnow().strftime("%b %d"),
-        "close":  round(recent["close"], 2),
-        "sma10":  round(recent["sma10"], 2),  # Added SMA10
-        "sma50":  round(recent["sma50"], 2),
-        "sma200": round(recent["sma200"], 2),
-        "rsi":    round(recent["rsi"], 1),
-        "macd":   round(recent["macd"], 2),
-        "macd_signal": round(recent["macd_signal"], 2),
+        "close":  f"{recent['close']:,.2f}",  # Add comma formatting
+        "sma10":  f"{recent['sma10']:,.2f}",  # Add comma formatting
+        "sma50":  f"{recent['sma50']:,.2f}",  # Add comma formatting
+        "sma200": f"{recent['sma200']:,.2f}", # Add comma formatting
+        "rsi":    f"{recent['rsi']:.1f}",
+        "macd":   f"{recent['macd']:.3f}",
+        "macd_signal": f"{recent['macd_signal']:.3f}",
     }
 
     # Add chart pattern analysis
@@ -300,14 +300,13 @@ def generate_ta_thread_with_memory(token: str) -> tuple[list[str], str]:
     prompt = (
         f"You are Hunter, a crypto analyst. Create a 4-part tweet thread for "
         f"${context['token']} as of {context['date']}: close=${context['close']}, "
-        f"SMA10={context['sma10']}, SMA50={context['sma50']}, SMA200={context['sma200']}, "
+        f"SMA10=${context['sma10']}, SMA50=${context['sma50']}, SMA200=${context['sma200']}, "  # Add $ signs
         f"RSI={context['rsi']}, MACD={context['macd']} vs signal={context['macd_signal']}. "
         f"Chart shows {context['pattern']}, overall {context['trend']} "
-        f"with support ~${context['support']} and resistance ~${context['resistance']}."
+        f"with support ~${context['support']:,.2f} and resistance ~${context['resistance']:,.2f}."  # Format support/resistance
         f"{memory} "
         "Each tweet <280 chars, no emojis, no hashtags. "
         "Start first tweet with 'Daily Dobie Drawings 🎨\n\n'. "
-        "End final tweet with 'What do you think ? - As always, this is NFA — Hunter'. "
         "Focus on both indicators and visible chart patterns in your analysis. "
         "Separate tweets with '---'."
     )
