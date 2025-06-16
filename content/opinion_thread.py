@@ -126,8 +126,8 @@ def post_top_news_thread():
         
         # Upload Hunter's explaining pose
         try:
-            media_id = upload_media("content/assets/hunter_poses/pointing.png")
-            logger.info("✅ Uploaded Hunter's explaining pose")
+            media_id = upload_media("content/assets/hunter_poses/waving.png")
+            logger.info("✅ Uploaded Hunter's waving pose")
         except Exception as e:
             logger.error(f"❌ Failed to upload image: {e}")
             media_id = None

@@ -13,7 +13,7 @@ import pandas_ta as ta
 import requests
 import matplotlib.pyplot as plt
 
-from utils import DATA_DIR, LOG_DIR, generate_gpt_thread
+from utils import DATA_DIR, LOG_DIR, generate_gpt_thread, post_thread, upload_media 
 
 # Configure logging
 log_file = os.path.join(LOG_DIR, "ta_thread_generator.log")
@@ -339,12 +339,80 @@ def generate_ta_thread_with_memory(token: str) -> tuple[list[str], str]:
 
         return thread, chart_path
 
+def post_substack_announcement(substack_slug: str) -> bool:
+    """
+    Generates and posts a tweet announcing the latest Substack TA article.
+    
+    Args:
+        substack_slug: The unique identifier/slug of the Substack article
+    
+    Returns:
+        bool: True if posted successfully, False otherwise
+    """
+    try:
+        # Generate tweet content
+        date_str = datetime.now().strftime("%B %d, %Y")
+        image_path = "content/assets/hunter_poses/substack_ta.png"
+        
+        tweet = (
+            f"🎨 Weekly Technical Analysis - {date_str}\n\n"
+            f"Deep dive into $BTC, $ETH, $SOL, $XRP, and $DOGE\n\n"
+            f"✨ Charts, patterns, and insights await...\n\n"
+            f"🔗 Read more:\n"
+            f"https://web3dobie.substack.com/p/{substack_slug}\n\n"
+            f"As always, this is NFA 🐾"
+        )
+        
+        # Verify image exists
+        if not os.path.exists(image_path):
+            logging.error(f"Image not found: {image_path}")
+            return False
+            
+        # Upload media and post
+        media_id = upload_media(image_path)
+        if not media_id:
+            logging.error("Failed to upload image")
+            return False
+            
+        result = post_thread(
+            thread_parts=[tweet],
+            category='substack_announcement',
+            media_id_first=media_id
+        )
+        
+        success = result.get("posted", 0) == 1
+        if success:
+            logging.info("✅ Successfully posted Substack announcement")
+        else:
+            logging.error(f"❌ Failed to post announcement: {result.get('error', 'unknown error')}")
+        return success
+            
+    except Exception as e:
+        logging.error(f"Error posting Substack announcement: {str(e)}")
+        return False
 
+# Update main execution block
 if __name__ == "__main__":
     import sys
 
-    tok = sys.argv[1] if len(sys.argv) > 1 else "btc"
-    tweets, chart_path = generate_ta_thread_with_memory(tok)
-    for idx, txt in enumerate(tweets, 1):
-        print(f"--- Tweet {idx} ---\n{txt}\n")
-    print(f"Chart path for tweet 1: {chart_path}")
+    if len(sys.argv) > 1 and sys.argv[1] == "--substack":
+        if len(sys.argv) < 3:
+            print("Usage: python3 ta_thread_generator.py --substack <substack-slug>")
+            sys.exit(1)
+            
+        substack_slug = sys.argv[2]
+        success = post_substack_announcement(substack_slug)
+        
+        if success:
+            print("✅ Successfully posted Substack announcement!")
+        else:
+            print("❌ Failed to post Substack announcement")
+            sys.exit(1)
+    
+    else:
+        # Default to BTC analysis if no valid args
+        tok = sys.argv[1] if len(sys.argv) > 1 else "btc"
+        tweets, chart_path = generate_ta_thread_with_memory(tok)
+        for idx, txt in enumerate(tweets, 1):
+            print(f"--- Tweet {idx} ---\n{txt}\n")
+        print(f"Chart path for tweet 1: {chart_path}")
