@@ -24,19 +24,17 @@ logging.basicConfig(
 # CSV file to record all scored headlines
 SCORED_CSV = os.path.join(DATA_DIR, "scored_headlines.csv")
 
-
-def score_headline(text: str, url: str = "", ticker: str = "") -> float:
+def score_headlines(items: list[dict], min_score: int = 7) -> list[dict]:
     """
-    Score a single headline and return its float score.
-    """
-    records = score_headlines([{"headline": text, "url": url, "ticker": ticker}])
-    return records[0]["score"] if records else 0.0
-
-
-def score_headlines(items: list[dict]) -> list[dict]:
-    """
-    items: list of {'headline': str, 'url': str, 'ticker': str (optional)}
-    Returns list of dicts with 'headline', 'url', 'ticker', 'score', 'timestamp'
+    Score headlines and only return/save those meeting minimum score threshold.
+    
+    Args:
+        items: list of {'headline': str, 'url': str, 'ticker': str (optional)}
+        min_score: minimum score threshold (default: 7)
+    
+    Returns:
+        list of dicts with 'headline', 'url', 'ticker', 'score', 'timestamp'
+        only including headlines scoring >= min_score
     """
     results = []
     for item in items:
@@ -44,7 +42,7 @@ def score_headlines(items: list[dict]) -> list[dict]:
         url = item.get("url", "")
         ticker = item.get("ticker", "")
 
-        # If pipeline didnt supply a ticker, backfill:
+        # If pipeline didnt supply a ticker, backfill:
         if not ticker:
             ticker = extract_ticker(headline)
 
@@ -57,38 +55,42 @@ def score_headlines(items: list[dict]) -> list[dict]:
         
         # Try parsing response as float, then round to nearest int (clamp to [1..10])
         try:
-             raw = float(response.strip())
-             score = int(round(raw))
+            raw = float(response.strip())
+            score = int(round(raw))
         except Exception:
-             score = 1
+            score = 1
 
         if score < 1:
             score = 1
         elif score > 10:
             score = 10
 
-        timestamp = datetime.utcnow().isoformat()
-        record = {
-            "headline": headline,
-            "url":       url,
-            "ticker":    ticker,
-            "score":     score,
-            "timestamp": timestamp,
-        }
+        # Only process headlines meeting minimum score
+        if score >= min_score:
+            timestamp = datetime.utcnow().isoformat()
+            record = {
+                "headline": headline,
+                "url": url,
+                "ticker": ticker,
+                "score": score,
+                "timestamp": timestamp,
+            }
 
-        # Append to CSV and log to Notion
-        _append_to_csv(record)
-        notion_log_headline(
-            date_ingested=timestamp,
-            headline=headline,
-            relevance_score=score,
-            viral_score=score,
-            used=False,
-            source_url=url,
-        )
+            # Append to CSV and log to Notion (moved inside if block)
+            _append_to_csv(record)
+            notion_log_headline(
+                date_ingested=timestamp,
+                headline=headline,
+                relevance_score=score,
+                viral_score=score,
+                used=False,
+                source_url=url,
+            )
 
-        logging.info(f"Scored headline: '{headline}' -> {score}")
-        results.append(record)
+            logging.info(f"Scored headline: '{headline}' -> {score}")
+            results.append(record)
+        else:
+            logging.info(f"Skipped low-scoring headline: '{headline}' -> {score}")
 
     return results
 

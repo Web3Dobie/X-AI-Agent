@@ -39,7 +39,7 @@ from .rotate_logs import clear_xrp_flag, rotate_logs
 # --- RSS & headline pipeline ---
 from .rss_fetch import fetch_headlines
 # --- Scoring & logging headlines ---
-from .scorer import score_headline, score_headlines, write_headlines
+from .scorer import score_headlines, write_headlines
 from .substack_client import SubstackClient
 # --- Text utilities ---
 from .text_utils import insert_cashtags, insert_mentions
