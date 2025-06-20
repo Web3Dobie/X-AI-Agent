@@ -21,7 +21,7 @@ from .mailer import send_email_alert
 from .generate_btc_technical_charts import fetch_binance_ohlcv
 from .generate_btc_technical_charts import main as generate_btc_charts
 # --- GPT wrappers ---
-from .gpt import (client, generate_gpt_text, generate_gpt_thread,
+from .gpt import (generate_gpt_text, generate_gpt_thread,
                   generate_gpt_tweet)
 from .headline_pipeline import (fetch_and_score_headlines,
                                 get_top_headline_last_7_days)

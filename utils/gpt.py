@@ -88,8 +88,8 @@ def generate_gpt_thread(
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": prompt},
         ],
-        max_tokens=max_tokens,
-        temperature=0.85,
+        "max_tokens": max_tokens,
+        "temperature": 0.85,
         "top_p": 1.0,
     }
         
