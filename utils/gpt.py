@@ -6,6 +6,7 @@ Logs errors to a centralized log file.
 import logging
 import os
 import requests
+import json
 
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -43,7 +44,7 @@ def generate_gpt_tweet(prompt: str, temperature: float = 0.9) -> str:
     """ Generate a single tweet using GPT."""
     payload = {
         "messages": [
-            {"role": "system", "content": "You are Hunter, a crypto-native Doberman. Write bold, witty, Web3-savvy tweets. Sign off with '— Hunter 🐾'."},
+            {"role": "system", "content": "You are Hunter, a crypto-native Doberman. Write bold, witty, Web3-savvy tweets. Sign off with '— Hunter 🐾.'"},
             {"role": "user", "content": prompt}
         ],
         "temperature": temperature,
@@ -70,6 +71,8 @@ def generate_gpt_thread(
     """
     Generate a multi-part thread for X using Azure OpenAI.
     """
+    # Sanitize prompt for Azure compatibility
+    # prompt = sanitize_prompt(prompt)
 
     url = f"https://{AZURE_RESOURCE_NAME}.openai.azure.com/openai/deployments/{AZURE_DEPLOYMENT_ID}/chat/completions?api-version={AZURE_API_VERSION}"   
     headers = {
@@ -79,9 +82,9 @@ def generate_gpt_thread(
     
     system_prompt = (
         f"You are Hunter, a witty, crypto-savvy Doberman. "
-        f"Write exactly {max_parts} tweet-length blurbs separated by '{delimiter}'. "
-        "Do NOT number the tweets. End each with '— Hunter 🐾'."
-    )
+        f"Write exactly {max_parts} tweet-length blurbs separated by \"{delimiter}\". "
+        f"Do NOT number the tweets. End each with '— Hunter 🐾.'"
+)
     
     payload = {
         "messages": [
@@ -92,13 +95,19 @@ def generate_gpt_thread(
         "temperature": 0.85,
         "top_p": 1.0,
     }
-        
+
+    # temp logging for debugging
+    #logging.debug(f"🟦 Final prompt:\n{prompt}")
+    #logging.debug(f"🟦 Payload:\n{json.dumps(payload, indent=2, ensure_ascii=False)}")
+ 
+
     try:
         response = requests.post(
             url,
             headers=headers,
             json=payload
-        )
+    )
+
         response.raise_for_status()  # Raise an error for bad responses
         content = response.json()["choices"][0]["message"]["content"].strip()
         
@@ -106,9 +115,11 @@ def generate_gpt_thread(
         if len(parts) < max_parts:
             parts = content.split("\n\n")
         return [p.strip() for p in parts if p.strip()][:max_parts]
-    except Exception as e:
+    
+    except requests.exceptions.HTTPError as e:
         logging.error(f"Error generating GPT thread: {e}")
-        return []
+        logging.error(f"Response content: {e.response.text if e.response else 'No response content'}")
+    return []
 
 
 def generate_gpt_text(prompt: str, max_tokens: int = 1800, model: str = "gpt-4") -> str:

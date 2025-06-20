@@ -79,3 +79,22 @@ def insert_mentions(text: str) -> str:
         if keyword.lower() in text.lower() and handle not in text:
             text += f" {handle}"
     return text
+
+def sanitize_prompt(text: str) -> str:
+    """
+    Cleans up input text to avoid Azure OpenAI 400 errors.
+    - Converts smart quotes to straight quotes
+    - Replaces escaped emoji/dash with raw characters
+    - Strips weird invisible characters (e.g. zero-width spaces)
+    """
+    return (
+        text.replace("‘", "'")
+            .replace("’", "'")
+            .replace("“", '"')
+            .replace("”", '"')
+            .replace("\\u2014", "—")  # em dash
+            .replace("\\ud83d\\udc3e", "🐾")  # paw print
+            .replace("— Hunter 🐾", "— Hunter 🐾")  # normalize if double escaped
+            .replace("\u200b", "")  # remove zero-width space
+            .strip()
+    )
