@@ -5,6 +5,7 @@ Logs scores to CSV and Notion.
 import csv
 import logging
 import os
+import re
 from datetime import datetime
 
 from .config import DATA_DIR, LOG_DIR
@@ -23,6 +24,31 @@ logging.basicConfig(
 
 # CSV file to record all scored headlines
 SCORED_CSV = os.path.join(DATA_DIR, "scored_headlines.csv")
+
+def extract_score_from_response(response: str) -> int:
+    """
+    Extracts numerical score from GPT response, handling cases like "8/10" and "8 out of 10".
+    
+    Args:
+        response: Full text response from GPT
+    
+    Returns:
+        Parsed integer score clamped between 1 and 10, or 1 if parsing fails.
+    """
+    try:
+        # Extended regex to match both "X/10" and "X out of 10"
+        match = re.search(r"\b([1-9]|10)\s*(?:/|out of)\s*10\b", response, re.IGNORECASE)
+        if match:
+            score_raw = int(match.group(1))
+            return max(1, min(10, score_raw))  # Clamp to [1..10]
+        else:
+            # If no match, fallback to minimum score
+            logging.warning(f"Couldn't find a valid score pattern in response: {response}")
+            return 1
+    except Exception as e:
+        logging.error(f"Error extracting score from response: '{response}'. Error: {e}")
+        return 1
+
 
 def score_headlines(items: list[dict], min_score: int = 7) -> list[dict]:
     """
@@ -55,9 +81,11 @@ def score_headlines(items: list[dict], min_score: int = 7) -> list[dict]:
         
         # Try parsing response as float, then round to nearest int (clamp to [1..10])
         try:
-            raw = float(response.strip())
-            score = int(round(raw))
-        except Exception:
+        #    raw = float(response.strip())
+        #    score = int(round(raw))
+            score = extract_score_from_response(response)
+        except Exception as e:
+            logging.error(f"Failed to parse the score from response: {response}. Error: {e}")
             score = 1
 
         if score < 1:
