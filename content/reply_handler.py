@@ -1,11 +1,7 @@
-"""
-Reply Handler Module: scans mentions of the bot on X and replies once per run.
-Centralizes logging to LOG_DIR and uses utils/gpt for reply generation.
-"""
-
 import logging
 import os
 import time
+import csv
 from datetime import datetime
 
 import tweepy
@@ -35,15 +31,34 @@ client = tweepy.Client(
     wait_on_rate_limit=False,
 )
 
-# Maximum replies to send in one run    
 MAX_REPLIES_PER_RUN = 1
+
+def load_own_tweet_ids():
+    """
+    Load tweet IDs from tweet_log.csv
+    """
+    tweet_ids = set()
+    try:
+        with open('data/tweet_log.csv', newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                tweet_ids.add(row['tweet_id'])
+        logging.info(f"📄 Loaded {len(tweet_ids)} own tweet IDs for reply matching.")
+    except Exception as e:
+        logging.error(f"❌ Failed to load tweet_log.csv: {e}")
+    return tweet_ids
 
 def reply_to_comments(bot_id=None):
     """
-    Scans the most recent mentions of the bot and replies to the first valid one.
+    Scans mentions and replies to tweets that are direct replies to our own tweets.
     """
     if not bot_id:
         logging.error("⚠️ Missing bot user ID")
+        return
+
+    own_tweet_ids = load_own_tweet_ids()
+    if not own_tweet_ids:
+        logging.warning("⚠️ No tweet IDs loaded — skipping replies.")
         return
 
     logging.info(f"💬 Scanning for recent mentions with bot_id={bot_id}")
@@ -52,7 +67,7 @@ def reply_to_comments(bot_id=None):
     try:
         logging.info("⏱ Calling get_users_mentions")
         start = time.time()
-        mentions = client.get_users_mentions(id=bot_id, max_results=10)
+        mentions = client.get_users_mentions(id=bot_id, max_results=5)
         elapsed = time.time() - start
         logging.info(f"✅ get_users_mentions completed in {elapsed:.2f} seconds")
 
@@ -61,7 +76,7 @@ def reply_to_comments(bot_id=None):
         reset_time = datetime.fromtimestamp(reset_ts)
         wait_seconds = reset_ts - int(time.time())
         logging.warning(f"🚦 Rate limit hit. Can retry after {reset_time} UTC (in {wait_seconds} seconds)")
-        return  # Exit cleanly — let your scheduler handle retry
+        return
 
     except tweepy.TweepyException as e:
         logging.error(f"❌ Tweepy error fetching mentions: {e}")
@@ -77,16 +92,27 @@ def reply_to_comments(bot_id=None):
         return
 
     for tweet in data:
-        logging.debug(f"Processing mention {tweet.id}: in_reply_to_user_id={tweet.in_reply_to_user_id}, bot_id={bot_id}")
+        try:
+            full_tweet = client.get_tweet(tweet.id, tweet_fields=["in_reply_to_status_id"])
+            in_reply_to_status_id = getattr(full_tweet.data, "in_reply_to_status_id", None)
+        except tweepy.TweepyException as e:
+            logging.error(f"❌ Tweepy error fetching tweet {tweet.id}: {e}")
+            continue
+        except Exception as e:
+            logging.error(f"❌ General error fetching tweet {tweet.id}: {e}")
+            continue
 
-        if tweet.in_reply_to_user_id is None:
+        logging.debug(f"Processing {tweet.id}: in_reply_to_status_id={in_reply_to_status_id}")
+
+        if not in_reply_to_status_id:
             logging.debug(f"Skipping {tweet.id}: not a reply to any tweet")
             continue
 
-        if str(tweet.in_reply_to_user_id) != str(bot_id):
-            logging.debug(f"Skipping {tweet.id}: not a reply to our bot's tweet")
+        if str(in_reply_to_status_id) not in own_tweet_ids:
+            logging.debug(f"Skipping {tweet.id}: not a reply to our tweet")
             continue
 
+        # Valid reply — proceed
         tweet_id = tweet.id
         prompt_text = tweet.text.strip()
         logging.info(f"✍️ Generating reply for tweet ID {tweet_id} with text: {prompt_text}")
@@ -103,6 +129,7 @@ def reply_to_comments(bot_id=None):
             reply_url = f"https://x.com/{username}/status/{new_tweet_id}"
 
             date_str = datetime.utcnow().strftime("%Y-%m-%d")
+            # Assuming you have log_tweet imported
             log_tweet(new_tweet_id, date_str, "reply", reply_url, 0, 0, 0, 0)
             logging.info(f"✅ Replied to mention: {reply_url}")
 
