@@ -1,7 +1,7 @@
 import sys, io, logging
 import os
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 import schedule
 from dotenv import load_dotenv
@@ -16,6 +16,11 @@ from content.top_news_or_explainer import post_top_news_or_skip
 from content.explainer_writer import generate_substack_explainer
 from content.ta_substack_generator import generate_ta_substack_article
 from utils import (clear_xrp_flag, fetch_and_score_headlines, rotate_logs)
+from world3_agent.listing_alerts import run_listing_alerts
+from world3_agent.bnb_token_sniffer import run_bnb_token_sniffer
+
+
+
 
 load_dotenv()
 
@@ -78,6 +83,8 @@ def setup_weekend_random_posts():
 schedule.every().hour.at(":05").do(fetch_and_score_headlines)
 
 # --- Posting Schedule ---
+schedule.every(20).minutes.do(lambda: run_in_thread(run_listing_alerts))
+schedule.every().hour.at(":37").do(lambda: run_in_thread(run_bnb_token_sniffer))
 schedule.every().saturday.at("00:01").do(setup_weekend_random_posts)
 schedule.every().sunday.at("00:01").do(setup_weekend_random_posts)
 schedule.every().monday.at("16:00").do(lambda: run_in_thread(post_ta_thread))

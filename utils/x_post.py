@@ -166,7 +166,7 @@ def upload_media(image_path):
 def post_tweet(text: str, category: str = 'original'):
     if has_reached_daily_limit():
         logging.warning('🚫 Daily tweet limit reached — skipping standalone tweet.')
-        return
+        return None
     try:
         resp = timed_create_tweet(text=text, part_index=1)
         tweet_id = resp.data['id']
@@ -174,8 +174,31 @@ def post_tweet(text: str, category: str = 'original'):
         url = f"https://x.com/{BOT_USER_ID}/status/{tweet_id}"
         log_tweet(tweet_id, date_str, category, url, 0, 0, 0, 0)
         logging.info(f"✅ Posted tweet: {url}")
+        return url    # <-- ADD THIS LINE
     except Exception as e:
         logging.error(f"❌ Error posting tweet: {e}")
+        return None   # <-- ADD THIS LINE
+
+# ─── Media Tweet ────────────────────────────────────────────────────────
+def post_tweet_with_media(text: str, image_path: str, category: str = 'original'):
+    if has_reached_daily_limit():
+        logging.warning('🚫 Daily tweet limit reached — skipping tweet with media.')
+        return
+    try:
+        media_id = upload_media(image_path)
+        if not media_id:
+            logging.error(f"❌ Could not upload media for {image_path}. Tweet not sent.")
+            return
+        resp = timed_create_tweet(text=text, part_index=1, media_ids=[media_id])
+        tweet_id = resp.data['id']
+        date_str = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
+        url = f"https://x.com/{BOT_USER_ID}/status/{tweet_id}"
+        log_tweet(tweet_id, date_str, category, url, 0, 0, 0, 0)
+        logging.info(f"✅ Posted tweet with image: {url}")
+        return url
+    except Exception as e:
+        logging.error(f"❌ Error posting tweet with media: {e}")
+        return None
 
 # ─── Quote Tweet ────────────────────────────────────────────────────────
 def post_quote_tweet(text: str, tweet_url: str):

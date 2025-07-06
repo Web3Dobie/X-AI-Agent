@@ -95,28 +95,37 @@ def log_headline_to_vault(date_ingested, headline, relevance_score, viral_score,
         logger.error(f"[ERROR] Failed to log headline '{headline}' to Notion: {e}")
 
 
-def log_substack_post_to_notion(headline: str, filename: str) -> bool:
-    """
-    Create a new page in the Notion database for a Substack post.
-    Returns True if logged successfully, False otherwise.
-    """
+def log_substack_post_to_notion(
+    headline: str,
+    blob_url: str,
+    tweet_url: str = None,
+    tags: list = None,
+    category: str = None,
+    summary: str = None,
+    status: str = "Draft",
+) -> bool:
+    props = {
+        "Headline": {"title": [{"text": {"content": headline}}]},
+        "Date":     {"date":  {"start": datetime.utcnow().isoformat()}},
+        "File":     {"url": blob_url},  # URL type property
+        "Status":   {"select": {"name": status}},
+    }
+    if tweet_url:
+        props["Tweet"] = {"url": tweet_url}  # Make sure the Notion field is a URL property
+    if summary:
+        props["Summary"] = {"rich_text": [{"text": {"content": summary}}]}
+    if category:
+        props["Category"] = {"select": {"name": category}}
+    if tags:
+        props["Tags"] = {"multi_select": [{"name": tag} for tag in tags]}
+
     try:
         notion.pages.create(
             parent={"database_id": NOTION_SUBSTACK_ARCHIVE_DB_ID},
-            properties={
-                "Headline": {"title":     [{"text": {"content": headline}}]},
-                "Date":     {"date":      {"start": datetime.utcnow().isoformat()}},
-                "File":     {"rich_text": [{"text": {"content": filename}}]},
-                "Status":   {"select":    {"name": "Draft"}},
-            },
+            properties=props,
         )
         logger.info(f"[OK] Logged '{headline}' to Notion DB {NOTION_SUBSTACK_ARCHIVE_DB_ID}")
         return True
     except Exception as e:
-        status = getattr(e, 'status', None)
-        body   = getattr(e, 'body', None)
-        logger.error(
-            f"[ERROR] Couldn’t log Substack post '{headline}': {e} "
-            f"(status={status}, body={body})"
-        )
+        logger.error(f"[ERROR] Couldn’t log Substack post '{headline}': {e}")
         return False
