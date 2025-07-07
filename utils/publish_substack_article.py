@@ -12,7 +12,7 @@ def publish_substack_article(
     tags: list = None,
     summary: str = None,
     hunter_image_path: str = None,
-    send-email: bool = False,
+    send_email: bool = False,
     email_recipients: list = None
 ):
     # 1. Save locally
