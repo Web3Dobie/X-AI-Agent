@@ -5,3 +5,11 @@ requests
 schedule
 notion-client
 openai
+dotenv
+feedparser
+tweepy
+setuptools
+schedule
+azure-storage-blob
+cloudscraper
+snscrape
