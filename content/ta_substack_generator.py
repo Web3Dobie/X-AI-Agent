@@ -20,6 +20,7 @@ from utils.blob import upload_to_blob
 from utils.notion_logger import log_substack_post_to_notion
 from utils.token_helpers import fetch_ohlcv, analyze_token_patterns, generate_chart, generate_risk_assessment
 from utils.gpt import generate_gpt_text
+from utils.substack import send_article_email
 
 # ===== Config =====
 TA_POST_DIR = os.getenv("TA_POST_DIR", "./ta_posts")
@@ -211,7 +212,9 @@ def generate_ta_substack_article():
         article_type="ta",
         tags=tags,
         summary=summary,
-        hunter_image_path=hunter_image_path
+        hunter_image_path=hunter_image_path,
+        send_email=True,
+        email_recipients=None
     )
 
     logging.info(f"✅ TA article '{headline}' generated and published.")

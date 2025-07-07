@@ -5,15 +5,40 @@ from datetime import datetime
 from pathlib import Path
 import re
 import logging
+import smtplib
+from email.message import EmailMessage
 
 # If you already have a log_substack_post_to_notion elsewhere, import and extend it here
 # Example stub:
 
 def send_article_email(title, filename, summary, recipients=None):
-    """
-    Send an email notification about the article. This is a stub.
-    """
-    print(f"[Email] Would send: {title}, file: {filename}")
+    user = os.getenv("SMTP_USER")
+    app_password = os.getenv("SMTP_PASS")
+    if not user or not app_password:
+        print("❌ GMAIL_USER or GMAIL_APP_PASSWORD not set in environment!")
+        return
+
+    if recipients is None:
+        recipients = os.getenv("ALERT_RECIPIENT") or user
+
+    # Always ensure recipients is a list
+    if isinstance(recipients, str):
+        recipients = [r.strip() for r in recipients.split(",")]
+
+    msg = EmailMessage()
+    msg["Subject"] = f"New Substack Article: {title}"
+    msg["From"] = user
+    msg["To"] = ", ".join(recipients)
+    msg.set_content(summary or "See attached markdown article.")
+
+    with open(filename, "rb") as f:
+        md_data = f.read()
+    msg.add_attachment(md_data, maintype="text", subtype="markdown", filename=os.path.basename(filename))
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+        smtp.login(user, app_password)
+        smtp.send_message(msg)
+    print(f"✅ Sent email to: {recipients} with attachment: {filename}")
 
 # Where to store all posts (set this to your actual content directory)
 POST_ROOT_DIR = os.getenv("SUBSTACK_POST_DIR", "./posts")
