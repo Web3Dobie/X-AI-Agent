@@ -1,31 +1,23 @@
 """
 GPT utility module for generating tweets, threads, and longer text.
-Logs errors to a centralized log file.
+Compatible with OpenAI SDK >=1.0.0 (Azure).
 """
 
 import logging
 import os
 from typing import List
-
 from dotenv import load_dotenv
-import openai
-
+from openai import AzureOpenAI
 from utils.config import (
     LOG_DIR,
     AZURE_OPENAI_API_KEY,
     AZURE_DEPLOYMENT_ID,
     AZURE_API_VERSION,
-    AZURE_RESOURCE_NAME
+    AZURE_RESOURCE_NAME,
 )
 
-# Load environment variables
+# Load env
 load_dotenv()
-
-# Configure OpenAI client for Azure
-openai.api_type = "azure"
-openai.api_key = AZURE_OPENAI_API_KEY
-openai.api_version = AZURE_API_VERSION
-openai.api_base = f"https://{AZURE_RESOURCE_NAME}.cognitiveservices.azure.com/"
 
 # Configure logging
 log_file = os.path.join(LOG_DIR, "gpt.log")
@@ -36,11 +28,18 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
+# Create AzureOpenAI client
+client = AzureOpenAI(
+    api_key=AZURE_OPENAI_API_KEY,
+    api_version=AZURE_API_VERSION,
+    azure_endpoint=f"https://{AZURE_RESOURCE_NAME}.cognitiveservices.azure.com/",
+)
+
 def generate_gpt_tweet(prompt: str, temperature: float = 0.9) -> str:
     """Generate a single tweet using GPT."""
     try:
-        response = openai.ChatCompletion.create(
-            engine=AZURE_DEPLOYMENT_ID,
+        response = client.chat.completions.create(
+            model=AZURE_DEPLOYMENT_ID,
             messages=[
                 {
                     "role": "system",
@@ -52,19 +51,20 @@ def generate_gpt_tweet(prompt: str, temperature: float = 0.9) -> str:
             max_tokens=280,
             top_p=1.0,
         )
-        return response['choices'][0]['message']['content'].strip()
+        return response.choices[0].message.content.strip()
 
     except Exception as e:
         logging.error(f"Error generating GPT tweet: {e}")
         return "⚠️ Could not generate response."
+
 
 def generate_gpt_thread(
     prompt: str, max_parts: int = 5, delimiter: str = "---", max_tokens: int = 1500
 ) -> List[str]:
     """Generate a multi-part thread for X using GPT."""
     try:
-        response = openai.ChatCompletion.create(
-            engine=AZURE_DEPLOYMENT_ID,
+        response = client.chat.completions.create(
+            model=AZURE_DEPLOYMENT_ID,
             messages=[
                 {
                     "role": "system",
@@ -80,7 +80,7 @@ def generate_gpt_thread(
             max_tokens=max_tokens,
             top_p=1.0,
         )
-        content = response['choices'][0]['message']['content'].strip()
+        content = response.choices[0].message.content.strip()
         parts = content.split(delimiter)
         if len(parts) < max_parts:
             parts = content.split("\n\n")
@@ -90,11 +90,12 @@ def generate_gpt_thread(
         logging.error(f"Error generating GPT thread: {e}")
         return []
 
+
 def generate_gpt_text(prompt: str, max_tokens: int = 1800) -> str:
     """Generate longer form text (e.g., Substack article) using GPT."""
     try:
-        response = openai.ChatCompletion.create(
-            engine=AZURE_DEPLOYMENT_ID,
+        response = client.chat.completions.create(
+            model=AZURE_DEPLOYMENT_ID,
             messages=[
                 {
                     "role": "system",
@@ -106,7 +107,7 @@ def generate_gpt_text(prompt: str, max_tokens: int = 1800) -> str:
             max_tokens=max_tokens,
             top_p=1.0,
         )
-        return response['choices'][0]['message']['content'].strip()
+        return response.choices[0].message.content.strip()
 
     except Exception as e:
         logging.error(f"Error generating GPT text: {e}")
