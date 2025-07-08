@@ -51,7 +51,7 @@ AZURE_RESOURCE_NAME = os.getenv("AZURE_RESOURCE_NAME")         # e.g. "myazureop
 openai.api_type = "azure"
 openai.api_version = AZURE_API_VERSION
 openai.api_key = AZURE_OPENAI_API_KEY
-openai.api_base = f"https://{AZURE_RESOURCE_NAME}.openai.azure.com/"
+openai.api_base = f"https://{AZURE_RESOURCE_NAME}.cognitiveservices.azure.com/"
 
 def generate_token_gpt_content(analysis: dict) -> str:
     """Generate GPT content for a single token analysis."""

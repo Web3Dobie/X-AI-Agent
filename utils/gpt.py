@@ -36,20 +36,26 @@ logging.basicConfig(
 
 def generate_gpt_tweet(prompt: str, temperature: float = 0.9) -> str:
     """ Calls Azure OpenAI API to generate GPT-based response """
-    url = f"https://{AZURE_RESOURCE_NAME}.openai.azure.com/openai/deployments/{AZURE_DEPLOYMENT_ID}/chat/completions?api-version={AZURE_API_VERSION}"   
+    url = f"https://{AZURE_RESOURCE_NAME}.cognitiveservices.azure.com/openai/deployments/{AZURE_DEPLOYMENT_ID}/chat/completions?api-version={AZURE_API_VERSION}"
     headers = {
         "Content-Type": "application/json",
         "api-key": AZURE_OPENAI_API_KEY,
     }
-    """ Generate a single tweet using GPT."""
+
     payload = {
         "messages": [
-            {"role": "system", "content": "You are Hunter, a crypto-native Doberman. Write bold, witty, Web3-savvy tweets. Sign off with '— Hunter 🐾.'"},
-            {"role": "user", "content": prompt}
+            {
+                "role": "system",
+                "content": "You are Hunter, a crypto-native Doberman. Write bold, witty, Web3-savvy tweets. Sign off with '— Hunter 🐾.'"
+            },
+            {
+                "role": "user",
+                "content": prompt
+            }
         ],
         "temperature": temperature,
         "max_tokens": 280,
-        "top_p": 1.0, 
+        "top_p": 1.0,
     }
     
     try:
@@ -74,7 +80,7 @@ def generate_gpt_thread(
     # Sanitize prompt for Azure compatibility
     # prompt = sanitize_prompt(prompt)
 
-    url = f"https://{AZURE_RESOURCE_NAME}.openai.azure.com/openai/deployments/{AZURE_DEPLOYMENT_ID}/chat/completions?api-version={AZURE_API_VERSION}"   
+    url = f"https://{AZURE_RESOURCE_NAME}.cognitiveservices.azure.com/openai/deployments/{AZURE_DEPLOYMENT_ID}/chat/completions?api-version={AZURE_API_VERSION}"
     headers = {
         "Content-Type": "application/json",
         "api-key": AZURE_OPENAI_API_KEY,
@@ -127,7 +133,7 @@ def generate_gpt_text(prompt: str, max_tokens: int = 1800, model: str = "gpt-4")
     Generate longer form text (e.g., Substack article) using Azure OpenAI.
     """
 
-    url = f"https://{AZURE_RESOURCE_NAME}.openai.azure.com/openai/deployments/{AZURE_DEPLOYMENT_ID}/chat/completions?api-version={AZURE_API_VERSION}"   
+    url = f"https://{AZURE_RESOURCE_NAME}.cognitiveservices.azure.com/openai/deployments/{AZURE_DEPLOYMENT_ID}/chat/completions?api-version={AZURE_API_VERSION}"
     headers = {
         "Content-Type": "application/json",
         "api-key": AZURE_OPENAI_API_KEY,
