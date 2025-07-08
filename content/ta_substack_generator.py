@@ -5,21 +5,16 @@ Full cloud-native pipeline: Azure Blob, Tweet, Notion logging.
 
 import logging
 import os
-import re
-import openai
 from datetime import datetime
-from pathlib import Path
 
-import matplotlib.pyplot as plt
-import pandas as pd
 import pandas_ta as ta
-import requests
+import pandas as pd
 
 from utils.publish_substack_article import publish_substack_article
 from utils.blob import upload_to_blob
 from utils.notion_logger import log_substack_post_to_notion
-from utils.token_helpers import fetch_ohlcv, analyze_token_patterns, generate_chart, generate_risk_assessment
-from utils.gpt import generate_gpt_text
+from utils.token_helpers import fetch_ohlcv, analyze_token_patterns, generate_chart
+from utils.gpt import generate_gpt_text  # ✅ uses Azure-configured OpenAI SDK
 from utils.substack import send_article_email
 
 # ===== Config =====
@@ -43,36 +38,21 @@ TOKENS = {
     "dogecoin": "DOGEUSDT",
 }
 
-AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
-AZURE_DEPLOYMENT_ID = os.getenv("AZURE_DEPLOYMENT_ID")         # e.g. "gpt-4-turbo"
-AZURE_API_VERSION = os.getenv("AZURE_API_VERSION", "2024-02-15-preview")
-AZURE_RESOURCE_NAME = os.getenv("AZURE_RESOURCE_NAME")         # e.g. "myazureopenairesource"
-
-openai.api_type = "azure"
-openai.api_version = AZURE_API_VERSION
-openai.api_key = AZURE_OPENAI_API_KEY
-openai.api_base = f"https://{AZURE_RESOURCE_NAME}.cognitiveservices.azure.com/"
 
 def generate_token_gpt_content(analysis: dict) -> str:
     """Generate GPT content for a single token analysis."""
-    # Format volume based on size
     def format_volume(vol: float) -> str:
-        """Format volume based on size and token."""
         name = analysis['name'].lower()
-        if name in ['bitcoin', 'btc']:
-            return f"${vol/1e9:.2f}B"  # Bitcoin in billions
-        elif name in ['ethereum', 'eth']:
-            return f"${vol/1e9:.2f}B"  # Ethereum in billions
-        elif vol >= 1e9:
+        if name in ['bitcoin', 'btc', 'ethereum', 'eth'] or vol >= 1e9:
             return f"${vol/1e9:.2f}B"
         elif vol >= 1e6:
             return f"${vol/1e6:.2f}M"
         else:
             return f"${vol/1e3:.2f}K"
-    
+
     volume_display = format_volume(analysis['patterns']['volume']['current'])
     volume_avg_display = format_volume(analysis['patterns']['volume']['average'])
-    
+
     prompt = f"""Write a detailed technical analysis for {analysis['name']}.
 
 Price Action:
@@ -100,7 +80,7 @@ Key Events:
 - Golden Cross: {analysis['patterns']['golden_cross']}
 - Death Cross: {analysis['patterns']['death_cross']}
 
-Structure the analysis with these sections:
+Structure the analysis with:
 1. Market Overview
 2. Volume Analysis
 3. Price Structure & Key Levels
@@ -110,13 +90,14 @@ Structure the analysis with these sections:
 """
     return generate_gpt_text(prompt, max_tokens=2000)
 
+
 def generate_cross_market_gpt_content(token_analyses: list) -> str:
     """Generate GPT content for cross-market analysis."""
     patterns = [a['patterns'] for a in token_analyses]
     bullish_count = sum(1 for p in patterns if p['trend'] == 'bullish')
     volume_increasing = sum(1 for p in patterns if p['volume']['trend'] == 'increasing')
     btc_analysis = next((a for a in token_analyses if a['name'] == 'Bitcoin'), None)
-    
+
     prompt = f"""Write a comprehensive cross-market analysis using this data:
 
 Market Statistics:
@@ -132,33 +113,29 @@ Structure the analysis with:
 4. Risk Assessment
 5. Forward Outlook
 
-Focus on correlations between assets and market-wide patterns.
-
-End the analysis with this structure:
-
-- Add standard "Not Financial Advice" disclaimer
-- Mention following @Web3_Dobie on Twitter/X for daily updates
-- Encourage newsletter subscription
-- Add signature: "Until next week, Hunter the Web3 Dobie 🐾"
+End with:
+- 'Not Financial Advice' disclaimer
+- Follow @Web3_Dobie for updates
+- Subscribe CTA
+- Sign off: "Until next week, Hunter the Web3 Dobie 🐾"
 """
     return generate_gpt_text(prompt, max_tokens=1500)
 
-# ===== Main Article Generator =====
+
 def generate_ta_substack_article():
     logging.info("🔍 Starting TA article generation")
     token_analyses = []
     article_sections = []
     date_str = datetime.now().strftime("%B %d, %Y")
 
-    # Headline and summary for publishing
+    # Header content
     headline = f"Weekly Technical Analysis: {date_str}"
-    tags = ["TA", "crypto", "weekly"]
     summary = "A detailed review of this week’s crypto market structure, volume, key levels, and forward outlook."
-
+    tags = ["TA", "crypto", "weekly"]
     hunter_img_url = "https://substackhtd.blob.core.windows.net/web3dobie-substack/hunter_headshot.png"
-    article_sections = [f"![Hunter the Dobie]({hunter_img_url})\n"]
+    article_sections.append(f"![Hunter the Dobie]({hunter_img_url})\n")
 
-    # Market-wide intro (can use GPT)
+    # Market overview
     btc_df = fetch_ohlcv("BTCUSDT")
     btc_patterns = analyze_token_patterns(btc_df)
     intro_prompt = (
@@ -170,7 +147,7 @@ def generate_ta_substack_article():
     intro = generate_gpt_text(intro_prompt, max_tokens=300)
     article_sections.append(f"# {headline}\n\n{intro}\n")
 
-    # Analyze each token
+    # Token-specific analysis
     for name, symbol in TOKENS.items():
         logging.info(f"Analyzing {name}...")
         df = fetch_ohlcv(symbol)
@@ -197,14 +174,14 @@ def generate_ta_substack_article():
             f"\n## {name.title()} Analysis\n\n![Chart]({chart_path})\n\n{gpt_content}\n"
         )
 
-    # Cross-market summary
+    # Cross-market wrap-up
     cross_market = generate_cross_market_gpt_content(token_analyses)
     article_sections.append("\n## Cross-Market Analysis\n\n" + cross_market)
 
-    # Full markdown article
+    # Combine article
     article_md = "\n".join(article_sections)
 
-    # ===== PUBLISH VIA NEW PIPELINE =====
+    # Publish
     hunter_image_path = "./content/assets/hunter_poses/substack_ta.png"
     publish_substack_article(
         article_md=article_md,
@@ -218,6 +195,7 @@ def generate_ta_substack_article():
     )
 
     logging.info(f"✅ TA article '{headline}' generated and published.")
+
 
 if __name__ == "__main__":
     try:
