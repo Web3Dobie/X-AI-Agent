@@ -83,8 +83,8 @@ def setup_weekend_random_posts():
 schedule.every().hour.at(":05").do(fetch_and_score_headlines)
 
 # --- Posting Schedule ---
-schedule.every(20).minutes.do(lambda: run_in_thread(run_listing_alerts))
-schedule.every().hour.at(":37").do(lambda: run_in_thread(run_bnb_token_sniffer))
+# schedule.every(20).minutes.do(lambda: run_in_thread(run_listing_alerts))
+# schedule.every().hour.at(":37").do(lambda: run_in_thread(run_bnb_token_sniffer))
 schedule.every().saturday.at("00:01").do(setup_weekend_random_posts)
 schedule.every().sunday.at("00:01").do(setup_weekend_random_posts)
 schedule.every().monday.at("16:00").do(lambda: run_in_thread(post_ta_thread))
@@ -95,8 +95,8 @@ schedule.every().friday.at("16:00").do(lambda: run_in_thread(post_ta_thread))
 
 schedule.every().day.at("13:00").do(lambda: run_in_thread(post_news_thread))
 schedule.every().day.at("14:00").do(lambda: run_in_thread(post_market_summary_thread))
-schedule.every().day.at("18:00").do(lambda: run_in_thread(lambda: reply_to_comments(bot_id=BOT_ID)))
-schedule.every().day.at("23:00").do(lambda: run_in_thread(lambda: reply_to_comments(bot_id=BOT_ID)))
+# schedule.every().day.at("18:00").do(lambda: run_in_thread(lambda: reply_to_comments(bot_id=BOT_ID)))
+# schedule.every().day.at("23:00").do(lambda: run_in_thread(lambda: reply_to_comments(bot_id=BOT_ID)))
 schedule.every().day.at("23:45").do(post_top_news_or_skip)
 schedule.every().friday.at("23:45").do(generate_substack_explainer)
 schedule.every().sunday.at("18:00").do(generate_ta_substack_article)
