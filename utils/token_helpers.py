@@ -7,8 +7,8 @@ import pandas_ta as ta
 import matplotlib.pyplot as plt
 
 from utils.blob import upload_to_blob  # Assuming this already exists
+from utils.config import CHART_DIR
 
-CHART_DIR = os.getenv("CHART_DIR", "./charts")
 os.makedirs(CHART_DIR, exist_ok=True)
 
 def fetch_ohlcv(symbol: str, limit: int = 365) -> pd.DataFrame:

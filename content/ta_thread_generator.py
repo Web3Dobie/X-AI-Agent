@@ -14,6 +14,7 @@ import requests
 import matplotlib.pyplot as plt
 
 from utils import DATA_DIR, LOG_DIR, generate_gpt_thread, post_thread, upload_media 
+from utils.config import CHART_DIR
 
 # Configure logging
 log_file = os.path.join(LOG_DIR, "ta_thread_generator.log")
@@ -59,6 +60,9 @@ def save_token_chart(df, token, out_dir="content/charts", timeframe_days=365):
     """
     Saves a multi-panel chart with candlesticks, SMAs, RSI and MACD.
     """
+    if out_dir is None:
+        out_dir = CHART_DIR
+    
     os.makedirs(out_dir, exist_ok=True)
     
     # Get last year of data using proper pandas filtering

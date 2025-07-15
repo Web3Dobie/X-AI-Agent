@@ -3,50 +3,49 @@ import os
 from datetime import datetime
 
 # --- Configuration & paths ---
-import os
-from datetime import datetime
+from utils.config import LOG_DIR, SUBSTACK_POST_DIR, DATA_DIR, CHART_DIR, TA_POST_DIR, BACKUP_DIR
 
-# Correct imports for config values
-from utils.config           import LOG_DIR, SUBSTACK_POST_DIR
-from utils.headline_pipeline import get_top_headline_last_7_days
+# --- Headline pipeline ---
+from utils.headline_pipeline import get_top_headline_last_7_days, fetch_and_score_headlines
 
-# � rest of your imports �
 # --- X/Twitter posting ---
-from .x_post import post_quote_tweet, post_thread, post_tweet, upload_media
-# --- Chart generation ---
-from .charts import clear_charts, generate_charts
-from .config import BACKUP_DIR, CHART_DIR, DATA_DIR, LOG_DIR, TA_POST_DIR
-# --- Email & Substack publishing ---
-from .mailer import send_email_alert
-from .generate_btc_technical_charts import fetch_binance_ohlcv
-from .generate_btc_technical_charts import main as generate_btc_charts
+from utils.x_post import post_quote_tweet, post_thread, post_tweet, upload_media
+
 # --- GPT wrappers ---
-from .gpt import (generate_gpt_text, generate_gpt_thread,
-                  generate_gpt_tweet)
-from .headline_pipeline import (fetch_and_score_headlines,
-                                get_top_headline_last_7_days)
-from .limit_guard import has_reached_daily_limit
+from utils.gpt import generate_gpt_text, generate_gpt_thread, generate_gpt_tweet
+
 # --- Tweet metrics logging & limits ---
-from .logging_helper import get_module_logger
-from .logger import log_tweet
-from .notion_logger import log_substack_post_to_notion
+from utils.logging_helper import get_module_logger
+from utils.logger import log_tweet
+from utils.limit_guard import has_reached_daily_limit
+
 # --- Notion logging ---
-from .notion_logger import log_headline_to_vault, log_to_notion_tweet
-# --- Generic publisher helper ---
-from .publisher import publish_and_announce
+from utils.notion_logger import log_substack_post_to_notion, log_headline_to_vault, log_to_notion_tweet
+
+# --- Email & notifications ---
+from utils.mailer import send_email_alert
+
 # --- Log rotation ---
-from .rotate_logs import clear_xrp_flag, rotate_logs
+from utils.rotate_logs import clear_xrp_flag, rotate_logs
+
 # --- RSS & headline pipeline ---
-from .rss_fetch import fetch_headlines
+from utils.rss_fetch import fetch_headlines
+
 # --- Scoring & logging headlines ---
-from .scorer import score_headlines, write_headlines
-from .substack_client import SubstackClient
+from utils.scorer import score_headlines, write_headlines
+
 # --- Text utilities ---
-from .text_utils import insert_cashtags, insert_mentions
-# --- X/Twitter posting ---
-from .x_post import post_quote_tweet, post_thread, post_tweet
+from utils.text_utils import insert_cashtags, insert_mentions
+
 # --- Telegram handler ---
-# utils/__init__.py
-# Mark as a package; import only the essentials here
-from .tg_notifier import send_telegram_message
-from .telegram_log_handler import TelegramHandler
+from utils.tg_notifier import send_telegram_message
+from utils.telegram_log_handler import TelegramHandler
+
+# --- Substack utilities ---
+from utils.substack import save_article, send_article_email
+
+# --- Blob storage ---
+from utils.blob import upload_to_blob
+
+# --- Token helpers (for TA functionality) ---
+from utils.token_helpers import fetch_ohlcv, analyze_token_patterns, generate_chart
