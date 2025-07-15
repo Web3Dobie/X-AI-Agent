@@ -6,7 +6,7 @@ from datetime import datetime, timezone, timedelta
 import schedule
 from dotenv import load_dotenv
 
-# from utils.post_explainer_combo import post_explainer_combo
+# Fixed imports - removed obsolete modules
 from content.market_summary import post_market_summary_thread
 from content.news_recap import post_news_thread
 from content.random_post import post_random_content
@@ -15,12 +15,22 @@ from content.ta_poster import post_ta_thread
 from content.top_news_or_explainer import post_top_news_or_skip
 from content.explainer_writer import generate_substack_explainer
 from content.ta_substack_generator import generate_ta_substack_article
-from utils import (clear_xrp_flag, fetch_and_score_headlines, rotate_logs)
-from world3_agent.listing_alerts import run_listing_alerts
-from world3_agent.bnb_token_sniffer import run_bnb_token_sniffer
 
+# Import utilities - only what exists
+from utils import (
+    clear_xrp_flag, 
+    fetch_and_score_headlines, 
+    rotate_logs
+)
 
-
+# Import world3_agent modules (if they still exist)
+try:
+    from world3_agent.listing_alerts import run_listing_alerts
+    from world3_agent.bnb_token_sniffer import run_bnb_token_sniffer
+    WORLD3_AVAILABLE = True
+except ImportError:
+    WORLD3_AVAILABLE = False
+    logging.warning("world3_agent modules not available")
 
 load_dotenv()
 
@@ -30,12 +40,10 @@ BOT_ID = os.getenv("X_BOT_USER_ID")
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
 sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
 
-
-
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s %(levelname)s %(message)s',
-    stream=sys.stdout  # you can explicitly point it at the rewrapped stdout
+    stream=sys.stdout
 )
 
 print("🕒 Hunter Scheduler is live. Waiting for scheduled posts…")
@@ -46,16 +54,7 @@ import threading
 def run_in_thread(job_func):
     threading.Thread(target=job_func).start()
 
-
-
-# function now moved to top_news_or_explainer.py
-#    if datetime.now(timezone.utc).weekday() != 4:  # 0 = Monday, 4 = Friday
-#        post_top_news_thread()
-#    else:
-#        logging.info("📭 Skipped Hunter Reacts on Friday (Hunter Explains runs today).")
-
 import random
-
 
 def schedule_random_post_between(start_hour, end_hour):
     hour = random.randint(start_hour, end_hour - 1)
@@ -65,7 +64,6 @@ def schedule_random_post_between(start_hour, end_hour):
     logging.info(
         f"🌀 Scheduled post_random_content at {time_str} (between {start_hour}:00–{end_hour}:00)"
     )
-
 
 def setup_weekend_random_posts():
     clear_xrp_flag()
@@ -78,28 +76,43 @@ def setup_weekend_random_posts():
     else:
         logging.info("📅 Skipping random posts — it's a weekday.")
 
-
 # --- Ingesting Headlines and Score them ---
 schedule.every().hour.at(":05").do(fetch_and_score_headlines)
 
 # --- Posting Schedule ---
-# schedule.every(20).minutes.do(lambda: run_in_thread(run_listing_alerts))
-# schedule.every().hour.at(":37").do(lambda: run_in_thread(run_bnb_token_sniffer))
+# World3 agent tasks (only if available)
+if WORLD3_AVAILABLE:
+    # schedule.every(20).minutes.do(lambda: run_in_thread(run_listing_alerts))
+    # schedule.every().hour.at(":37").do(lambda: run_in_thread(run_bnb_token_sniffer))
+    pass
+
+# Weekend setup
 schedule.every().saturday.at("00:01").do(setup_weekend_random_posts)
 schedule.every().sunday.at("00:01").do(setup_weekend_random_posts)
+
+# Daily TA threads
 schedule.every().monday.at("16:00").do(lambda: run_in_thread(post_ta_thread))
 schedule.every().tuesday.at("16:00").do(lambda: run_in_thread(post_ta_thread))
 schedule.every().wednesday.at("16:00").do(lambda: run_in_thread(post_ta_thread))
 schedule.every().thursday.at("16:00").do(lambda: run_in_thread(post_ta_thread))
 schedule.every().friday.at("16:00").do(lambda: run_in_thread(post_ta_thread))
 
+# Daily content
 schedule.every().day.at("13:00").do(lambda: run_in_thread(post_news_thread))
 schedule.every().day.at("14:00").do(lambda: run_in_thread(post_market_summary_thread))
+
+# Reply handling (commented out but available if needed)
 # schedule.every().day.at("18:00").do(lambda: run_in_thread(lambda: reply_to_comments(bot_id=BOT_ID)))
 # schedule.every().day.at("23:00").do(lambda: run_in_thread(lambda: reply_to_comments(bot_id=BOT_ID)))
+
+# Evening content
 schedule.every().day.at("23:45").do(post_top_news_or_skip)
+
+# Weekly content
 schedule.every().friday.at("23:45").do(generate_substack_explainer)
 schedule.every().sunday.at("18:00").do(generate_ta_substack_article)
+
+# Maintenance
 schedule.every().sunday.at("23:50").do(rotate_logs)
 
 while True:
