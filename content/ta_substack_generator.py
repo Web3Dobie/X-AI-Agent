@@ -255,7 +255,7 @@ MARKET STATISTICS:
 - Bearish tokens: {bearish_count}/{len(self.token_analyses)}
 - Tokens with rising volume: {volume_increasing}/{len(self.token_analyses)}
 - BTC trend: {btc_analysis['patterns']['trend'] if btc_analysis else 'unknown'}
-- BTC price: ${btc_analysis['price']:,.2f if btc_analysis else 0}
+- BTC price: {f"${btc_analysis['price']:,.2f}" if btc_analysis else "$0.00"}
 
 STRICT RULES:
 1. ONLY use the exact prices and data listed above

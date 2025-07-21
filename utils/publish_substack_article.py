@@ -44,7 +44,7 @@ def publish_substack_article(
 
     # 5. Post tweet using the Notion page ID for the article URL
     if notion_page_id:
-        article_app_url = f"https://www.dutchbrat.com/articles/{notion_page_id}"
+        article_app_url = f"https://www.dutchbrat.com/articles?articleId={notion_page_id}"
     else:
         # Fallback to blob URL if Notion logging failed
         article_app_url = blob_url
