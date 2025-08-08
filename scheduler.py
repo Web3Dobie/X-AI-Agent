@@ -1,7 +1,9 @@
 import sys, io, logging
 import os
 import time
+import traceback
 from datetime import datetime, timezone, timedelta
+from functools import wraps
 
 import schedule
 from dotenv import load_dotenv
@@ -23,14 +25,8 @@ from utils import (
     rotate_logs
 )
 
-# Import world3_agent modules (if they still exist)
-try:
-    from world3_agent.listing_alerts import run_listing_alerts
-    from world3_agent.bnb_token_sniffer import run_bnb_token_sniffer
-    WORLD3_AVAILABLE = True
-except ImportError:
-    WORLD3_AVAILABLE = False
-    logging.warning("world3_agent modules not available")
+# Import Telegram notifier
+from utils.tg_notifier import send_telegram_message
 
 load_dotenv()
 
@@ -46,8 +42,78 @@ logging.basicConfig(
     stream=sys.stdout
 )
 
+def send_telegram_log(message: str, level: str = "INFO"):
+    """Send formatted log message to Telegram"""
+    emoji_map = {
+        "INFO": "ℹ️",
+        "SUCCESS": "✅", 
+        "WARNING": "⚠️",
+        "ERROR": "❌",
+        "START": "🚀",
+        "COMPLETE": "🎯"
+    }
+    
+    emoji = emoji_map.get(level, "📝")
+    timestamp = datetime.now().strftime('%H:%M:%S')
+    
+    try:
+        send_telegram_message(f"{emoji} **{level}** | {timestamp}\n{message}")
+    except Exception as e:
+        logging.error(f"Failed to send Telegram log: {e}")
+
+def telegram_job_wrapper(job_name: str):
+    """Decorator to wrap jobs with Telegram logging"""
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            start_time = datetime.now()
+            
+            # Log job start
+            send_telegram_log(f"Starting: `{job_name}`", "START")
+            logging.info(f"🚀 Starting job: {job_name}")
+            
+            try:
+                # Execute the job
+                result = func(*args, **kwargs)
+                
+                # Calculate duration
+                duration = datetime.now() - start_time
+                duration_str = str(duration).split('.')[0]  # Remove microseconds
+                
+                # Log successful completion
+                send_telegram_log(
+                    f"Completed: `{job_name}`\n⏱️ Duration: {duration_str}", 
+                    "COMPLETE"
+                )
+                logging.info(f"✅ Completed job: {job_name} in {duration_str}")
+                
+                return result
+                
+            except Exception as e:
+                # Calculate duration even for failed jobs
+                duration = datetime.now() - start_time
+                duration_str = str(duration).split('.')[0]
+                
+                # Log error with details
+                error_msg = f"Failed: `{job_name}`\n⏱️ Duration: {duration_str}\n❌ Error: {str(e)}"
+                send_telegram_log(error_msg, "ERROR")
+                
+                # Also log full traceback locally
+                logging.error(f"❌ Job failed: {job_name}")
+                logging.error(f"Error: {str(e)}")
+                logging.error(traceback.format_exc())
+                
+                # Re-raise to maintain original behavior
+                raise
+                
+        return wrapper
+    return decorator
+
 print("🕒 Hunter Scheduler is live. Waiting for scheduled posts…")
 sys.stdout.flush()
+
+# Send startup notification
+send_telegram_log("Hunter Scheduler Started 🎯\nAll scheduled jobs are now active", "SUCCESS")
 
 import threading
 
@@ -60,11 +126,13 @@ def schedule_random_post_between(start_hour, end_hour):
     hour = random.randint(start_hour, end_hour - 1)
     minute = random.randint(0, 59)
     time_str = f"{hour:02d}:{minute:02d}"
-    schedule.every().day.at(time_str).do(post_random_content)
-    logging.info(
-        f"🌀 Scheduled post_random_content at {time_str} (between {start_hour}:00–{end_hour}:00)"
-    )
+    
+    wrapped_func = telegram_job_wrapper(f"random_post_{time_str}")(post_random_content)
+    schedule.every().day.at(time_str).do(wrapped_func)
+    
+    logging.info(f"🌀 Scheduled post_random_content at {time_str} (between {start_hour}:00–{end_hour}:00)")
 
+@telegram_job_wrapper("weekend_setup")
 def setup_weekend_random_posts():
     clear_xrp_flag()
     weekday = datetime.now().weekday()  # local timezone
@@ -77,44 +145,93 @@ def setup_weekend_random_posts():
         logging.info("📅 Skipping random posts — it's a weekday.")
 
 # --- Ingesting Headlines and Score them ---
-schedule.every().hour.at(":05").do(fetch_and_score_headlines)
+schedule.every().hour.at(":05").do(
+    telegram_job_wrapper("fetch_headlines")(fetch_and_score_headlines)
+)
 
 # --- Posting Schedule ---
-# World3 agent tasks (only if available)
-if WORLD3_AVAILABLE:
-    # schedule.every(20).minutes.do(lambda: run_in_thread(run_listing_alerts))
-    # schedule.every().hour.at(":37").do(lambda: run_in_thread(run_bnb_token_sniffer))
-    pass
 
 # Weekend setup
 schedule.every().saturday.at("00:01").do(setup_weekend_random_posts)
 schedule.every().sunday.at("00:01").do(setup_weekend_random_posts)
 
-# Daily TA threads
-schedule.every().monday.at("16:00").do(lambda: run_in_thread(post_ta_thread))
-schedule.every().tuesday.at("16:00").do(lambda: run_in_thread(post_ta_thread))
-schedule.every().wednesday.at("16:00").do(lambda: run_in_thread(post_ta_thread))
-schedule.every().thursday.at("16:00").do(lambda: run_in_thread(post_ta_thread))
-schedule.every().friday.at("16:00").do(lambda: run_in_thread(post_ta_thread))
+# Daily TA threads with threading wrapper
+def schedule_ta_thread(day, time_str):
+    def ta_with_thread():
+        run_in_thread(telegram_job_wrapper(f"ta_thread_{day.lower()}")(post_ta_thread))
+    
+    getattr(schedule.every(), day.lower()).at(time_str).do(ta_with_thread)
 
-# Daily content
-schedule.every().day.at("13:00").do(lambda: run_in_thread(post_news_thread))
-schedule.every().day.at("14:00").do(lambda: run_in_thread(post_market_summary_thread))
+# Schedule TA threads for weekdays
+for day in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]:
+    schedule_ta_thread(day, "16:00")
 
-# Reply handling (commented out but available if needed)
-# schedule.every().day.at("18:00").do(lambda: run_in_thread(lambda: reply_to_comments(bot_id=BOT_ID)))
-# schedule.every().day.at("23:00").do(lambda: run_in_thread(lambda: reply_to_comments(bot_id=BOT_ID)))
+# Daily content with threading
+def schedule_threaded_job(time_str, func, job_name):
+    def threaded_job():
+        run_in_thread(telegram_job_wrapper(job_name)(func))
+    
+    schedule.every().day.at(time_str).do(threaded_job)
+
+schedule_threaded_job("13:00", post_news_thread, "news_thread")
+schedule_threaded_job("14:00", post_market_summary_thread, "market_summary")
+
+# Reply handling (commented out but with wrapper ready)
+# def schedule_reply_handler(time_str, job_name):
+#     def reply_job():
+#         run_in_thread(telegram_job_wrapper(job_name)(lambda: reply_to_comments(bot_id=BOT_ID)))
+#     
+#     schedule.every().day.at(time_str).do(reply_job)
+
+# schedule_reply_handler("18:00", "reply_handler_evening")
+# schedule_reply_handler("23:00", "reply_handler_night")
 
 # Evening content
-schedule.every().day.at("23:45").do(post_top_news_or_skip)
+schedule.every().day.at("23:45").do(
+    telegram_job_wrapper("top_news_or_skip")(post_top_news_or_skip)
+)
 
 # Weekly content
-schedule.every().friday.at("23:45").do(generate_substack_explainer)
-schedule.every().sunday.at("18:00").do(generate_ta_substack_article)
+schedule.every().friday.at("23:45").do(
+    telegram_job_wrapper("substack_explainer")(generate_substack_explainer)
+)
+schedule.every().sunday.at("18:00").do(
+    telegram_job_wrapper("ta_substack_article")(generate_ta_substack_article)
+)
 
 # Maintenance
-schedule.every().sunday.at("23:50").do(rotate_logs)
+schedule.every().sunday.at("23:50").do(
+    telegram_job_wrapper("log_rotation")(rotate_logs)
+)
 
-while True:
-    schedule.run_pending()
-    time.sleep(30)
+# Add heartbeat monitoring
+last_heartbeat = time.time()
+heartbeat_interval = 3600  # Send heartbeat every hour
+
+try:
+    while True:
+        schedule.run_pending()
+        
+        # Send periodic heartbeat
+        current_time = time.time()
+        if current_time - last_heartbeat > heartbeat_interval:
+            pending_jobs = len(schedule.get_jobs())
+            send_telegram_log(
+                f"Scheduler Heartbeat 💓\n⏰ {datetime.now().strftime('%H:%M')} - {pending_jobs} jobs scheduled",
+                "INFO"
+            )
+            last_heartbeat = current_time
+            
+        time.sleep(30)
+        
+except KeyboardInterrupt:
+    logging.info("Scheduler stopped by user (SIGINT)")
+    send_telegram_log("Hunter Scheduler Stopped 🛑\n👤 Manual shutdown via SIGINT", "WARNING")
+    sys.exit(0)
+    
+except Exception as e:
+    # Critical crash
+    error_details = f"CRITICAL SCHEDULER CRASH: {str(e)}\n{traceback.format_exc()}"
+    send_telegram_log(f"💥 CRITICAL CRASH 💥\n```\n{error_details}\n```", "ERROR")
+    logging.critical(error_details)
+    sys.exit(1)
