@@ -18,7 +18,7 @@ class BaseArticleGenerator(ABC):
         self.logger = logging.getLogger(self.__class__.__name__)
         
         # Common configuration
-        self.hunter_img_url = "https://substackhtd.blob.core.windows.net/web3dobie-substack/hunter_headshot.png"
+        self.hunter_img_url = "https://w3darticles.blob.core.windows.net/w3d-articles/hunter_headshot.png"
         self.common_footer = """
 ---
 
