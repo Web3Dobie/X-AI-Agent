@@ -26,3 +26,12 @@ venv/
 # System
 Thumbs.db
 ehthumbs.db
+
+# Charts
+*.png
+*.jpg
+
+# Posts
+/posts/
+/content/posts/
+/substack_posts/

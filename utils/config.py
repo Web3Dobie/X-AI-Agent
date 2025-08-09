@@ -50,6 +50,7 @@ SUBSTACK_POST_DIR = os.path.join(BASE_DIR, "substack_posts")
 
 # RSS Feeds for Headlines
 RSS_FEED_URLS = {
+    "binance":       "https://www.binance.com/en/feed/news/all",
     "coindesk":      "https://www.coindesk.com/arc/outboundfeeds/rss/",
     "decrypt":       "https://decrypt.co/feed",
     "cryptoslate":   "https://cryptoslate.com/feed/",
