@@ -17,6 +17,7 @@ from content.ta_poster import post_ta_thread
 from content.top_news_or_explainer import post_top_news_or_skip
 from content.explainer_writer import generate_substack_explainer
 from content.ta_substack_generator import generate_ta_substack_article
+from crypto_news_bridge import generate_crypto_news_for_website
 
 # Import utilities - only what exists
 from utils import (
@@ -149,11 +150,16 @@ schedule.every().hour.at(":05").do(
     telegram_job_wrapper("fetch_headlines")(fetch_and_score_headlines)
 )
 
+# --- Crypto News Website Generation ---
+schedule.every().hour.at(":15").do(
+    telegram_job_wrapper("crypto_news_website")(generate_crypto_news_for_website)
+)
 # --- Posting Schedule ---
 
+# WEEKEND RANDOM POSTS COMMENTED OUT - WILL ADD OTHER WEEKEND CONTENT LATER
 # Weekend setup
-schedule.every().saturday.at("00:01").do(setup_weekend_random_posts)
-schedule.every().sunday.at("00:01").do(setup_weekend_random_posts)
+# schedule.every().saturday.at("00:01").do(setup_weekend_random_posts)
+# schedule.every().sunday.at("00:01").do(setup_weekend_random_posts)
 
 # Daily TA threads with threading wrapper
 def schedule_ta_thread(day, time_str):
