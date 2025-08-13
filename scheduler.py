@@ -2,6 +2,7 @@ import sys, io, logging
 import os
 import time
 import traceback
+import threading
 from datetime import datetime, timezone, timedelta
 from functools import wraps
 
@@ -18,6 +19,7 @@ from content.top_news_or_explainer import post_top_news_or_skip
 from content.explainer_writer import generate_substack_explainer
 from content.ta_substack_generator import generate_ta_substack_article
 from crypto_news_bridge import generate_crypto_news_for_website
+from http_server import start_crypto_news_server
 
 # Import utilities - only what exists
 from utils import (
@@ -144,6 +146,24 @@ def setup_weekend_random_posts():
         logging.info("🎲 Weekend random posts scheduled.")
     else:
         logging.info("📅 Skipping random posts — it's a weekday.")
+
+def start_http_server_in_background():
+    """Start the HTTP server in a background thread"""
+    try:
+        start_crypto_news_server(port=3001)
+    except Exception as e:
+        send_telegram_log(f"HTTP server failed to start: {e}", "ERROR")
+
+# Start HTTP server in background thread
+print("🌐 Starting crypto news HTTP server...")
+http_thread = threading.Thread(target=start_http_server_in_background, daemon=True)
+http_thread.start()
+
+# Add a small delay to let the server start
+import time
+time.sleep(2)
+
+send_telegram_log("🚀 Crypto news HTTP server started on port 3001", "SUCCESS")
 
 # --- Ingesting Headlines and Score them ---
 schedule.every().hour.at(":05").do(
