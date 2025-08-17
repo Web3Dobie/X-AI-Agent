@@ -1,3 +1,5 @@
+# Enhanced utils/logger.py - UPDATE THIS FILE IN YOUR X-AGENT
+
 """
 Logger utility for recording tweet metrics to CSV and Notion.
 """
@@ -23,11 +25,9 @@ logging.basicConfig(
 TWEET_LOG = os.path.join(DATA_DIR, "tweet_log.csv")
 
 
-def log_tweet(
-    tweet_id, date, tweet_type, url, likes, retweets, replies, engagement_score
-):
+def log_tweet(tweet_id, date, tweet_type, url, likes, retweets, replies, engagement_score, tweet_text=None):
     """
-    Append tweet metrics to a CSV and log to Notion.
+    ENHANCED: Append tweet metrics to a CSV and log to Notion with optional tweet text.
     """
     # Ensure data directory exists
     os.makedirs(DATA_DIR, exist_ok=True)
@@ -35,37 +35,28 @@ def log_tweet(
     with open(TWEET_LOG, mode="a", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
         if not exists:
-            writer.writerow(
-                [
-                    "tweet_id",
-                    "date",
-                    "type",
-                    "url",
-                    "likes",
-                    "retweets",
-                    "replies",
-                    "engagement_score",
-                ]
-            )
-        writer.writerow(
-            [
-                tweet_id,
-                date,
-                tweet_type,
-                url,
-                likes,
-                retweets,
-                replies,
-                engagement_score,
-            ]
-        )
+            writer.writerow([
+                "tweet_id", "date", "type", "url", "likes", "retweets", 
+                "replies", "engagement_score", "text"  # Added text column
+            ])
+        writer.writerow([
+            tweet_id, date, tweet_type, url, likes, retweets, 
+            replies, engagement_score, tweet_text or ""  # Include text or empty string
+        ])
     logging.info(f"Logged tweet {tweet_id} to {TWEET_LOG}")
 
-    # Try logging to Notion
+    # Try logging to Notion with enhanced function
     try:
         log_to_notion(
-            tweet_id, date, tweet_type, url, likes, retweets, replies, engagement_score
+            tweet_id, date, tweet_type, url, likes, retweets, 
+            replies, engagement_score, tweet_text  # Pass tweet text
         )
-        logging.info(f"Logged tweet {tweet_id} to Notion")
+        logging.info(f"Logged tweet {tweet_id} with text to Notion")
     except Exception as e:
         logging.error(f"[ALERT] Notion log failed for tweet {tweet_id}: {e}")
+
+
+# Backward compatibility - keep old function signature working
+def log_tweet_legacy(tweet_id, date, tweet_type, url, likes, retweets, replies, engagement_score):
+    """Legacy function for backward compatibility"""
+    return log_tweet(tweet_id, date, tweet_type, url, likes, retweets, replies, engagement_score, None)

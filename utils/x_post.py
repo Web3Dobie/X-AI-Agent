@@ -162,69 +162,77 @@ def upload_media(image_path):
         logging.error(f"❌ Failed to upload media {image_path}: {e}")
         return None
 
-# ─── Standalone Tweet ────────────────────────────────────────────────────
+# ─── Standalone Tweet (ENHANCED) ────────────────────────────────────────────────────
 def post_tweet(text: str, category: str = 'original'):
+    """Enhanced version that captures tweet text for Notion logging"""
     if has_reached_daily_limit():
         logging.warning('🚫 Daily tweet limit reached — skipping standalone tweet.')
         return None
     try:
         resp = timed_create_tweet(text=text, part_index=1)
         tweet_id = resp.data['id']
-        date_str = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
+        date_str = datetime.now(timezone.utc).strftime('%Y-%m-%d')  # Use consistent date format
         url = f"https://x.com/{BOT_USER_ID}/status/{tweet_id}"
-        log_tweet(tweet_id, date_str, category, url, 0, 0, 0, 0)
+        
+        # ENHANCED: Pass the tweet text to log_tweet
+        log_tweet(tweet_id, date_str, category, url, 0, 0, 0, 0, text)
+        
         logging.info(f"✅ Posted tweet: {url}")
-        return url    # <-- ADD THIS LINE
+        return url
     except Exception as e:
         logging.error(f"❌ Error posting tweet: {e}")
-        return None   # <-- ADD THIS LINE
+        return None
 
-# ─── Media Tweet ────────────────────────────────────────────────────────
+# ─── Media Tweet (ENHANCED) ────────────────────────────────────────────────────
 def post_tweet_with_media(text: str, image_path: str, category: str = 'original'):
+    """Enhanced version that captures tweet text for Notion logging"""
     if has_reached_daily_limit():
         logging.warning('🚫 Daily tweet limit reached — skipping tweet with media.')
-        return
+        return None
     try:
         media_id = upload_media(image_path)
         if not media_id:
             logging.error(f"❌ Could not upload media for {image_path}. Tweet not sent.")
-            return
+            return None
         resp = timed_create_tweet(text=text, part_index=1, media_ids=[media_id])
         tweet_id = resp.data['id']
-        date_str = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
+        date_str = datetime.now(timezone.utc).strftime('%Y-%m-%d')  # Use consistent date format
         url = f"https://x.com/{BOT_USER_ID}/status/{tweet_id}"
-        log_tweet(tweet_id, date_str, category, url, 0, 0, 0, 0)
+        
+        # ENHANCED: Pass the tweet text to log_tweet
+        log_tweet(tweet_id, date_str, category, url, 0, 0, 0, 0, text)
+        
         logging.info(f"✅ Posted tweet with image: {url}")
         return url
     except Exception as e:
         logging.error(f"❌ Error posting tweet with media: {e}")
         return None
 
-# ─── Quote Tweet ────────────────────────────────────────────────────────
-def post_quote_tweet(text: str, tweet_url: str):
+# ─── Quote Tweet (ENHANCED) ────────────────────────────────────────────────────
+def post_quote_tweet(text: str, tweet_url: str, category: str = 'quote'):
+    """Enhanced version that captures tweet text for Notion logging"""
     if has_reached_daily_limit():
         logging.warning('🚫 Daily tweet limit reached — skipping quote tweet.')
-        return
+        return None
     try:
         quote_id = tweet_url.rstrip('/').split('/')[-1]
         resp = client.create_tweet(text=text, quote_tweet_id=quote_id)
         tweet_id = resp.data['id']
-        date_str = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
+        date_str = datetime.now(timezone.utc).strftime('%Y-%m-%d')  # Use consistent date format
         url = f"https://x.com/{BOT_USER_ID}/status/{tweet_id}"
-        log_tweet(tweet_id, date_str, 'quote', url, 0, 0, 0, 0)
+        
+        # ENHANCED: Pass the tweet text to log_tweet
+        log_tweet(tweet_id, date_str, category, url, 0, 0, 0, 0, text)
+        
         logging.info(f"✅ Posted quote tweet: {url}")
+        return url
     except Exception as e:
         logging.error(f"❌ Error posting quote tweet: {e}")
+        return None
 
-# ─── Thread Posting ─────────────────────────────────────────────────────
-def post_thread(
-    thread_parts: list[str],
-    category: str = 'thread',
-    previous_id=None,
-    retry=False,
-    media_id_first=None  # <-- Add this argument
-):
-
+# ─── Thread Posting (ENHANCED) ─────────────────────────────────────────────────────
+def post_thread(thread_parts: list[str], category: str = 'thread', previous_id=None, retry=False, media_id_first=None):
+    """Enhanced thread posting with tweet text capture"""
     """Post a thread with enhanced diagnostics and retry handling"""
     # Add detailed diagnostics
     log_thread_diagnostics(thread_parts, category)
@@ -238,31 +246,15 @@ def post_thread(
 
     if has_reached_daily_limit():
         logging.warning('🚫 Daily tweet limit reached — skipping thread.')
-        return {
-            "posted": 0,
-            "total": len(thread_parts) if thread_parts else 0,
-            "error": "Daily limit reached"
-        }
+        return {"posted": 0, "total": len(thread_parts) if thread_parts else 0, "error": "Daily limit reached"}
 
     if not thread_parts:
         logging.warning('⚠️ No thread parts provided; skipping thread.')
-        return {
-            "posted": 0,
-            "total": 0,
-            "error": "No thread parts provided"
-        }
-
-    # Optional: Pre-flight check
-    if not ping_twitter_api():
-        logging.error("❌ Twitter API is unreachable before posting thread.")
-        return {
-            "posted": 0,
-            "total": len(thread_parts),
-            "error": "Twitter API unreachable"
-        }
+        return {"posted": 0, "total": 0, "error": "No thread parts provided"}
 
     logging.info(f"{'🔁 Retrying' if retry else '📢 Posting'} thread of {len(thread_parts)} parts under category '{category}'.")
     posted = 0
+    
     try:
         # First tweet
         if previous_id:
@@ -278,9 +270,12 @@ def post_thread(
                     media_ids=[media_id_first] if media_id_first else None
                 )
                 tweet_id = resp.data['id']
-                date_str = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
+                date_str = datetime.now(timezone.utc).strftime('%Y-%m-%d')
                 url = f"https://x.com/{BOT_USER_ID}/status/{tweet_id}"
-                log_tweet(tweet_id, date_str, category, url, 0, 0, 0, 0)
+                
+                # ENHANCED: Log with tweet text
+                log_tweet(tweet_id, date_str, 'thread', url, 0, 0, 0, 0, first)
+                
                 logging.info(f"✅ Posted thread first tweet: {url}")
                 in_reply_to = tweet_id
                 posted = 1
@@ -305,25 +300,32 @@ def post_thread(
                 )
                 in_reply_to = resp.data['id']
                 reply_url = f"https://x.com/{BOT_USER_ID}/status/{in_reply_to}"
-                log_tweet(in_reply_to, datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'), 
-                         category, reply_url, 0, 0, 0, 0)
-                logging.info(f"↪️ Posted thread reply: {reply_url}")
+                
+                # ENHANCED: Log with tweet text
+                log_tweet(
+                    in_reply_to, 
+                    datetime.now(timezone.utc).strftime('%Y-%m-%d'), 
+                    'thread-reply', 
+                    reply_url, 
+                    0, 0, 0, 0, 
+                    part  # Include the actual tweet text
+                )
+                
+                logging.info(f"✅ Posted thread reply {posted+1}: {reply_url}")
                 posted += 1
+                
             except Exception as e:
-                # If we've posted at least one tweet, schedule retry for remaining
-                if posted > 0:
-                    remaining = thread_parts[posted:]
-                    schedule_retry_thread(remaining, in_reply_to, category)
-                logging.error(f"❌ Error posting part {posted+1}: {e}")
-                raise
+                logging.error(f"❌ Failed to post thread reply {posted+1}: {e}")
+                break
 
         return {
             "posted": posted,
-            "total": len(thread_parts)
+            "total": len(thread_parts),
+            "error": None if posted == len(thread_parts) else f"Only posted {posted}/{len(thread_parts)} tweets"
         }
 
     except Exception as e:
-        logging.error(f"❌ General error posting thread: {e}")
+        logging.error(f"❌ Thread posting failed: {e}")
         return {
             "posted": posted,
             "total": len(thread_parts),

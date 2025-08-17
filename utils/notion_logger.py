@@ -1,4 +1,4 @@
-﻿# notion_logger.py
+﻿# Enhanced utils/notion_logger.py - UPDATE THIS FILE IN YOUR X-AGENT
 
 import logging
 import os
@@ -45,25 +45,31 @@ notion = Client(auth=NOTION_API_KEY)
 # ────────────────────────────────────────────────────────────────────────
 
 
-def log_to_notion_tweet(tweet_id, date, tweet_type, url, likes, retweets, replies, engagement_score):
+def log_to_notion_tweet(tweet_id, date, tweet_type, url, likes, retweets, replies, engagement_score, tweet_text=None):
     """
-    Append a tweet entry to the Notion tweet log database.
+    ENHANCED: Append a tweet entry to the Notion tweet log database with optional text content.
     """
     try:
+        properties = {
+            "Tweet ID":        {"title":   [{"text": {"content": str(tweet_id)}}]},
+            "Date":            {"date":    {"start": date}},
+            "Type":            {"select":  {"name": tweet_type}},
+            "URL":             {"url":     url},
+            "Likes":           {"number":  likes},
+            "Retweets":        {"number":  retweets},
+            "Replies":         {"number":  replies},
+            "Engagement Score":{"number":  engagement_score},
+        }
+        
+        # Add tweet text if provided (truncate to 2000 chars for Notion limits)
+        if tweet_text:
+            properties["Text"] = {"rich_text": [{"text": {"content": tweet_text[:2000]}}]}
+        
         notion.pages.create(
             parent={"database_id": NOTION_TWEET_LOG_DB},
-            properties={
-                "Tweet ID":        {"title":   [{"text": {"content": str(tweet_id)}}]},
-                "Date":            {"date":    {"start": date}},
-                "Type":            {"select":  {"name": tweet_type}},
-                "URL":             {"url":     url},
-                "Likes":           {"number":  likes},
-                "Retweets":        {"number":  retweets},
-                "Replies":         {"number":  replies},
-                "Engagement Score":{"number":  engagement_score},
-            },
+            properties=properties,
         )
-        logger.info(f"[OK] Logged tweet {tweet_id} to Notion DB {NOTION_TWEET_LOG_DB}")
+        logger.info(f"[OK] Logged tweet {tweet_id} with text to Notion DB {NOTION_TWEET_LOG_DB}")
     except Exception as e:
         logger.error(f"[ERROR] Failed to log tweet {tweet_id} to Notion: {e}")
 
