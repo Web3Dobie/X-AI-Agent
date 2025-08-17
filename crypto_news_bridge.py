@@ -1,4 +1,4 @@
-# crypto_news_bridge.py - Add to your X-AI-Agent scheduler
+# crypto_news_bridge.py - Complete version with source extraction
 """
 This integrates with your existing X-AI-Agent scheduler system
 to create website-ready crypto news data for DutchBrat.com
@@ -9,6 +9,7 @@ import os
 import csv
 from datetime import datetime, timedelta
 from typing import List, Dict, Any
+from urllib.parse import urlparse
 
 # Import your existing X-AI-Agent utilities
 from utils.config import DATA_DIR
@@ -22,6 +23,40 @@ class CryptoNewsProcessor:
         self.headline_log = os.path.join(DATA_DIR, "scored_headlines.csv")
         self.output_file = os.path.join(DATA_DIR, "crypto_news_api.json")
     
+    def extract_source_from_url(self, url: str) -> str:
+        """Extract clean source name from URL"""
+        try:
+            domain = urlparse(url).netloc.lower()
+            
+            # Map domains to clean source names
+            source_map = {
+                'decrypt.co': 'decrypt',
+                'cointelegraph.com': 'cointelegraph', 
+                'coindesk.com': 'coindesk',
+                'beincrypto.com': 'beincrypto',
+                'cryptoslate.com': 'cryptoslate',
+                'bitcoinmagazine.com': 'bitcoin_magazine',
+                'theblock.co': 'the_block',
+                'cryptobriefing.com': 'crypto_briefing',
+                'cryptonews.com': 'crypto_news',
+                'bitcoinist.com': 'bitcoinist',
+                'newsbtc.com': 'newsbtc',
+                'news.bitcoin.com': 'bitcoin_news',
+                'cryptopotato.com': 'crypto_potato',
+                'the-blockchain.com': 'blockchain_news',
+                'binance.com': 'binance'
+            }
+            
+            # Remove www. prefix
+            domain = domain.replace('www.', '')
+            
+            # Return mapped name or extract first part of domain
+            return source_map.get(domain, domain.split('.')[0])
+            
+        except Exception as e:
+            logger.warning(f"Error extracting source from URL {url}: {e}")
+            return 'unknown'
+    
     def get_recent_headlines(self, hours: int = 1) -> List[Dict[str, Any]]:
         """Get recent headlines from the last N hours (default 1 hour for better rotation)"""
         cutoff_time = datetime.now() - timedelta(hours=hours)
@@ -34,14 +69,18 @@ class CryptoNewsProcessor:
                     try:
                         timestamp = datetime.fromisoformat(row['timestamp'])
                         if timestamp > cutoff_time:
+                            # Extract source from URL since it's not in CSV
+                            source = self.extract_source_from_url(row['url'])
+                            
                             headlines.append({
                                 'headline': row['headline'],
                                 'url': row['url'],
                                 'score': float(row['score']),
                                 'timestamp': row['timestamp'],
-                                'source': row.get('source', 'unknown')
+                                'source': source  # Now extracted from URL
                             })
                     except (ValueError, KeyError) as e:
+                        logger.warning(f"Error processing headline row: {e}")
                         continue
         except FileNotFoundError:
             logger.warning(f"Headline log not found: {self.headline_log}")
@@ -106,7 +145,7 @@ class CryptoNewsProcessor:
                     "url": headline_data['url'],
                     "score": headline_data['score'],
                     "timestamp": headline_data['timestamp'],
-                    "source": headline_data['source'],
+                    "source": headline_data['source'],  # Now properly extracted
                     "hunterComment": hunter_comment
                 })
             
@@ -125,6 +164,12 @@ class CryptoNewsProcessor:
                 json.dump(output_data, f, indent=2, ensure_ascii=False)
             logger.info(f"✅ Crypto news rotation data exported to {self.output_file}")
             logger.info(f"📊 Headlines ready: {len(output_data.get('data', []))}")
+            
+            # Log sources for debugging
+            if output_data.get('data'):
+                sources = [item['source'] for item in output_data['data']]
+                logger.info(f"🔍 Sources extracted: {sources}")
+                
         except Exception as e:
             logger.error(f"❌ Error exporting data: {e}")
 
@@ -142,10 +187,45 @@ def generate_crypto_news_for_website():
         logger.error(f"Error in crypto news processing: {e}")
         raise
 
-class CryptoNewsProcessor:
+# Second processor class with print statements (for backward compatibility)
+class CryptoNewsProcessorLegacy:
     def __init__(self):
         self.headline_log = os.path.join(DATA_DIR, "scored_headlines.csv")
         self.output_file = os.path.join(DATA_DIR, "crypto_news_api.json")
+    
+    def extract_source_from_url(self, url: str) -> str:
+        """Extract clean source name from URL"""
+        try:
+            domain = urlparse(url).netloc.lower()
+            
+            # Map domains to clean source names
+            source_map = {
+                'decrypt.co': 'decrypt',
+                'cointelegraph.com': 'cointelegraph', 
+                'coindesk.com': 'coindesk',
+                'beincrypto.com': 'beincrypto',
+                'cryptoslate.com': 'cryptoslate',
+                'bitcoinmagazine.com': 'bitcoin_magazine',
+                'theblock.co': 'the_block',
+                'cryptobriefing.com': 'crypto_briefing',
+                'cryptonews.com': 'crypto_news',
+                'bitcoinist.com': 'bitcoinist',
+                'newsbtc.com': 'newsbtc',
+                'news.bitcoin.com': 'bitcoin_news',
+                'cryptopotato.com': 'crypto_potato',
+                'the-blockchain.com': 'blockchain_news',
+                'binance.com': 'binance'
+            }
+            
+            # Remove www. prefix
+            domain = domain.replace('www.', '')
+            
+            # Return mapped name or extract first part of domain
+            return source_map.get(domain, domain.split('.')[0])
+            
+        except Exception as e:
+            print(f"Error extracting source from URL {url}: {e}")
+            return 'unknown'
     
     def get_recent_headlines(self, hours: int = 1) -> List[Dict[str, Any]]:
         """Get recent headlines from the last N hours (default 1 hour for better rotation)"""
@@ -159,12 +239,15 @@ class CryptoNewsProcessor:
                     try:
                         timestamp = datetime.fromisoformat(row['timestamp'])
                         if timestamp > cutoff_time:
+                            # Extract source from URL since it's not in CSV
+                            source = self.extract_source_from_url(row['url'])
+                            
                             headlines.append({
                                 'headline': row['headline'],
                                 'url': row['url'],
                                 'score': float(row['score']),
                                 'timestamp': row['timestamp'],
-                                'source': row.get('source', 'unknown')
+                                'source': source  # Now extracted from URL
                             })
                     except (ValueError, KeyError) as e:
                         continue
@@ -231,7 +314,7 @@ class CryptoNewsProcessor:
                     "url": headline_data['url'],
                     "score": headline_data['score'],
                     "timestamp": headline_data['timestamp'],
-                    "source": headline_data['source'],
+                    "source": headline_data['source'],  # Now properly extracted
                     "hunterComment": hunter_comment
                 })
             
@@ -250,12 +333,18 @@ class CryptoNewsProcessor:
                 json.dump(output_data, f, indent=2, ensure_ascii=False)
             print(f"✅ Crypto news rotation data exported to {self.output_file}")
             print(f"📊 Headlines ready: {len(output_data.get('data', []))}")
+            
+            # Log sources for debugging
+            if output_data.get('data'):
+                sources = [item['source'] for item in output_data['data']]
+                print(f"🔍 Sources extracted: {sources}")
+                
         except Exception as e:
             print(f"❌ Error exporting data: {e}")
 
 def main():
     """Main function to run the crypto news processing"""
-    processor = CryptoNewsProcessor()
+    processor = CryptoNewsProcessorLegacy()
     processor.process_and_export()
 
 if __name__ == "__main__":
