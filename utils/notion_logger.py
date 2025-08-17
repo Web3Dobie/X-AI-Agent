@@ -63,7 +63,7 @@ def log_to_notion_tweet(tweet_id, date, tweet_type, url, likes, retweets, replie
         
         # Add tweet text if provided (truncate to 2000 chars for Notion limits)
         if tweet_text:
-            properties["Text"] = {"rich_text": [{"text": {"content": tweet_text[:2000]}}]}
+            properties["Text"] = {"rich_text": [{"text": {"content": tweet_text}}]}
         
         notion.pages.create(
             parent={"database_id": NOTION_TWEET_LOG_DB},
