@@ -13,3 +13,4 @@ schedule
 azure-storage-blob
 cloudscraper
 snscrape
+psutil
