@@ -311,8 +311,13 @@ def send_system_heartbeat():
         # Don't try to send error to Telegram to avoid loops
 
 def run_in_thread(job_func):
-    """Run job in separate thread"""
-    threading.Thread(target=job_func, daemon=True).start()
+    """Runs a function in a separate daemon thread."""
+    thread = threading.Thread(target=job_func, daemon=True)
+    thread.start()
+
+# Example of how to apply this to your jobs
+schedule.every().day.at("13:00").do(run_in_thread, telegram_job_wrapper("news_thread")(post_news_thread))
+schedule.every().day.at("14:00").do(run_in_thread, telegram_job_wrapper("market_summary")(post_market_summary_thread))
 
 def schedule_random_post_between(start_hour, end_hour):
     """Schedule random post between hours"""
@@ -500,42 +505,42 @@ schedule.every().sunday.at("23:50").do(
 )
 
 @telegram_job_wrapper("system_heartbeat")  
-def send_system_heartbeat():
-    """Send system heartbeat with Telegram-safe formatting"""
-    try:
-        health = get_system_health()
-        
-        # Extract values safely
-        uptime = health.get('uptime_hours', 0)
-        http_ok = health.get("http_server", {}).get("responsive", False)
-        success_rate = health.get('scheduler', {}).get('success_rate', 0)
-        memory_str = health.get("system", {}).get("memory_used", "N/A")
-        cpu_str = health.get("system", {}).get("cpu_usage", "N/A")
-        
-        # Use simple text formatting that works with Telegram markdown
-        status_text = "HEALTHY" if http_ok else "ISSUES"
-        
-        # Clean message without problematic markdown
-        message = (
-            f"System Heartbeat\n"
-            f"Status: {status_text}\n"
-            f"Time: {health.get('timestamp', 'unknown')}\n"
-            f"Uptime: {uptime:.1f}h\n"
-            f"Scheduler: {success_rate:.0f}% success\n"
-            f"HTTP: {'OK' if http_ok else 'ERROR'}\n"
-            f"Resources: {memory_str} mem, {cpu_str} cpu"
-        )
-        
-        send_telegram_message(message)
-        
-    except Exception as e:
-        # Simple fallback without any formatting
-        logger.error(f"Heartbeat failed: {e}")
-        try:
-            simple_msg = f"Heartbeat {datetime.now().strftime('%H:%M')} - System running"
-            send_telegram_message(simple_msg)
-        except:
-            logger.error("Telegram completely failed, giving up")
+def telegram_job_wrapper(job_name: str):
+    """Decorator to log job execution and send Telegram notifications."""
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            start_time = datetime.now()
+            monitoring_stats["last_job_time"] = start_time
+
+            # Re-enabled start notification
+            logging.info(f"🚀 Starting job: {job_name}")
+            send_telegram_log(f"🚀 Starting job: {job_name}", "START")
+
+            try:
+                result = func(*args, **kwargs)
+                monitoring_stats["jobs_executed"] += 1
+                duration = datetime.now() - start_time
+                
+                # Re-enabled completion notification
+                logging.info(f"✅ Completed job: {job_name} in {str(duration).split('.')[0]}")
+                send_telegram_log(f"✅ Completed job: {job_name} in {str(duration).split('.')[0]}", "COMPLETE")
+
+                return result
+            except Exception as e:
+                monitoring_stats["jobs_failed"] += 1
+                duration = datetime.now() - start_time
+                
+                # Critical error notification
+                error_msg = f"❌ CRITICAL JOB FAILURE: {job_name} in {str(duration).split('.')[0]} - {str(e)}"
+                send_telegram_log(error_msg, "ERROR")
+                
+                logging.error(f"❌ Job failed: {job_name} - {str(e)}")
+                # Optional: Depending on your needs, you might remove `raise` to prevent one failed job from stopping others.
+                raise
+
+        return wrapper
+    return decorator
 
 def send_telegram_log(message: str, level: str = "INFO"):
     """Send simple log message without markdown formatting"""
