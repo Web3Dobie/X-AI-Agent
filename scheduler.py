@@ -96,40 +96,35 @@ def send_telegram_log(message: str, level: str = "INFO"):
             pass
 
 def telegram_job_wrapper(job_name: str):
-    """Enhanced decorator with monitoring"""
+    """Enhanced decorator with safe logging only"""
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
             start_time = datetime.now()
             monitoring_stats["last_job_time"] = start_time
             
-            send_telegram_log(f"Starting: `{job_name}`", "START")
+            # Only log locally, no Telegram for start/complete
             logging.info(f"🚀 Starting job: {job_name}")
             
             try:
                 result = func(*args, **kwargs)
-                
                 monitoring_stats["jobs_executed"] += 1
                 duration = datetime.now() - start_time
-                duration_str = str(duration).split('.')[0]
-                
-                send_telegram_log(f"Completed: `{job_name}`\n⏱️ Duration: {duration_str}", "COMPLETE")
-                logging.info(f"✅ Completed job: {job_name} in {duration_str}")
-                
+                logging.info(f"✅ Completed job: {job_name} in {str(duration).split('.')[0]}")
                 return result
                 
             except Exception as e:
                 monitoring_stats["jobs_failed"] += 1
                 duration = datetime.now() - start_time
-                duration_str = str(duration).split('.')[0]
                 
-                error_msg = f"Failed: `{job_name}`\n⏱️ Duration: {duration_str}\n❌ Error: {str(e)}"
-                send_telegram_log(error_msg, "ERROR")
+                # Only send critical errors to Telegram
+                error_msg = f"CRITICAL JOB FAILURE: {job_name} - {str(e)}"
+                try:
+                    send_telegram_message(error_msg)
+                except:
+                    pass  # Don't fail on Telegram errors
                 
-                logging.error(f"❌ Job failed: {job_name}")
-                logging.error(f"Error: {str(e)}")
-                logging.error(traceback.format_exc())
-                
+                logging.error(f"❌ Job failed: {job_name} - {str(e)}")
                 raise
                 
         return wrapper
