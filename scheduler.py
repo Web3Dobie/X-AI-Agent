@@ -1,4 +1,4 @@
-# scheduler.py - Fixed with proper HTTP server startup verification
+# scheduler.py - Corrected and Improved
 import sys, io, logging
 import os
 import time
@@ -7,7 +7,7 @@ import threading
 import psutil
 import requests
 import socket
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
 from functools import wraps
 
 import schedule
@@ -30,11 +30,10 @@ from utils import (
     fetch_and_score_headlines, 
     rotate_logs
 )
+# CORRECTED: Import the updated function
 from utils.tg_notifier import send_telegram_message
 
 load_dotenv()
-
-BOT_ID = os.getenv("X_BOT_USER_ID")
 
 # Fix encoding
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
@@ -42,12 +41,12 @@ sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='repla
 
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s %(levelname)s %(message)s',
+    format='%(asctime)s - %(levelname)s - %(message)s',
     stream=sys.stdout
 )
 logger = logging.getLogger(__name__)
 
-# Global monitoring
+# Global monitoring stats
 monitoring_stats = {
     "scheduler_start_time": time.time(),
     "jobs_executed": 0,
@@ -57,545 +56,242 @@ monitoring_stats = {
     "server_ready": False
 }
 
-def send_telegram_log(message: str, level: str = "INFO"):
-    """Send formatted log message to Telegram with error handling"""
-    emoji_map = {
-        "INFO": "info",
-        "SUCCESS": "check", 
-        "WARNING": "warning",
-        "ERROR": "x",
-        "START": "rocket",
-        "COMPLETE": "dart",
-        "HEARTBEAT": "heart"
+# --- IMPROVED NOTIFICATION AND JOB WRAPPER ---
+
+def send_telegram_log(message: str, level: str = "INFO", use_markdown: bool = False):
+    """
+    IMPROVED: Send a log message to Telegram, using Markdown only when safe.
+    """
+    # Simple prefixes for clarity
+    prefix_map = {
+        "INFO": "ℹ️", "SUCCESS": "✅", "WARNING": "⚠️", 
+        "ERROR": "❌", "START": "🚀", "COMPLETE": "🏁", "HEARTBEAT": "❤️"
     }
+    prefix = prefix_map.get(level.upper(), "🔹")
     
-    # Use simple text instead of emoji to avoid encoding issues
-    prefix = emoji_map.get(level, "msg")
+    # Always include a timestamp
     timestamp = datetime.now().strftime('%H:%M:%S')
     
+    # Construct the final message
+    full_message = f"{prefix} *{level.upper()}* | `{timestamp}`\n{message}"
+
     try:
-        # Clean the message of problematic characters
-        clean_message = str(message).encode('utf-8', 'ignore').decode('utf-8')
+        # Determine parse_mode. Errors and unsafe content should be plain text.
+        parse_mode = 'MarkdownV2' if use_markdown else None
         
-        # Build safe message
-        safe_message = f"{prefix.upper()} {level} | {timestamp}\n{clean_message}"
-        
-        send_telegram_message(safe_message)
-        
+        # For MarkdownV2, we must escape certain characters in the user message part
+        if parse_mode == 'MarkdownV2':
+            # This is a basic escaper, you might need to expand it
+            safe_message = message.replace('.', '\\.').replace('-', '\\-').replace('!', '\\!')
+            full_message = f"{prefix} *{level.upper()}* | `{timestamp}`\n{safe_message}"
+        else:
+             full_message = f"{prefix} {level.upper()} | {timestamp}\n{message}"
+
+        send_telegram_message(full_message, parse_mode=parse_mode)
+
     except Exception as e:
-        # Log locally but don't retry Telegram to avoid loops
-        logging.error(f"Failed to send Telegram log: {e}")
-        
-        # Try one minimal fallback message
+        # If sending fails, log it locally and try sending a minimal plain text alert.
+        logging.error(f"Primary Telegram notification failed: {e}")
         try:
-            fallback = f"{level} at {timestamp}"
-            send_telegram_message(fallback)
-        except:
-            # Give up on Telegram, just log locally
-            logging.warning(f"Telegram completely failed for: {level} - {message[:50]}")
-            pass
+            fallback_message = f"❌ ERROR | {timestamp}\nTelegram notifier failed. Check logs."
+            send_telegram_message(fallback_message, parse_mode=None)
+        except Exception as final_e:
+            logging.critical(f"FATAL: Telegram fallback failed. Logging is down. {final_e}")
+
 
 def telegram_job_wrapper(job_name: str):
-    """Enhanced decorator with safe logging only"""
+    """
+    IMPROVED: Decorator to log job execution and send Telegram notifications safely.
+    """
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
             start_time = datetime.now()
             monitoring_stats["last_job_time"] = start_time
             
-            # Only log locally, no Telegram for start/complete
             logging.info(f"🚀 Starting job: {job_name}")
+            send_telegram_log(f"Starting job: `{job_name}`", "START", use_markdown=True)
             
             try:
                 result = func(*args, **kwargs)
                 monitoring_stats["jobs_executed"] += 1
                 duration = datetime.now() - start_time
+                
                 logging.info(f"✅ Completed job: {job_name} in {str(duration).split('.')[0]}")
+                send_telegram_log(f"Completed job: `{job_name}`\nDuration: {str(duration).split('.')[0]}s", "COMPLETE", use_markdown=True)
+                
                 return result
                 
             except Exception as e:
                 monitoring_stats["jobs_failed"] += 1
                 duration = datetime.now() - start_time
                 
-                # Only send critical errors to Telegram
-                error_msg = f"CRITICAL JOB FAILURE: {job_name} - {str(e)}"
-                try:
-                    send_telegram_message(error_msg)
-                except:
-                    pass  # Don't fail on Telegram errors
+                error_details = traceback.format_exc()
+                logging.error(f"❌ Job failed: {job_name} - {str(e)}\n{error_details}")
                 
-                logging.error(f"❌ Job failed: {job_name} - {str(e)}")
-                raise
-                
+                # KEY FIX: Send error messages as PLAIN TEXT to avoid parsing errors.
+                error_msg = (
+                    f"Job Failure: {job_name}\n"
+                    f"Duration: {str(duration).split('.')[0]}s\n"
+                    f"Error: {str(e)}"
+                )
+                send_telegram_log(error_msg, "ERROR", use_markdown=False)
+                # Do not re-raise, to allow other jobs to run.
+                # If you want the whole scheduler to stop on one error, add `raise` here.
+
         return wrapper
     return decorator
 
+# --- HTTP SERVER AND HEALTH CHECKS ---
+
 def test_server_connectivity(port=3001, timeout=5):
-    """Test if server port is accepting connections"""
+    """Test if server port is accepting connections."""
     try:
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.settimeout(timeout)
-        result = sock.connect_ex(('localhost', port))
-        sock.close()
-        return result == 0
-    except:
+        with socket.create_connection(("localhost", port), timeout=timeout):
+            return True
+    except (socket.timeout, ConnectionRefusedError):
+        return False
+    except Exception:
         return False
 
 def test_http_server_health(timeout=10):
-    """Test HTTP server health endpoint"""
+    """Test HTTP server health endpoint."""
     try:
         response = requests.get('http://localhost:3001/health', timeout=timeout)
-        return response.status_code == 200, response.json() if response.status_code == 200 else {"error": f"HTTP {response.status_code}"}
-    except requests.exceptions.Timeout:
-        return False, {"error": "Health endpoint timeout"}
-    except requests.exceptions.ConnectionError:
-        return False, {"error": "Health endpoint connection refused"}
-    except Exception as e:
-        return False, {"error": str(e)}
+        if response.status_code == 200:
+            return True, response.json()
+        return False, {"error": f"HTTP Status {response.status_code}"}
+    except requests.RequestException as e:
+        return False, {"error": f"Connection failed: {e}"}
 
 def start_http_server_with_verification():
-    """Start HTTP server with proper verification sequence"""
+    """Start HTTP server in a thread and verify it's ready."""
     
-    def server_startup():
-        """Server startup function for thread"""
+    def server_thread_target():
         try:
             start_crypto_news_server(port=3001)
         except Exception as e:
-            logger.error(f"❌ Server startup failed: {e}")
-            monitoring_stats["http_server_status"] = "failed"
-            send_telegram_log(f"HTTP server startup failed: {e}", "ERROR")
+            logger.error(f"❌ HTTP Server thread crashed: {e}")
+            monitoring_stats["http_server_status"] = "crashed"
+            send_telegram_log(f"HTTP server crashed: {e}", "ERROR")
+
+    logger.info("🌐 Starting crypto news HTTP server...")
+    http_thread = threading.Thread(target=server_thread_target, daemon=True, name="CryptoHTTPServer")
+    http_thread.start()
     
-    try:
-        logger.info("🌐 Starting crypto news HTTP server...")
-        
-        # Start server in background thread
-        http_thread = threading.Thread(
-            target=server_startup,
-            daemon=True,
-            name="CryptoHTTPServer"
-        )
-        http_thread.start()
-        
-        # Progressive verification with realistic timeouts
-        verification_steps = [
-            (3, "Port binding check"),
-            (7, "Server initialization"),
-            (15, "Full service verification")
-        ]
-        
-        server_ready = False
-        for wait_time, step_name in verification_steps:
-            logger.info(f"⏳ {step_name} - waiting {wait_time}s...")
-            time.sleep(wait_time)
+    # Wait and check for the server to become healthy
+    for attempt in range(5):
+        time.sleep(5) # Wait 5s between checks
+        logger.info(f"Verifying server... (Attempt {attempt + 1}/5)")
+        is_healthy, health_data = test_http_server_health()
+        if is_healthy:
+            logger.info("✅ Health endpoint verified. Server is ready.")
+            monitoring_stats["http_server_status"] = "healthy"
+            monitoring_stats["server_ready"] = True
+            send_telegram_log("HTTP Server is verified and healthy.", "SUCCESS")
+            return True
             
-            # Test port connectivity first
-            if test_server_connectivity(3001, timeout=3):
-                logger.info(f"✅ Port 3001 accepting connections after {wait_time}s")
-                
-                # Test health endpoint
-                health_ok, health_data = test_http_server_health(timeout=10)
-                if health_ok:
-                    logger.info(f"✅ Health endpoint verified after {wait_time}s")
-                    monitoring_stats["http_server_status"] = "healthy"
-                    monitoring_stats["server_ready"] = True
-                    server_ready = True
-                    
-                    send_telegram_log(
-                        f"🚀 **HTTP Server Verified**\n"
-                        f"📡 Port: 3001\n"
-                        f"⏱️ Ready in: {wait_time}s\n"
-                        f"💚 Health: OK\n"
-                        f"🔗 Endpoint ready",
-                        "SUCCESS"
-                    )
-                    break
-                else:
-                    logger.warning(f"⚠️ Port responsive but health endpoint failed: {health_data}")
-            else:
-                logger.debug(f"⏳ Port not ready yet after {wait_time}s...")
-        
-        if not server_ready:
-            logger.error("❌ Server failed verification within 25 seconds")
-            monitoring_stats["http_server_status"] = "failed_verification"
-            send_telegram_log(
-                "❌ **HTTP Server Failed Verification**\n"
-                "Server may have started but not responding properly\n"
-                "Check server logs for details",
-                "ERROR"
-            )
-            return False
-        
-        return True
-        
-    except Exception as e:
-        logger.error(f"❌ Server startup process failed: {e}")
-        monitoring_stats["http_server_status"] = "startup_error"
-        send_telegram_log(f"💥 **Server Startup Error**\n{str(e)}", "ERROR")
-        return False
+    logger.error("❌ Server verification failed after 25 seconds.")
+    monitoring_stats["http_server_status"] = "unhealthy"
+    send_telegram_log("HTTP Server failed verification. It may be running but is not responding to health checks.", "ERROR")
+    return False
+
+# --- SYSTEM HEALTH & HEARTBEAT ---
 
 def get_system_health():
-    """Get comprehensive system health"""
+    """Get comprehensive system health details."""
     try:
-        # System resources
         memory = psutil.virtual_memory()
         cpu_percent = psutil.cpu_percent(interval=1)
-        disk = psutil.disk_usage('/')
-        
-        # HTTP server test
-        http_healthy, http_status = test_http_server_health(timeout=5)
-        
-        # Scheduler stats
-        uptime = time.time() - monitoring_stats["scheduler_start_time"]
+        uptime_seconds = time.time() - monitoring_stats["scheduler_start_time"]
+        http_healthy, http_details = test_http_server_health()
         
         return {
-            "timestamp": datetime.now().strftime('%H:%M:%S'),
-            "uptime_hours": round(uptime / 3600, 1),
-            "scheduler": {
-                "jobs_executed": monitoring_stats["jobs_executed"],
-                "jobs_failed": monitoring_stats["jobs_failed"], 
-                "pending_jobs": len(schedule.get_jobs()),
-                "success_rate": round((monitoring_stats["jobs_executed"] / max(1, monitoring_stats["jobs_executed"] + monitoring_stats["jobs_failed"])) * 100, 1)
-            },
-            "http_server": {
-                "status": monitoring_stats["http_server_status"],
-                "responsive": http_healthy,
-                "details": http_status
-            },
-            "system": {
-                "memory_used": f"{memory.percent:.1f}%",
-                "cpu_usage": f"{cpu_percent:.1f}%",
-                "disk_usage": f"{disk.percent:.1f}%"
-            }
+            "uptime_hours": round(uptime_seconds / 3600, 1),
+            "jobs_executed": monitoring_stats["jobs_executed"],
+            "jobs_failed": monitoring_stats["jobs_failed"],
+            "http_responsive": http_healthy,
+            "memory_percent": f"{memory.percent:.1f}%",
+            "cpu_percent": f"{cpu_percent:.1f}%",
         }
     except Exception as e:
-        return {"error": str(e), "timestamp": datetime.now().strftime('%H:%M:%S')}
+        return {"error": str(e)}
 
-@telegram_job_wrapper("system_heartbeat")  
+# SIMPLIFIED: Re-enable the heartbeat using the corrected notifier
+@telegram_job_wrapper("system_heartbeat")
 def send_system_heartbeat():
-    """Send system heartbeat with minimal safe implementation"""
-    try:
-        health = get_system_health()
-        
-        # Extract basic info safely
-        uptime = health.get('uptime_hours', 0)
-        http_responsive = health.get("http_server", {}).get("responsive", False)
-        
-        # Create minimal message - just text, no special chars
-        message = f"Heartbeat {datetime.now().strftime('%H:%M')} - Uptime {uptime:.1f}h - HTTP {'OK' if http_responsive else 'DOWN'}"
-        
-        # Direct Telegram API call instead of using the problematic wrapper
-        import requests
-        import os
-        
-        bot_token = os.getenv("TG_BOT_TOKEN")
-        chat_id = os.getenv("TG_CHAT_ID")
-        
-        if bot_token and chat_id:
-            url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
-            data = {
-                'chat_id': chat_id,
-                'text': message,
-                'parse_mode': None  # No markdown or HTML parsing
-            }
-            
-            response = requests.post(url, data=data, timeout=10)
-            if response.status_code == 200:
-                logger.info("Heartbeat sent successfully")
-            else:
-                logger.error(f"Telegram API error: {response.status_code} - {response.text}")
-        else:
-            logger.warning("Missing Telegram credentials for heartbeat")
-            
-    except Exception as e:
-        logger.error(f"Heartbeat completely failed: {e}")
-        # Don't try to send error to Telegram to avoid loops
+    """Sends a system health summary to Telegram."""
+    health = get_system_health()
+    if "error" in health:
+        send_telegram_log(f"Failed to get system health: {health['error']}", "WARNING")
+        return
+
+    message = (
+        f"Uptime: *{health['uptime_hours']}h*\n"
+        f"Memory: `{health['memory_percent']}` | CPU: `{health['cpu_percent']}`\n"
+        f"Jobs OK: *{health['jobs_executed']}* | Jobs Failed: *{health['jobs_failed']}*\n"
+        f"HTTP Server: {'*OK*' if health['http_responsive'] else '*DOWN*'}"
+    )
+    send_telegram_log(message, "HEARTBEAT", use_markdown=True)
+
+
+# --- JOB SCHEDULING ---
 
 def run_in_thread(job_func):
-    """Runs a function in a separate daemon thread."""
-    thread = threading.Thread(target=job_func, daemon=True)
-    thread.start()
+    """Decorator to run a schedule job in a new thread."""
+    @wraps(job_func)
+    def wrapper(*args, **kwargs):
+        job_thread = threading.Thread(target=job_func, args=args, kwargs=kwargs, daemon=True)
+        job_thread.start()
+    return wrapper
 
-# Example of how to apply this to your jobs
-schedule.every().day.at("13:00").do(run_in_thread, telegram_job_wrapper("news_thread")(post_news_thread))
-schedule.every().day.at("14:00").do(run_in_thread, telegram_job_wrapper("market_summary")(post_market_summary_thread))
+# === MAIN SCRIPT EXECUTION ===
 
-def schedule_random_post_between(start_hour, end_hour):
-    """Schedule random post between hours"""
-    import random
-    hour = random.randint(start_hour, end_hour - 1)
-    minute = random.randint(0, 59)
-    time_str = f"{hour:02d}:{minute:02d}"
-    
-    wrapped_func = telegram_job_wrapper(f"random_post_{time_str}")(post_random_content)
-    schedule.every().day.at(time_str).do(wrapped_func)
-    
-    logging.info(f"🌀 Scheduled random post at {time_str}")
-
-@telegram_job_wrapper("weekend_setup")
-def setup_weekend_random_posts():
-    """Setup weekend random posts"""
-    clear_xrp_flag()
-    weekday = datetime.now().weekday()
-    if weekday in [5, 6]:
-        schedule_random_post_between(16, 18)
-        schedule_random_post_between(18, 20)
-        schedule_random_post_between(20, 22)
-        logging.info("🎲 Weekend random posts scheduled.")
-    else:
-        logging.info("📅 Skipping random posts — it's a weekday.")
-
-def start_http_server_with_verification():
-    """Start HTTP server with proper verification sequence"""
-    
-    def server_startup():
-        """Server startup function for thread"""
-        try:
-            start_crypto_news_server(port=3001)
-        except Exception as e:
-            logger.error(f"❌ Server startup failed: {e}")
-            monitoring_stats["http_server_status"] = "failed"
-            send_telegram_log(f"HTTP server startup failed: {e}", "ERROR")
-    
+if __name__ == "__main__":
     try:
-        logger.info("🌐 Starting crypto news HTTP server...")
-        
-        # Start server in background thread
-        http_thread = threading.Thread(
-            target=server_startup,
-            daemon=True,
-            name="CryptoHTTPServer"
+        # --- STARTUP SEQUENCE ---
+        send_telegram_log(
+            "Hunter Scheduler is starting up...", "SUCCESS", use_markdown=True
         )
-        http_thread.start()
         
-        # Progressive verification with realistic timeouts
-        verification_steps = [
-            (3, "Port binding check"),
-            (7, "Server initialization"), 
-            (15, "Full service verification")
-        ]
+        # Start and verify the HTTP server
+        start_http_server_with_verification()
+
+        # --- SCHEDULED JOBS ---
+        logging.info("Setting up scheduled jobs...")
+
+        # Core daily/hourly jobs
+        schedule.every().hour.at(":05").do(run_in_thread, telegram_job_wrapper("fetch_headlines")(fetch_and_score_headlines))
+        schedule.every().hour.at(":15").do(run_in_thread, telegram_job_wrapper("generate_crypto_news")(generate_crypto_news_for_website))
+        schedule.every().day.at("13:00").do(run_in_thread, telegram_job_wrapper("post_news_thread")(post_news_thread))
+        schedule.every().day.at("14:00").do(run_in_thread, telegram_job_wrapper("post_market_summary")(post_market_summary_thread))
+        schedule.every().day.at("16:00").do(run_in_thread, telegram_job_wrapper("post_ta_thread")(post_ta_thread))
+        schedule.every().day.at("23:45").do(run_in_thread, telegram_job_wrapper("post_top_news")(post_top_news_or_skip))
         
-        server_ready = False
-        for wait_time, step_name in verification_steps:
-            logger.info(f"⏳ {step_name} - waiting {wait_time}s...")
-            time.sleep(wait_time)
-            
-            # Test port connectivity first
-            if test_server_connectivity(3001, timeout=3):
-                logger.info(f"✅ Port 3001 accepting connections after {wait_time}s")
-                
-                # Test health endpoint
-                health_ok, health_data = test_http_server_health(timeout=10)
-                if health_ok:
-                    logger.info(f"✅ Health endpoint verified after {wait_time}s")
-                    monitoring_stats["http_server_status"] = "healthy"
-                    monitoring_stats["server_ready"] = True
-                    server_ready = True
-                    
-                    send_telegram_log(
-                        f"🚀 **HTTP Server Verified**\n"
-                        f"📡 Port: 3001\n"
-                        f"⏱️ Ready in: {wait_time}s\n"
-                        f"💚 Health: OK\n"
-                        f"🔗 Endpoint ready",
-                        "SUCCESS"
-                    )
-                    break
-                else:
-                    logger.warning(f"⚠️ Port responsive but health endpoint failed: {health_data}")
-            else:
-                logger.debug(f"⏳ Port not ready yet after {wait_time}s...")
+        # Weekly/Maintenance jobs
+        schedule.every().friday.at("23:45").do(run_in_thread, telegram_job_wrapper("generate_substack_explainer")(generate_substack_explainer))
+        schedule.every().sunday.at("18:00").do(run_in_thread, telegram_job_wrapper("generate_ta_substack")(generate_ta_substack_article))
+        schedule.every().sunday.at("23:50").do(run_in_thread, telegram_job_wrapper("rotate_logs")(rotate_logs))
+
+        # System Heartbeat
+        schedule.every(15).minutes.do(send_system_heartbeat)
+
+        logger.info("✅ All jobs scheduled. Starting main loop...")
         
-        if not server_ready:
-            logger.error("❌ Server failed verification within 25 seconds")
-            monitoring_stats["http_server_status"] = "failed_verification"
-            send_telegram_log(
-                "❌ **HTTP Server Failed Verification**\n"
-                "Server may have started but not responding properly\n"
-                "Check server logs for details",
-                "ERROR"
-            )
-            return False
-        
-        return True
-        
-    except Exception as e:
-        logger.error(f"❌ Server startup process failed: {e}")
-        monitoring_stats["http_server_status"] = "startup_error"
-        send_telegram_log(f"💥 **Server Startup Error**\n{str(e)}", "ERROR")
-        return False
-
-# === STARTUP SEQUENCE ===
-
-print("🕒 Hunter Scheduler is live. Waiting for scheduled posts…")
-sys.stdout.flush()
-
-# Send startup notification
-startup_message = (
-    f"🎯 **Hunter Scheduler Started**\n"
-    f"⏰ {datetime.now().strftime('%H:%M:%S')}\n"
-    f"🤖 All scheduled jobs are now active\n"
-    f"🌐 HTTP server starting on port 3001\n"
-    f"💓 Heartbeat monitoring enabled"
-)
-send_telegram_log(startup_message, "SUCCESS")
-
-# Start HTTP server with verification
-print("🌐 Starting crypto news HTTP server with verification...")
-server_started = start_http_server_with_verification()
-
-if server_started:
-    print("✅ HTTP server verified and ready")
-    monitoring_stats["http_server_status"] = "verified_healthy"
-else:
-    print("❌ HTTP server failed verification - continuing with scheduler only")
-    monitoring_stats["http_server_status"] = "failed"
-
-# === SCHEDULED JOBS ===
-
-# Headlines ingestion
-schedule.every().hour.at(":05").do(
-    telegram_job_wrapper("fetch_headlines")(fetch_and_score_headlines)
-)
-
-# Crypto news website generation
-schedule.every().hour.at(":15").do(
-    telegram_job_wrapper("crypto_news_website")(generate_crypto_news_for_website)
-)
-
-# Weekend posts
-schedule.every().saturday.at("00:01").do(setup_weekend_random_posts)
-schedule.every().sunday.at("00:01").do(setup_weekend_random_posts)
-
-# Daily TA threads
-def schedule_ta_thread(day, time_str):
-    def ta_with_thread():
-        run_in_thread(telegram_job_wrapper(f"ta_thread_{day.lower()}")(post_ta_thread))
-    
-    getattr(schedule.every(), day.lower()).at(time_str).do(ta_with_thread)
-
-for day in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]:
-    schedule_ta_thread(day, "16:00")
-
-# Daily content with threading  
-def schedule_threaded_job(time_str, func, job_name):
-    def threaded_job():
-        run_in_thread(telegram_job_wrapper(job_name)(func))
-    
-    schedule.every().day.at(time_str).do(threaded_job)
-
-schedule_threaded_job("13:00", post_news_thread, "news_thread")
-schedule_threaded_job("14:00", post_market_summary_thread, "market_summary")
-
-# Evening content
-schedule.every().day.at("23:45").do(
-    telegram_job_wrapper("top_news_or_skip")(post_top_news_or_skip)
-)
-
-# Weekly content
-schedule.every().friday.at("23:45").do(
-    telegram_job_wrapper("substack_explainer")(generate_substack_explainer)
-)
-schedule.every().sunday.at("18:00").do(
-    telegram_job_wrapper("ta_substack_article")(generate_ta_substack_article)
-)
-
-# Maintenance
-schedule.every().sunday.at("23:50").do(
-    telegram_job_wrapper("log_rotation")(rotate_logs)
-)
-
-@telegram_job_wrapper("system_heartbeat")  
-def telegram_job_wrapper(job_name: str):
-    """Decorator to log job execution and send Telegram notifications."""
-    def decorator(func):
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            start_time = datetime.now()
-            monitoring_stats["last_job_time"] = start_time
-
-            # Re-enabled start notification
-            logging.info(f"🚀 Starting job: {job_name}")
-            send_telegram_log(f"🚀 Starting job: {job_name}", "START")
-
-            try:
-                result = func(*args, **kwargs)
-                monitoring_stats["jobs_executed"] += 1
-                duration = datetime.now() - start_time
-                
-                # Re-enabled completion notification
-                logging.info(f"✅ Completed job: {job_name} in {str(duration).split('.')[0]}")
-                send_telegram_log(f"✅ Completed job: {job_name} in {str(duration).split('.')[0]}", "COMPLETE")
-
-                return result
-            except Exception as e:
-                monitoring_stats["jobs_failed"] += 1
-                duration = datetime.now() - start_time
-                
-                # Critical error notification
-                error_msg = f"❌ CRITICAL JOB FAILURE: {job_name} in {str(duration).split('.')[0]} - {str(e)}"
-                send_telegram_log(error_msg, "ERROR")
-                
-                logging.error(f"❌ Job failed: {job_name} - {str(e)}")
-                # Optional: Depending on your needs, you might remove `raise` to prevent one failed job from stopping others.
-                raise
-
-        return wrapper
-    return decorator
-
-def send_telegram_log(message: str, level: str = "INFO"):
-    """Send simple log message without markdown formatting"""
-    timestamp = datetime.now().strftime('%H:%M:%S')
-    
-    try:
-        # Create plain text message - no markdown symbols
-        clean_message = str(message).replace('**', '').replace('*', '').replace('`', '')
-        plain_message = f"{level} {timestamp} {clean_message}"
-        
-        # This calls your utils/tg_notifier.py send_telegram_message function
-        send_telegram_message(plain_message)
-        
-    except Exception as e:
-        # Log locally but don't retry to avoid infinite loops
-        logging.error(f"Telegram failed: {e}")
-
-# Re-enable the heartbeat now that it's fixed
-schedule.every(30).minutes.do(send_system_heartbeat)
-
-# === MAIN SCHEDULER LOOP ===
-
-try:
-    logger.info("🔄 Starting main scheduler loop...")
-    
-    while True:
-        try:
+        # --- MAIN SCHEDULER LOOP ---
+        while True:
             schedule.run_pending()
-            time.sleep(30)  # Check every 30 seconds
-            
-        except Exception as e:
-            logger.error(f"❌ Scheduler loop error: {e}")
-            send_telegram_log(f"Scheduler loop error: {str(e)}", "ERROR")
-            time.sleep(60)  # Wait longer on errors
-            
-except KeyboardInterrupt:
-    logger.info("🛑 Scheduler stopped by user")
-    send_telegram_log("Hunter Scheduler Stopped 🛑\n💤 Manual shutdown", "WARNING")
-    sys.exit(0)
+            time.sleep(1) # Sleep for a short duration
+
+    except KeyboardInterrupt:
+        logger.info("🛑 Scheduler stopped by user.")
+        send_telegram_log("Scheduler stopped manually.", "WARNING")
     
-except Exception as e:
-    # Critical crash
-    uptime = time.time() - monitoring_stats["scheduler_start_time"]
-    
-    crash_details = (
-        f"💥 **CRITICAL SCHEDULER CRASH** 💥\n"
-        f"⏰ {datetime.now().strftime('%H:%M:%S')}\n"
-        f"⏳ Uptime: {uptime/3600:.1f} hours\n"
-        f"✅ Jobs Executed: {monitoring_stats['jobs_executed']}\n"
-        f"❌ Jobs Failed: {monitoring_stats['jobs_failed']}\n"
-        f"🌐 HTTP Status: {monitoring_stats['http_server_status']}\n\n"
-        f"🔥 **Error**: {str(e)}"
-    )
-    
-    send_telegram_log(crash_details, "ERROR")
-    logger.critical(f"CRITICAL CRASH: {str(e)}")
-    logger.critical(traceback.format_exc())
-    sys.exit(1)
+    except Exception as e:
+        logger.critical(f"💥 CRITICAL SCHEDULER CRASH: {e}", exc_info=True)
+        crash_details = (
+            f"The main scheduler process has crashed!\n"
+            f"Error: {str(e)}\n\n"
+            f"Check the logs immediately for the full traceback."
+        )
+        send_telegram_log(crash_details, "ERROR")
