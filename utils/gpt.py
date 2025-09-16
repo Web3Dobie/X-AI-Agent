@@ -1,6 +1,7 @@
 """
 GPT utility module for generating tweets, threads, and longer text.
 Compatible with OpenAI SDK >=1.0.0 (Azure).
+Process-safe version with isolated clients.
 """
 
 import logging
@@ -28,16 +29,26 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
-# Create AzureOpenAI client
-client = AzureOpenAI(
-    api_key=AZURE_OPENAI_API_KEY,
-    api_version=AZURE_API_VERSION,
-    azure_endpoint=f"https://{AZURE_RESOURCE_NAME}.cognitiveservices.azure.com/",
-)
+# --- Removed global client initialization ---
+# The global client was the source of the cross-process conflict.
+
+def _get_azure_openai_client():
+    """
+    Creates and returns a new, process-safe AzureOpenAI client instance.
+    This function is called by each generation function to ensure resource isolation.
+    """
+    return AzureOpenAI(
+        api_key=AZURE_OPENAI_API_KEY,
+        api_version=AZURE_API_VERSION,
+        azure_endpoint=f"https://{AZURE_RESOURCE_NAME}.cognitiveservices.azure.com/",
+    )
 
 def generate_gpt_tweet(prompt: str, temperature: float = 0.9) -> str:
     """Generate a single tweet using GPT."""
     try:
+        # Create a fresh client for this specific request
+        client = _get_azure_openai_client()
+        
         response = client.chat.completions.create(
             model=AZURE_DEPLOYMENT_ID,
             messages=[
@@ -63,6 +74,9 @@ def generate_gpt_thread(
 ) -> List[str]:
     """Generate a multi-part thread for X using GPT."""
     try:
+        # Create a fresh client for this specific request
+        client = _get_azure_openai_client()
+
         response = client.chat.completions.create(
             model=AZURE_DEPLOYMENT_ID,
             messages=[
@@ -94,6 +108,9 @@ def generate_gpt_thread(
 def generate_gpt_text(prompt: str, max_tokens: int = 1800) -> str:
     """Generate longer form text (e.g., Substack article) using GPT."""
     try:
+        # Create a fresh client for this specific request
+        client = _get_azure_openai_client()
+        
         response = client.chat.completions.create(
             model=AZURE_DEPLOYMENT_ID,
             messages=[

@@ -1,4 +1,4 @@
-# utils/tg_notifier.py (Corrected)
+# utils/tg_notifier.py
 import os
 import requests
 
@@ -7,11 +7,7 @@ CHAT_ID = os.getenv('TG_CHAT_ID')
 
 def send_telegram_message(text: str, parse_mode: str = None):
     """
-    Sends a message to your Telegram chat.
-    Args:
-        text (str): The message content.
-        parse_mode (str, optional): The parse mode ('MarkdownV2' or 'HTML'). 
-                                    Defaults to None (plain text).
+    Sends a message to your Telegram chat using an isolated network session.
     """
     if not TOKEN or not CHAT_ID:
         print("ERROR: Telegram credentials (TG_BOT_TOKEN, TG_CHAT_ID) are not set.")
@@ -28,8 +24,13 @@ def send_telegram_message(text: str, parse_mode: str = None):
         payload['parse_mode'] = parse_mode
         
     try:
-        resp = requests.post(url, data=payload, timeout=10)
-        resp.raise_for_status() # Raise an exception for HTTP error codes
+        # Use 'with' to create a new, isolated session for this request.
+        # This is the key fix to prevent connection conflicts.
+        with requests.Session() as session:
+            resp = session.post(url, data=payload, timeout=10)
+            resp.raise_for_status() # Raise an exception for HTTP error codes
+            
     except requests.exceptions.RequestException as e:
         print(f"ERROR: Failed to send Telegram message: {e}")
-        # You could add a fallback log here if needed
+        # Re-raise the exception so the calling function knows it failed
+        raise e
