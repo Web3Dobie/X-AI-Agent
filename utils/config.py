@@ -5,6 +5,10 @@ import logging
 # Load .env into environment
 load_dotenv()
 
+# HTTP Server Configuration
+HTTP_HOST = os.getenv("HOST", "0.0.0.0")  # Default to all interfaces
+HTTP_PORT = int(os.getenv("PORT", "3001"))  # Default to port 3001
+
 # API keys & secrets
 OPENAI_API_KEY        = os.getenv("OPENAI_API_KEY")
 NOTION_API_KEY        = os.getenv("NOTION_API_KEY")

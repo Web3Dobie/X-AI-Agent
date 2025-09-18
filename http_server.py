@@ -15,6 +15,7 @@ from datetime import datetime, timezone
 from utils.config import DATA_DIR
 from utils.logging_helper import get_module_logger
 from utils.tg_notifier import send_telegram_message
+from utils.config import HTTP_HOST, HTTP_PORT
 
 logger = get_module_logger(__name__)
 
@@ -269,9 +270,9 @@ class StabilizedHTTPServer:
                     last_cleanup = current_time
                 
                 # Heartbeat every 15 minutes
-                if current_time - last_heartbeat > 900:
-                    self._send_heartbeat()
-                    last_heartbeat = current_time
+                # if current_time - last_heartbeat > 900:
+                    # self._send_heartbeat()
+                    # last_heartbeat = current_time
                 
                 time.sleep(60)  # Check every minute
                 
@@ -357,12 +358,16 @@ class StabilizedHTTPServer:
         
         send_telegram_message("🛑 **HTTP Server Stopped**\nCleanup completed")
 
-def start_crypto_news_server(port=3001):
+def start_crypto_news_server(host=None, port=None):
+    host = host or HTTP_HOST
+    port = port or HTTP_PORT
     """Start the crypto news server"""
     server = StabilizedHTTPServer(port)
     server.start_server()
 
-def test_server_connectivity(port=3001, timeout=5):
+def test_server_connectivity(host=None, port=None, timeout=5):
+    host = host or HTTP_HOST
+    port = port or HTTP_PORT
     """Test if server port is accepting connections"""
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

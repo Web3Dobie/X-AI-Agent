@@ -1,26 +1,37 @@
-from azure.storage.blob import BlobServiceClient, ContentSettings
+# utils/blob.py - UPDATED to save locally instead of Azure
 import os
+import shutil
+from datetime import datetime
 
-# Load from env or config
-AZURE_CONNECTION_STRING = os.getenv("AZURE_BLOB_CONNECTION_STRING")
-AZURE_CONTAINER_NAME = os.getenv("AZURE_BLOB_CONTAINER_NAME", "substack-articles")
+# Local storage paths
+LOCAL_POSTS_DIR = "/app/posts"  # This should match your docker mount point
 
 def upload_to_blob(filepath: str, blob_name: str = None, content_type: str = "text/markdown") -> str:
     """
-    Uploads a file to Azure Blob Storage. Returns the public Blob URL.
+    Save file locally instead of uploading to Azure.
+    Returns a local URL that matches your API route structure.
     """
-    blob_service_client = BlobServiceClient.from_connection_string(AZURE_CONNECTION_STRING)
-    container_client = blob_service_client.get_container_client(AZURE_CONTAINER_NAME)
     if not blob_name:
         blob_name = os.path.basename(filepath)
-    with open(filepath, "rb") as data:
-        container_client.upload_blob(
-            name=blob_name,
-            data=data,
-            overwrite=True,
-            content_settings=ContentSettings(content_type=content_type)
-        )
-    # Construct the Blob URL (update if your blob is in a different region/custom domain)
-    account = blob_service_client.account_name
-    blob_url = f"https://{account}.blob.core.windows.net/{AZURE_CONTAINER_NAME}/{blob_name}"
-    return blob_url
+    
+    # Determine category based on filename or content_type
+    if "technical-analysis" in blob_name.lower() or "_ta_" in blob_name.lower():
+        category = "ta"
+    else:
+        category = "explainer"
+    
+    # Create directory structure
+    category_dir = os.path.join(LOCAL_POSTS_DIR, category)
+    os.makedirs(category_dir, exist_ok=True)
+    
+    # Copy file to local storage
+    local_path = os.path.join(category_dir, blob_name)
+    shutil.copy2(filepath, local_path)
+    
+    # Return URL that matches your API route structure
+    local_url = f"/api/articles/files/{category}/{blob_name}"
+    
+    print(f"✅ File saved locally: {local_path}")
+    print(f"🔗 Local URL: {local_url}")
+    
+    return local_url
