@@ -1,51 +1,41 @@
 """
-Generate and publish weekly explainer articles for Substack.
-Now uses BaseArticleGenerator for consistency.
+Generate and publish weekly explainer articles.
+COMPLETELY REWRITTEN to avoid BaseArticleGenerator temp file issues.
 """
 
 import logging
+from datetime import datetime
 from typing import Dict, List, Optional
 
-from utils.base_article_generator import BaseArticleGenerator
 from utils.gpt import generate_gpt_text
 from utils.headline_pipeline import get_top_headline_last_7_days
+from utils.publish_substack_article import publish_substack_article
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-class ExplainerArticleGenerator(BaseArticleGenerator):
-    """Generates explainer articles based on top weekly headlines."""
-    
-    def __init__(self):
-        super().__init__()
-        self.headline_data = None
-    
-    def _get_headline_data(self) -> Optional[Dict[str, str]]:
-        """Fetch the top headline from the last 7 days."""
-        if self.headline_data:
-            return self.headline_data
-            
+def generate_substack_explainer():
+    """
+    Entry point that generates and publishes an explainer article.
+    REWRITTEN to bypass BaseArticleGenerator completely.
+    """
+    try:
+        logger.info("📘 Starting explainer article generation and publishing")
+        
+        # 1. Get headline data
         headline_entry = get_top_headline_last_7_days()
         if not headline_entry:
-            self.logger.warning("⏭ No headlines available for explainer generation")
-            return None
+            logger.warning("⏭ No headlines available for explainer generation")
+            raise Exception("No headlines available for explainer generation")
         
-        self.headline_data = {
-            'topic': headline_entry["headline"],
-            'url': headline_entry["url"]
-        }
-        return self.headline_data
-    
-    def _generate_content(self) -> Optional[str]:
-        """Generate the main article content using GPT."""
-        headline_data = self._get_headline_data()
-        if not headline_data:
-            return None
+        topic = headline_entry["headline"]
+        url = headline_entry["url"]
+        date_str = datetime.now().strftime("%B %d, %Y")
         
-        topic = headline_data['topic']
-        url = headline_data['url']
+        logger.info(f"📰 Using headline: {topic}")
         
+        # 2. Generate content using GPT
         prompt = f"""
 You're Hunter 🐾 — a witty Doberman who explains complex crypto topics in plain English with personality and insight.
 
@@ -61,66 +51,86 @@ Use this format:
 - Bottom line
 
 Inject emojis, sass, and clarity. Reference the source: {url}
-Today is {self.date_str}.
+Today is {date_str}.
 """
         
-        article = generate_gpt_text(prompt, max_tokens=1800)
-        if not article:
-            self.logger.warning("⚠️ GPT returned no content for explainer article")
-            return None
+        logger.info("🤖 Generating article content with GPT...")
+        content = generate_gpt_text(prompt, max_tokens=1800)
+        if not content:
+            raise Exception("GPT returned no content for explainer article")
         
-        return article
-    
-    def _get_headline(self) -> str:
-        """Get the article headline."""
-        headline_data = self._get_headline_data()
-        if not headline_data:
-            return f"Hunter Explains: Weekly Crypto Update - {self.date_str}"
+        logger.info(f"✅ Generated content ({len(content)} characters)")
         
-        return f"Hunter Explains: {headline_data['topic']}"
-    
-    def _get_article_type(self) -> str:
-        """Get the article type."""
-        return "explainer"
-    
-    def _get_tags(self) -> List[str]:
-        """Get article tags."""
-        return ["explainer", "crypto", "education", "web3"]
-    
-    def _get_summary(self) -> str:
-        """Get article summary."""
-        headline_data = self._get_headline_data()
-        if not headline_data:
-            return "Hunter breaks down the week's top crypto story in plain English."
+        # 3. Create full article with header and footer
+        headline = f"Hunter Explains: {topic}"
+        hunter_img_url = "https://w3darticles.blob.core.windows.net/w3d-articles/hunter_headshot.png"
         
-        return f"Hunter breaks down '{headline_data['topic']}' in plain English with wit and insight."
-    
-    def _get_hunter_image_path(self) -> str:
-        """Get Hunter's image path for explainer articles."""
-        return "./content/assets/hunter_poses/explaining.png"
+        common_footer = """
+---
 
-def generate_substack_explainer():
-    """
-    Entry point for backwards compatibility.
-    Now generates AND publishes the article using the unified pipeline.
-    """
-    generator = ExplainerArticleGenerator()
-    result = generator.generate_and_publish()
-    
-    if result:
-        # Return format for backwards compatibility
-        headline_data = generator._get_headline_data()
-        topic = headline_data['topic'] if headline_data else "Weekly Update"
+*Follow [@Web3_Dobie](https://twitter.com/Web3_Dobie) for more crypto insights and subscribe for weekly deep dives!*
+
+*This is not financial advice. Always do your own research.*
+
+Until next week,
+Hunter the Web3 Dobie 🐾
+"""
         
+        full_article = f"""![Hunter the Dobie]({hunter_img_url})
+
+# {headline}
+
+{content}
+
+{common_footer}
+"""
+        
+        # 4. Prepare metadata
+        summary = f"Hunter breaks down '{topic}' in plain English with wit and insight."
+        tags = ["explainer", "crypto", "education", "web3"]
+        hunter_image_path = "./content/assets/hunter_poses/explaining.png"
+        
+        # 5. Publish using the FIXED pipeline (bypasses BaseArticleGenerator completely)
+        logger.info("📤 Publishing article using direct pipeline...")
+        result = publish_substack_article(
+            article_md=full_article,
+            headline=headline,
+            article_type="explainer",
+            tags=tags,
+            summary=summary,
+            hunter_image_path=hunter_image_path,
+            send_email=True
+        )
+        
+        if not result:
+            raise Exception("Publication pipeline returned None")
+        
+        logger.info(f"✅ Explainer article '{headline}' published successfully")
+        logger.info(f"🔗 Article URL: {result.get('article_url')}")
+        logger.info(f"🐦 Tweet URL: {result.get('tweet_url')}")
+        
+        # 6. Return result in expected format
         return {
             "headline": topic,  # For backwards compatibility
-            "content": "Published to Substack",  # Changed since we don't return raw content
-            "filename": result.get("blob_url", ""),  # Use blob URL instead of local file
+            "content": "Published successfully",
+            "filename": result.get("blob_url", ""),
             "blob_url": result.get("blob_url"),
-            "tweet_url": result.get("tweet_url")
+            "tweet_url": result.get("tweet_url"),
+            "article_url": result.get("article_url"),
+            "notion_page_id": result.get("notion_page_id")
         }
+        
+    except Exception as e:
+        error_msg = f"Failed to generate explainer article: {str(e)}"
+        logger.error(f"❌ {error_msg}")
+        raise Exception(error_msg)
+
+# For backwards compatibility - keep the class but make it use the direct function
+class ExplainerArticleGenerator:
+    """Backwards compatibility wrapper that uses the direct function."""
     
-    return None
+    def generate_and_publish(self):
+        return generate_substack_explainer()
 
 if __name__ == "__main__":
     try:
@@ -128,10 +138,9 @@ if __name__ == "__main__":
         if result:
             print(f"✅ Explainer article generated and published!")
             print(f"Topic: {result['headline']}")
-            print(f"Blob URL: {result.get('blob_url', 'N/A')}")
+            print(f"Article URL: {result.get('article_url', 'N/A')}")
             print(f"Tweet URL: {result.get('tweet_url', 'N/A')}")
         else:
             print("❌ Failed to generate explainer article")
     except Exception as e:
         print(f"❌ Generation failed: {str(e)}")
-        logger.error(f"❌ Generation failed: {str(e)}")
