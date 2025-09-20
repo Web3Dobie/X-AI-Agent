@@ -1,6 +1,6 @@
 """
 Base class for all Substack article generators.
-Provides common functionality and ensures consistent publishing pipeline.
+Fixed version that uses the new publication system and proper error handling.
 """
 
 import logging
@@ -73,27 +73,38 @@ Hunter the Web3 Dobie 🐾
         return full_article
     
     def generate_and_publish(self) -> Optional[Dict[str, str]]:
-        """Main method to generate and publish article."""
+        """
+        Main method to generate and publish article.
+        Fixed version with proper error handling.
+        """
         article_type = self._get_article_type()
-        self.logger.info(f"📘 Starting {article_type} article generation and publishing")
+        headline = None
         
-        # Generate content
-        content = self._generate_content()
-        if not content:
-            self.logger.error(f"❌ Failed to generate {article_type} content")
-            return None
-        
-        # Create full article
-        full_article = self._create_full_article(content)
-        
-        # Prepare metadata
-        headline = self._get_headline()
-        summary = self._get_summary()
-        tags = self._get_tags()
-        hunter_image_path = self._get_hunter_image_path()
-        
-        # Publish using unified pipeline
         try:
+            self.logger.info(f"📘 Starting {article_type} article generation and publishing")
+            
+            # Generate headline first for error reporting
+            headline = self._get_headline()
+            self.logger.info(f"📝 Article headline: {headline}")
+            
+            # Generate content
+            content = self._generate_content()
+            if not content:
+                error_msg = f"Failed to generate {article_type} content"
+                self.logger.error(f"❌ {error_msg}")
+                raise Exception(error_msg)
+            
+            self.logger.info(f"✅ Generated {article_type} content ({len(content)} characters)")
+            
+            # Create full article
+            full_article = self._create_full_article(content)
+            
+            # Prepare metadata
+            summary = self._get_summary()
+            tags = self._get_tags()
+            hunter_image_path = self._get_hunter_image_path()
+            
+            # Publish using unified pipeline
             result = publish_substack_article(
                 article_md=full_article,
                 headline=headline,
@@ -104,17 +115,33 @@ Hunter the Web3 Dobie 🐾
                 send_email=True
             )
             
+            if not result:
+                error_msg = f"Publication pipeline returned None for {article_type} article"
+                self.logger.error(f"❌ {error_msg}")
+                raise Exception(error_msg)
+            
             self.logger.info(f"✅ {article_type.title()} article '{headline}' published successfully")
+            self.logger.info(f"🔗 Article URL: {result.get('article_url')}")
+            self.logger.info(f"🐦 Tweet URL: {result.get('tweet_url')}")
             
             return {
                 "headline": headline,
                 "article_type": self._get_article_type(),
                 "blob_url": result.get("blob_url"),
                 "tweet_url": result.get("tweet_url"),
+                "article_url": result.get("article_url"),
+                "notion_page_id": result.get("notion_page_id"),
                 "summary": summary,
                 "tags": tags
             }
             
         except Exception as e:
-            self.logger.error(f"❌ Failed to publish {article_type} article: {e}")
-            return None
+            error_msg = f"Failed to publish {article_type} article"
+            if headline:
+                error_msg += f" '{headline}'"
+            error_msg += f": {str(e)}"
+            
+            self.logger.error(f"❌ {error_msg}")
+            
+            # Re-raise the exception so the job fails properly
+            raise Exception(error_msg)
