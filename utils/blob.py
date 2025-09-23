@@ -67,9 +67,10 @@ def upload_to_blob(filepath: str, blob_name: str = None, content_type: str = "te
     Returns a local URL that matches your API route structure.
     Fixed to use proper filenames instead of temp names.
     """
-    
-    # Determine category based on content_type or filepath context
-    if "technical-analysis" in (blob_name or filepath).lower() or "_ta_" in (blob_name or filepath).lower():
+    # Determine category based on content_type first, then filename
+    if content_type in ["image/png", "image/jpeg", "image/jpg"]:
+        category = "images"  # All images go to images folder
+    elif "technical-analysis" in (blob_name or filepath).lower() or "_ta_" in (blob_name or filepath).lower():
         category = "ta"
     else:
         category = "explainer"

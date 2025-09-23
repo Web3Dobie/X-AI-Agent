@@ -1,4 +1,4 @@
-# job_definitions.py - Define and register all scheduled jobs  
+# job_definitions.py - Define and register all scheduled jobs with proper logging
 import logging
 from .registry import JobRegistry, JobCategory, JobPriority
 
@@ -135,7 +135,7 @@ def setup_all_jobs(job_registry: JobRegistry):
             logger.info(f"📁 {category.value.title()}: {len(jobs)} jobs - {', '.join(jobs)}")
 
 def print_job_summary(job_registry: JobRegistry):
-    """Print a nice summary of all registered jobs using logger"""
+    """FIXED: Print a nice summary of all registered jobs using logger instead of print"""
     logger.info("="*80)
     logger.info("🔧 JOB REGISTRY SUMMARY")
     logger.info("="*80)

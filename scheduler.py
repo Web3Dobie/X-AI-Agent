@@ -1,6 +1,5 @@
-# scheduler.py - Complete working version with process-based HTTP server
+# scheduler.py - Complete working version with process-based HTTP server - FIXED
 import sys
-import io
 import os
 import time
 import signal
@@ -28,19 +27,56 @@ from jobs.definitions import setup_all_jobs, print_job_summary
 from process_http_manager import ProcessHTTPServer
 from utils import rotate_logs
 from utils.tg_notifier import send_telegram_message
+from utils.telegram_log_handler import TelegramHandler
 
 load_dotenv()
 
-# Fix encoding
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
-sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+# REMOVED: Problematic stdout/stderr wrapping that caused I/O errors
+# sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+# sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
 
+# Configure logging with enhanced file handling and directory creation
+os.makedirs('/app/logs', exist_ok=True)  # Ensure logs directory exists
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
-    stream=sys.stdout
+    handlers=[
+        logging.StreamHandler(sys.stdout),
+        logging.FileHandler('/app/logs/scheduler.log', encoding='utf-8')
+    ]
 )
 logger = logging.getLogger(__name__)
+
+# Global rate limiting state
+_last_telegram_send = 0
+_telegram_send_interval = 1.0  # Minimum 1 second between messages
+
+# Add Telegram handler ONLY to the root logger to avoid conflicts
+def setup_telegram_logging():
+    """Set up Telegram logging in a thread-safe way."""
+    try:
+        # Remove any existing TelegramHandler to avoid duplicates
+        root_logger = logging.getLogger()
+        for handler in root_logger.handlers[:]:
+            if isinstance(handler, TelegramHandler):
+                root_logger.removeHandler(handler)
+        
+        # Add new TelegramHandler for ERROR level only (to reduce noise)
+        tg_handler = TelegramHandler()
+        tg_handler.setLevel(logging.ERROR)  # Only send errors to Telegram
+        tg_handler.setFormatter(
+            logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        )
+        
+        # Add to root logger so all modules can use it
+        root_logger.addHandler(tg_handler)
+        logger.info("Telegram logging handler configured")
+        
+    except Exception as e:
+        logger.warning(f"Failed to setup Telegram logging: {e}")
+
+# Call setup function
+setup_telegram_logging()
 
 # Global monitoring stats
 monitoring_stats = {
@@ -76,9 +112,13 @@ def kill_process_on_port(port: int):
     except Exception as e:
         logger.error(f"Error while checking for processes on port {port}: {e}")
 
-# Notification and Job Wrapper Functions
+# ENHANCED: Notification function with proper logging and enhanced error handling
 def send_telegram_log(message: str, level: str = "INFO", use_markdown: bool = False):
-    """Send a log message to Telegram, using Markdown only when safe."""
+    """
+    Send a log message to Telegram with enhanced error handling and rate limiting.
+    """
+    global _last_telegram_send
+    
     prefix_map = {
         "INFO": "ℹ️", "SUCCESS": "✅", "WARNING": "⚠️", 
         "ERROR": "❌", "START": "🚀", "COMPLETE": "🏁", "HEARTBEAT": "❤️"
@@ -88,29 +128,53 @@ def send_telegram_log(message: str, level: str = "INFO", use_markdown: bool = Fa
     timestamp = datetime.now().strftime('%H:%M:%S')
 
     try:
-        parse_mode = 'MarkdownV2' if use_markdown else None
+        # Rate limiting: ensure minimum interval between messages
+        current_time = time.time()
+        time_since_last = current_time - _last_telegram_send
         
-        if parse_mode == 'MarkdownV2':
-            # Escape special characters for MarkdownV2
-            safe_message = message.replace('.', '\\.').replace('-', '\\-').replace('!', '\\!')
-            full_message = f"{prefix} *{level.upper()}* | `{timestamp}`\n{safe_message}"
+        if time_since_last < _telegram_send_interval:
+            sleep_time = _telegram_send_interval - time_since_last
+            logger.debug(f"Telegram rate limiting: sleeping {sleep_time:.1f}s")
+            time.sleep(sleep_time)
+        
+        # Handle markdown formatting safely
+        if use_markdown:
+            try:
+                # Escape special characters for MarkdownV2
+                safe_message = message.replace('.', '\\.').replace('-', '\\-').replace('!', '\\!')
+                full_message = f"{prefix} *{level.upper()}* | `{timestamp}`\n{safe_message}"
+                parse_mode = 'MarkdownV2'
+            except Exception as markdown_error:
+                logger.debug(f"Markdown formatting failed, falling back to plain text: {markdown_error}")
+                full_message = f"{prefix} {level.upper()} | {timestamp}\n{message}"
+                parse_mode = None
         else:
-             full_message = f"{prefix} {level.upper()} | {timestamp}\n{message}"
-
+            full_message = f"{prefix} {level.upper()} | {timestamp}\n{message}"
+            parse_mode = None
+        
+        # FIXED: Use proper logging instead of print()
+        logger.debug(f"Sending Telegram message: {repr(full_message[:100])}...")
+        
         send_telegram_message(full_message, parse_mode=parse_mode)
-        logger.info(f"Sent Telegram: {level} - {message[:50]}...")
+        _last_telegram_send = time.time()
+        
+        logger.debug(f"Sent Telegram: {level} - {message[:50]}...")
 
     except Exception as e:
-        logger.warning(f"Telegram notification failed: {e}")
-        logger.info(f"Failed message: {level} - {message}")
+        # FIXED: Use proper logging for errors instead of print()
+        logger.error(f"Telegram notification failed: {e}")
+        logger.debug(f"Failed message: {level} - {message}")
         
-        # Try fallback without markdown
+        # Enhanced fallback mechanism
         try:
             fallback_message = f"{prefix} {level.upper()} | {timestamp}\nTelegram fallback: {message}"
             send_telegram_message(fallback_message, parse_mode=None)
             logger.info("Telegram fallback succeeded")
         except Exception as final_e:
             logger.error(f"Complete Telegram failure: {final_e}")
+        
+        # Update timestamp even on failure to prevent spam retries
+        _last_telegram_send = time.time()
 
 def telegram_job_wrapper(job_name: str):
     """Decorator to log job execution and send Telegram notifications safely."""
@@ -120,16 +184,16 @@ def telegram_job_wrapper(job_name: str):
             start_time = datetime.now()
             monitoring_stats["last_job_time"] = start_time
             
-            logging.info(f"Starting job: {job_name}")
-            send_telegram_log(f"Starting job: `{job_name}`", "START", use_markdown=True)
+            logger.info(f"Starting job: {job_name}")
+            send_telegram_log(f"Starting job: {job_name}", "START", use_markdown=False)
             
             try:
                 result = func(*args, **kwargs)
                 monitoring_stats["jobs_executed"] += 1
                 duration = datetime.now() - start_time
                 
-                logging.info(f"Completed job: {job_name} in {str(duration).split('.')[0]}")
-                send_telegram_log(f"Completed job: `{job_name}`\nDuration: {str(duration).split('.')[0]}s", "COMPLETE", use_markdown=True)
+                logger.info(f"Completed job: {job_name} in {str(duration).split('.')[0]}")
+                send_telegram_log(f"Completed job: {job_name}\nDuration: {str(duration).split('.')[0]}s", "COMPLETE", use_markdown=False)
                 
                 return result
                 
@@ -138,7 +202,7 @@ def telegram_job_wrapper(job_name: str):
                 duration = datetime.now() - start_time
                 
                 error_details = traceback.format_exc()
-                logging.error(f"Job failed: {job_name} - {str(e)}\n{error_details}")
+                logger.error(f"Job failed: {job_name} - {str(e)}\n{error_details}")
                 
                 error_msg = (
                     f"Job Failure: {job_name}\n"
@@ -290,13 +354,13 @@ def send_system_heartbeat():
         server_text = "❌ HTTP: Error"
     
     message = (
-        f"Uptime: *{health['uptime_hours']}h*\n"
-        f"Memory: `{health['memory_percent']}` | CPU: `{health['cpu_percent']}`\n"
-        f"Jobs OK: *{health['jobs_executed']}* | Jobs Failed: *{health['jobs_failed']}*\n"
-        f"Registered Jobs: *{enabled_jobs}/{total_jobs}* enabled\n"
+        f"Uptime: {health['uptime_hours']}h\n"
+        f"Memory: {health['memory_percent']} | CPU: {health['cpu_percent']}\n"
+        f"Jobs OK: {health['jobs_executed']} | Jobs Failed: {health['jobs_failed']}\n"
+        f"Registered Jobs: {enabled_jobs}/{total_jobs} enabled\n"
         f"{server_text}"
     )
-    send_telegram_log(message, "HEARTBEAT", use_markdown=True)
+    send_telegram_log(message, "HEARTBEAT", use_markdown=False)
 
 # Job Scheduling
 def run_in_thread(job_func):
@@ -366,6 +430,18 @@ def signal_handler(signum, frame):
 signal.signal(signal.SIGTERM, signal_handler)
 signal.signal(signal.SIGINT, signal_handler)
 
+# ENHANCED: Directory safety checks for container environment
+def ensure_container_directories():
+    """Ensure all required directories exist in container environment"""
+    directories = ['/app/logs', '/app/data', '/app/charts', '/app/backup', '/app/ta_posts', '/app/posts']
+    
+    for directory in directories:
+        try:
+            os.makedirs(directory, exist_ok=True)
+            logger.debug(f"Ensured directory exists: {directory}")
+        except Exception as e:
+            logger.error(f"Failed to create directory {directory}: {e}")
+
 # Main Script Execution
 if __name__ == "__main__":
     # Command line interface for job management
@@ -374,7 +450,9 @@ if __name__ == "__main__":
         
         if command == "status":
             setup_all_jobs(job_registry)
-            print(get_job_status_report())
+            # FIXED: Use logging instead of print for status output
+            status_report = get_job_status_report()
+            logger.info(status_report)
             sys.exit(0)
             
         elif command == "list":
@@ -400,18 +478,23 @@ if __name__ == "__main__":
             sys.exit(0)
             
         else:
-            print("Usage:")
-            print("  python scheduler.py                  # Run scheduler")
-            print("  python scheduler.py status           # Show job status")
-            print("  python scheduler.py list             # List all jobs")
-            print("  python scheduler.py disable <job>    # Disable job")
-            print("  python scheduler.py enable <job>     # Enable job")
-            print("  python scheduler.py restart-server   # Restart HTTP server")
+            # FIXED: Use logging instead of print for usage info
+            usage_info = """Usage:
+  python scheduler.py                  # Run scheduler
+  python scheduler.py status           # Show job status
+  python scheduler.py list             # List all jobs
+  python scheduler.py disable <job>    # Disable job
+  python scheduler.py enable <job>     # Enable job
+  python scheduler.py restart-server   # Restart HTTP server"""
+            logger.info(usage_info)
             sys.exit(1)
 
     # Main scheduler execution
     try:
-        # NEW: Pre-emptively kill any process on our port before starting
+        # ENHANCED: Ensure all directories exist
+        ensure_container_directories()
+        
+        # Pre-emptively kill any process on our port before starting
         logger.info("Performing pre-startup cleanup...")
         kill_process_on_port(3001)
         
@@ -420,8 +503,6 @@ if __name__ == "__main__":
         
         # Give systems a moment to initialize before first Telegram message
         time.sleep(2)
-        
-        send_telegram_log("Hunter Scheduler v2.0 starting up with Job Registry...", "SUCCESS", use_markdown=True)
         
         # Setup job registry
         logger.info("Setting up job registry...")
@@ -489,7 +570,6 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         # This is now a fallback, the signal handler should catch Ctrl+C
         logger.info("KeyboardInterrupt caught. Shutting down.")
-        # The signal_handler will be invoked, so this block may not even be reached.
         
     except Exception as e:
         logger.critical(f"CRITICAL SCHEDULER CRASH: {e}", exc_info=True)
