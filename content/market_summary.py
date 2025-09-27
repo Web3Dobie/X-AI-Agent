@@ -10,8 +10,9 @@ from threading import Lock
 
 import requests
 
-from utils import (LOG_DIR, generate_gpt_thread, post_thread, get_module_logger, 
+from utils import (LOG_DIR, post_thread, get_module_logger, 
                   upload_media) 
+from services.ai_service import get_ai_service
 
 logger = get_module_logger(__name__)
 
@@ -81,7 +82,7 @@ _last_attempt_time = None
 
 def generate_market_summary_thread():
     """
-    Build a GPT thread summarizing prices for tracked tokens.
+    Build a Gemini thread summarizing prices for tracked tokens.
     Returns a list of tweet-part strings.
     """
 
@@ -95,15 +96,24 @@ def generate_market_summary_thread():
     bullet_points = " ".join(
         f"${t['ticker']}: ${t['price']:,.2f} ({t['change']:+.2f}%)" for t in tokens_data
     )
-    prompt = f"""Here’s today’s crypto prices:
+    prompt = f"""**ROLE:** You are Hunter 🐾, a witty and sharp crypto analyst.
+
+**TASK:** Write a clever, insightful tweet for each token in the data block below.
+
+**RULES:**
+- Each tweet must include the exact price and 24h change.
+- Use relevant emojis.
+- Maintain a confident, expert tone. Avoid hype.
+- Do not use hashtags.
+- End each tweet with '— Hunter 🐾'.
+- Separate each tweet with '---'.
+
+**DATA:**
 {bullet_points}
+"""
 
-Write a short, clever tweet for each line above,
-including the exact USD price and 24h % change.
-Use emojis and end each with '— Hunter 🐾'.
-Do NOT number them—just separate by newlines."""
-
-    thread = generate_gpt_thread(prompt, max_parts=len(tokens_data), delimiter="---")
+    ai_service = get_ai_service()
+    thread = ai_service.generate_thread(prompt, max_parts=len(tokens_data), delimiter="---", max_tokens=2000)
     if not thread or len(thread) < len(tokens_data):
         logger.warning("⚠️ GPT returned insufficient parts.")
         logger.info(f"📝 GPT raw output: {thread}")

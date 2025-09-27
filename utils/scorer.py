@@ -1,5 +1,6 @@
 """
-GPT-based scoring for headlines.
+GPT-based batch scoring for headlines.
+Optimized for Gemini's large context window to score multiple headlines in single API call.
 Logs scores to CSV and Notion.
 """
 import csv
@@ -7,6 +8,7 @@ import logging
 import os
 import re
 from datetime import datetime
+from typing import List, Dict, Tuple
 
 from .config import DATA_DIR, LOG_DIR
 from .gpt import generate_gpt_text
@@ -49,50 +51,199 @@ def extract_score_from_response(response: str) -> int:
         logging.error(f"Error extracting score from response: '{response}'. Error: {e}")
         return 1
 
-
-def score_headlines(items: list[dict], min_score: int = 7) -> list[dict]:
+def parse_batch_scores(response: str, expected_count: int) -> List[int]:
     """
-    Score headlines and only return/save those meeting minimum score threshold.
+    Parses categories (High, Moderate, Low) from the batch response and maps them to scores.
+    """
+    # Define the mapping from category to score
+    score_map = {
+        'high': 8,
+        'moderate': 5,
+        'low': 2
+    }
+    
+    scores = []
+    lines = response.strip().split('\n')
+    
+    for line in lines:
+        clean_line = line.strip().lower()
+        
+        # Find which category is mentioned in the line
+        found_category = None
+        if 'high' in clean_line:
+            found_category = 'high'
+        elif 'moderate' in clean_line:
+            found_category = 'moderate'
+        elif 'low' in clean_line:
+            found_category = 'low'
+            
+        if found_category:
+            scores.append(score_map[found_category])
+        else:
+            logging.warning(f"Could not classify line: '{line}'. Defaulting to low score.")
+            scores.append(score_map['low'])
+
+    # Pad with default scores if response is too short
+    if len(scores) < expected_count:
+        missing = expected_count - len(scores)
+        logging.warning(f"Got {len(scores)} classifications but expected {expected_count}. Adding {missing} default scores.")
+        scores.extend([score_map['low']] * missing)
+    
+    # Truncate if response is too long
+    elif len(scores) > expected_count:
+        logging.warning(f"Got {len(scores)} classifications but expected {expected_count}. Truncating.")
+        scores = scores[:expected_count]
+    
+    logging.info(f"Extracted {len(scores)} scores from batch classification")
+    return scores
+
+def create_batch_prompt(items: List[Dict]) -> Tuple[str, List[Dict]]:
+    processed_items = []
+    
+    # Enrich items with tickers if missing
+    for item in items:
+        headline = item.get("headline", "")
+        url = item.get("url", "")
+        ticker = item.get("ticker", "") or extract_ticker(headline)
+        
+        processed_items.append({
+            "headline": headline,
+            "url": url,
+            "ticker": ticker
+        })
+    
+    # Build a simple, clean list of headlines
+    headlines_text = "\n".join([f'{i}. {item["headline"]}' for i, item in enumerate(processed_items, 1)])
+    
+    # NEW PROMPT: Asks for a category, not a score.
+    prompt = f"""You are a content curation assistant.
+Your task is to classify the following {len(processed_items)} headlines based on their likely interest to a general crypto audience.
+
+Use one of these three categories: High, Moderate, Low.
+Provide your response as a numbered list with only the category name for each headline.
+
+HEADLINES:
+{headlines_text}
+
+CLASSIFICATION:
+"""
+    
+    return prompt, processed_items
+
+
+def score_headlines_batch(items: List[Dict], min_score: int = 7, batch_size: int = 25) -> List[Dict]:
+    """
+    Score multiple headlines in batches to optimize rate limits while avoiding safety filters.
     
     Args:
-        items: list of {'headline': str, 'url': str, 'ticker': str (optional)}
-        min_score: minimum score threshold (default: 7)
+        items: List of dicts with 'headline', 'url', 'ticker' (optional) keys
+        min_score: Minimum score threshold for inclusion (default: 7)
+        batch_size: Number of headlines per batch (default: 25 to avoid safety triggers)
     
     Returns:
-        list of dicts with 'headline', 'url', 'ticker', 'score', 'timestamp'
-        only including headlines scoring >= min_score
+        List of scored headline records meeting minimum score threshold
+    """
+    if not items:
+        logging.info("No headlines to score")
+        return []
+    
+    logging.info(f"Starting batch scoring for {len(items)} headlines in batches of {batch_size}")
+    
+    all_results = []
+    
+    # Process in smaller batches to avoid safety filters
+    for i in range(0, len(items), batch_size):
+        batch = items[i:i + batch_size]
+        batch_num = (i // batch_size) + 1
+        total_batches = (len(items) + batch_size - 1) // batch_size
+        
+        logging.info(f"Processing batch {batch_num}/{total_batches} ({len(batch)} headlines)")
+        
+        try:
+            # Create batch prompt
+            batch_prompt, processed_items = create_batch_prompt(batch)
+            
+            # Single API call for this batch
+            response = generate_gpt_text(batch_prompt, max_tokens=1000)
+            
+            if not response or "Unable to produce content" in response:
+                logging.warning(f"Batch {batch_num} failed, falling back to individual scoring")
+                batch_results = score_headlines_individual(batch, min_score)
+                all_results.extend(batch_results)
+                continue
+            
+            logging.info(f"Batch {batch_num} response received ({len(response)} chars)")
+            
+            # Parse scores from response
+            scores = parse_batch_scores(response, len(processed_items))
+            
+            # Process results and filter by minimum score
+            timestamp = datetime.utcnow().isoformat()
+            
+            for item, score in zip(processed_items, scores):
+                headline = item["headline"]
+                url = item["url"] 
+                ticker = item["ticker"]
+                
+                if score >= min_score:
+                    record = {
+                        "headline": headline,
+                        "url": url,
+                        "ticker": ticker,
+                        "score": score,
+                        "timestamp": timestamp,
+                    }
+                    
+                    # Save to CSV and Notion
+                    _append_to_csv(record)
+                    notion_log_headline(
+                        date_ingested=timestamp,
+                        headline=headline,
+                        relevance_score=score,
+                        viral_score=score,
+                        used=False,
+                        source_url=url,
+                    )
+                    
+                    all_results.append(record)
+                    logging.info(f"Accepted headline (score {score}): '{headline[:60]}...'")
+                else:
+                    logging.info(f"Rejected headline (score {score}): '{headline[:60]}...'")
+            
+            logging.info(f"Batch {batch_num} complete: {len([s for s in scores if s >= min_score])}/{len(batch)} headlines accepted")
+            
+        except Exception as e:
+            logging.error(f"Error in batch {batch_num}: {e}")
+            logging.info(f"Falling back to individual scoring for batch {batch_num}")
+            batch_results = score_headlines_individual(batch, min_score)
+            all_results.extend(batch_results)
+    
+    logging.info(f"All batch scoring complete: {len(all_results)} total headlines accepted")
+    return all_results
+
+
+def score_headlines_individual(items: List[Dict], min_score: int = 7) -> List[Dict]:
+    """
+    Fallback method: Score headlines individually (original method).
+    Used when batch scoring fails.
     """
     results = []
     for item in items:
         headline = item.get("headline", "")
         url = item.get("url", "")
-        ticker = item.get("ticker", "")
+        ticker = item.get("ticker", "") or extract_ticker(headline)
 
-        # If pipeline didnt supply a ticker, backfill:
-        if not ticker:
-            ticker = extract_ticker(headline)
-
-        # Formulate prompt (explicitly mention ticker)
+        # Individual prompt
         prompt = (
-            f"Score this news headline about {ticker} from 1 to 10, based on how likely it is to go viral on Twitter: "
-            f"\"{headline}\""
+            "Rate this headline for social media engagement. "
+            f"Respond with the score in the format 'X/10'. "
+            f'Headline: "{headline}"'
         )
         response = generate_gpt_text(prompt)
         
-        # Try parsing response as float, then round to nearest int (clamp to [1..10])
-        try:
-        #    raw = float(response.strip())
-        #    score = int(round(raw))
-            score = extract_score_from_response(response)
-        except Exception as e:
-            logging.error(f"Failed to parse the score from response: {response}. Error: {e}")
-            score = 1
-
-        if score < 1:
-            score = 1
-        elif score > 10:
-            score = 10
-
+        # Parse score
+        score = extract_score_from_response(response)
+        
         # Only process headlines meeting minimum score
         if score >= min_score:
             timestamp = datetime.utcnow().isoformat()
@@ -104,7 +255,6 @@ def score_headlines(items: list[dict], min_score: int = 7) -> list[dict]:
                 "timestamp": timestamp,
             }
 
-            # Append to CSV and log to Notion (moved inside if block)
             _append_to_csv(record)
             notion_log_headline(
                 date_ingested=timestamp,
@@ -115,68 +265,69 @@ def score_headlines(items: list[dict], min_score: int = 7) -> list[dict]:
                 source_url=url,
             )
 
-            logging.info(f"Scored headline: '{headline}' -> {score}")
+            logging.info(f"Individual scored headline: '{headline}' -> {score}")
             results.append(record)
         else:
-            logging.info(f"Skipped low-scoring headline: '{headline}' -> {score}")
+            logging.info(f"Individual rejected headline: '{headline}' -> {score}")
 
     return results
 
 
-def _append_to_csv(record: dict):
+def score_headlines(items: List[Dict], min_score: int = 7) -> List[Dict]:
+    """
+    Main scoring function - uses batch scoring by default, falls back to individual.
+    
+    Args:
+        items: list of {'headline': str, 'url': str, 'ticker': str (optional)}
+        min_score: minimum score threshold (default: 7)
+    
+    Returns:
+        list of dicts with 'headline', 'url', 'ticker', 'score', 'timestamp'
+        only including headlines scoring >= min_score
+    """
+    # Use batch scoring for efficiency
+    return score_headlines_batch(items, min_score)
+
+
+def _append_to_csv(record: Dict):
     """
     Append a scored record to the CSV file with standardized header.
     """
+    file_exists = os.path.exists(SCORED_CSV)
+    
     try:
-        logging.info(f"Attempting to write headline to CSV: '{record.get('headline', '')}'")
-        
-        header = ["score", "headline", "url", "ticker", "timestamp"]
-        os.makedirs(DATA_DIR, exist_ok=True)
-        write_header = not os.path.exists(SCORED_CSV)
-        
-        with open(SCORED_CSV, "a", newline="", encoding="utf-8") as f:
-            writer = csv.DictWriter(f, fieldnames=header)
-            if write_header:
+        with open(SCORED_CSV, mode="a", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=["score", "headline", "url", "ticker", "timestamp"])
+            
+            # Write header if file is new
+            if not file_exists:
                 writer.writeheader()
-                logging.info(f"Created new CSV file with header at {SCORED_CSV}")
+                
+            writer.writerow({
+                "score": record["score"],
+                "headline": record["headline"], 
+                "url": record["url"],
+                "ticker": record["ticker"],
+                "timestamp": record["timestamp"],
+            })
             
-            # Ensure all fields are present
-            row = {
-                "score": record.get("score", 0),
-                "headline": record.get("headline", ""),
-                "url": record.get("url", ""),
-                "ticker": record.get("ticker", ""),
-                "timestamp": record.get("timestamp", ""),
-            }
-            writer.writerow(row)
-            logging.info(f"Successfully wrote headline to CSV: '{row['headline']}'")
-            
-    except PermissionError:
-        logging.error(f"Permission denied when writing to {SCORED_CSV}")
-        raise
-    except IOError as e:
-        logging.error(f"IO Error writing to CSV: {str(e)}")
-        raise
     except Exception as e:
-        logging.error(f"Unexpected error writing to CSV: {str(e)}")
-        raise
+        logging.error(f"Failed to write to CSV: {e}")
 
 
-def write_headlines(records: list[dict]):
+def write_headlines(records: List[Dict]):
     """
-    Convenience function to write multiple scored records at once.
+    Write multiple headline records to CSV (batch write).
+    Maintained for backward compatibility.
     """
-    for rec in records:
-        # Ensure required keys
-        rec.setdefault("url", "")
-        rec.setdefault("ticker", "")
-        rec.setdefault("timestamp", datetime.utcnow().isoformat())
-        _append_to_csv(rec)
-        notion_log_headline(
-            date_ingested=rec["timestamp"],
-            headline=rec["headline"],
-            relevance_score=rec["score"],
-            viral_score=rec["score"],
-            used=False,
-            source_url=rec["url"],
-        )
+    if not records:
+        return
+        
+    for record in records:
+        _append_to_csv(record)
+
+
+# Backward compatibility - keep old function name as alias
+def score_headlines_old(items: List[Dict], min_score: int = 7) -> List[Dict]:
+    """Backward compatibility alias for individual scoring."""
+    return score_headlines_individual(items, min_score)

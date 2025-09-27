@@ -8,8 +8,9 @@ import os
 from datetime import datetime, timezone, timedelta
 from threading import Lock
 
-from utils import (DATA_DIR, LOG_DIR, generate_gpt_thread, insert_cashtags,
+from utils import (DATA_DIR, LOG_DIR, insert_cashtags,
                    insert_mentions, post_thread, get_module_logger, upload_media)
+from services.ai_service import get_ai_service
 
 logger = get_module_logger(__name__)
 
@@ -57,12 +58,27 @@ def generate_summary_thread():
             logger.warning(f"⚠️ Skipped malformed headline during sorting: {h}")
     top3 = sorted(valid, key=lambda h: h["score"], reverse=True)[:3]
 
-    # Build GPT prompt
-    prompt_lines = [h["headline"] for h in top3]
-    prompt = "Write 3 engaging tweets summarizing today's top crypto headlines. Be clever, use emojis, and close each with '— Hunter 🐾'. Separate tweets using '---'. Do not include numbers or headers.\n\n"
-    prompt += "\n".join(prompt_lines)
+    # Build Gemini prompt
+    prompt_lines = [f"- {h['headline']}" for h in top3]
+    headlines_text = "\n".join(prompt_lines)
 
-    thread_parts = generate_gpt_thread(prompt, max_parts=3, delimiter="---")
+    # --- REPLACE THE OLD PROMPT WITH THIS NEW, STRUCTURED ONE ---
+    prompt = f"""**ROLE:** You are Hunter 🐾, a witty crypto news analyst.
+
+**TASK:** Write a 3-part tweet thread summarizing the key crypto headlines provided in the data block.
+
+**RULES:**
+- Each tweet must be clever, engaging, and under 280 characters.
+- Use relevant emojis and cashtags.
+- End each tweet with '— Hunter 🐾'.
+- Separate each tweet with '---'.
+
+**DATA:**
+{headlines_text}
+"""
+
+    ai_service = get_ai_service()
+    thread_parts = ai_service.generate_thread(prompt, max_parts=3, delimiter="---", max_tokens=2000)
     if not thread_parts or len(thread_parts) < 3:
         logger.warning("⚠️ GPT returned insufficient parts for news recap.")
         return []

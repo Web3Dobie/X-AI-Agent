@@ -16,7 +16,7 @@ import pandas_ta as ta
 
 from utils.base_article_generator import BaseArticleGenerator
 from utils.token_helpers import fetch_ohlcv, analyze_token_patterns, generate_chart
-from utils.gpt import generate_gpt_text
+from services.ai_service import get_ai_service
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -38,6 +38,7 @@ class TechnicalAnalysisGenerator(BaseArticleGenerator):
         super().__init__()
         self.tokens = TOKENS
         self.token_analyses = []
+        self.ai_service = get_ai_service()
     
     def _format_volume(self, vol: float) -> str:
         """Format volume for display."""
@@ -221,11 +222,12 @@ Write a technical analysis covering:
 - Support/resistance levels analysis
 - Volume interpretation 
 - Technical indicator signals
+- **Hunter's Take:** A brief, witty observation on the market psychology reflected in these numbers.
 - Trading outlook based on the data
 
 Maximum 300 words."""
 
-        return generate_gpt_text(prompt, max_tokens=400)
+        return self.ai_service.generate_text(prompt, max_tokens=400)
     
     def _generate_cross_market_analysis_content(self) -> str:
         """Generate cross-market analysis with strict data validation."""
@@ -271,7 +273,7 @@ End with: "Follow @Web3_Dobie for more insights! This is not financial advice."
 
 Maximum 400 words."""
 
-        return generate_gpt_text(prompt, max_tokens=500)
+        return self.ai_service.generate_text(prompt, max_tokens=500)
     
     def _generate_market_overview(self) -> str:
         """Generate market overview with strict current data constraints."""
@@ -294,7 +296,7 @@ RULES:
 
 Write a market overview that sets the tone for technical analysis."""
 
-        return generate_gpt_text(prompt, max_tokens=200)
+        return self.ai_service.generate_text(prompt, max_tokens=200)
     
     def _generate_content(self) -> Optional[str]:
         """Generate the complete TA article content with data validation."""

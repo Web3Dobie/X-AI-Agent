@@ -10,8 +10,9 @@ from threading import Lock
 
 import requests
 
-from utils import (DATA_DIR, LOG_DIR, generate_gpt_thread, insert_cashtags,
+from utils import (DATA_DIR, LOG_DIR, insert_cashtags,
                    insert_mentions, post_thread, get_module_logger, upload_media)
+from services.ai_service import get_ai_service
 
 logger = get_module_logger(__name__)
 
@@ -84,7 +85,8 @@ Headline:
 {headline}
 """
 
-    thread_parts = generate_gpt_thread(prompt, max_parts=3, delimiter="---")
+    ai_service = get_ai_service()
+    thread_parts = ai_service.generate_thread(prompt, max_parts=3, delimiter="---", max_tokens=2000)
     if not thread_parts or len(thread_parts) < 3:
         logger.warning("⚠️ GPT returned insufficient parts.")
         return []

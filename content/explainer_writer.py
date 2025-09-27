@@ -7,7 +7,7 @@ import logging
 from datetime import datetime
 from typing import Dict, List, Optional
 
-from utils.gpt import generate_gpt_text
+from services.ai_service import get_ai_service
 from utils.headline_pipeline import get_top_headline_last_7_days
 from utils.publish_substack_article import publish_substack_article
 
@@ -35,27 +35,33 @@ def generate_substack_explainer():
         
         logger.info(f"📰 Using headline: {topic}")
         
-        # 2. Generate content using GPT
-        prompt = f"""
-You're Hunter 🐾 — a witty Doberman who explains complex crypto topics in plain English with personality and insight.
+        # 2. Generate content using Gemini
+        # --- REVISED, MORE ADVANCED PROMPT ---
+        prompt = f"""**ROLE:** You're Hunter 🐾 — a witty Doberman who explains complex crypto topics with personality and insight for a Substack audience.
 
-Write a 1,000–1,500 word Substack article about:
-"{topic}"
+**TOPIC:** "{topic}"
+**SOURCE:** {url}
+**DATE:** {date_str}
 
-Use this format:
-- Subtitle: "Don't worry: Hunter Explains 🐾"
-- TL;DR (3 bullets)
-- What's the deal?
-- Why does it matter?
-- Hunter's take
-- Bottom line
+**TASK:** Write a 1,000–1,500 word article on the topic. Your analysis must be multi-layered to serve three key audiences:
+1.  **For Beginners:** Use simple analogies and clearly define all technical terms.
+2.  **For Crypto Natives:** Discuss the deeper implications for the ecosystem, tokenomics, or protocol design.
+3.  **For Investors:** Analyze the potential market impact and catalysts.
 
-Inject emojis, sass, and clarity. Reference the source: {url}
-Today is {date_str}.
+**OUTPUT STRUCTURE:**
+- **Subtitle:** "Don't worry: Hunter Explains 🐾"
+- **TL;DR:** 3 sharp, insightful bullet points.
+- **What's the Deal?:** The core news, explained simply for beginners.
+- **Why Does It Matter?:** The deeper analysis for crypto natives and investors.
+- **Hunter's Take:** Your unique, witty, and insightful opinion.
+- **Bottom Line:** A concise, forward-looking summary.
+
+**TONE:** Inject emojis, sass, and supreme clarity. Your voice is the most important element.
 """
         
         logger.info("🤖 Generating article content with GPT...")
-        content = generate_gpt_text(prompt, max_tokens=1800)
+        ai_service = get_ai_service()
+        content = ai_service.generate_text(prompt, max_tokens=1800)
         if not content:
             raise Exception("GPT returned no content for explainer article")
         
