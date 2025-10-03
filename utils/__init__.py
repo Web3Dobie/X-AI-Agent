@@ -1,51 +1,41 @@
-# utils/__init__.py
-import os
-from datetime import datetime
+# /app/utils/__init__.py (Refactored)
+"""
+This file defines the public interface for the 'utils' package.
+It now only exposes generic, reusable helper functions and core services
+that are still in use after the major refactoring.
+"""
 
-# --- Configuration & paths ---
-from utils.config import LOG_DIR, SUBSTACK_POST_DIR, DATA_DIR, CHART_DIR, TA_POST_DIR, BACKUP_DIR
+# --- Active Core Utilities ---
 
-# --- Headline pipeline ---
-from utils.headline_pipeline import get_top_headline_last_7_days, fetch_and_score_headlines
+# X/Twitter posting functions (still in use by jobs, will be moved to a service later)
+from .x_post import post_quote_tweet, post_thread, post_tweet, upload_media
 
-# --- X/Twitter posting ---
-from utils.x_post import post_quote_tweet, post_thread, post_tweet, upload_media
+# Generic text manipulation helpers
+from .text_utils import insert_cashtags, insert_mentions, slugify
 
-# --- GPT wrappers ---
-from utils.gpt import generate_gpt_text, generate_gpt_thread, generate_gpt_tweet
+# Core monitoring and notification system
+from .tg_notifier import send_telegram_message
+from .telegram_log_handler import TelegramHandler
 
-# --- Tweet metrics logging & limits ---
-from utils.logging_helper import get_module_logger
-from utils.logger import log_tweet
-from utils.limit_guard import has_reached_daily_limit
+# The new rate limit manager for the X poster
+from .rate_limit_manager import is_rate_limited, update_rate_limit_state_from_headers
 
-# --- Notion logging ---
-from utils.notion_logger import log_substack_post_to_notion, log_headline_to_vault, log_to_notion_tweet
 
-# --- Email & notifications ---
-from utils.mailer import send_email_alert
-
-# --- Log rotation ---
-from utils.rotate_logs import clear_xrp_flag, rotate_logs
-
-# --- RSS & headline pipeline ---
-from utils.rss_fetch import fetch_headlines
-
-# --- Scoring & logging headlines ---
-from utils.scorer import score_headlines, write_headlines
-
-# --- Text utilities ---
-from utils.text_utils import insert_cashtags, insert_mentions
-
-# --- Telegram handler ---
-from utils.tg_notifier import send_telegram_message
-from utils.telegram_log_handler import TelegramHandler
-
-# --- Substack utilities ---
-from utils.substack import save_article, send_article_email
-
-# --- Blob storage ---
-from utils.blob import upload_to_blob
-
-# --- Token helpers (for TA functionality) ---
-from utils.token_helpers import fetch_ohlcv, analyze_token_patterns, generate_chart
+# --- Obsolete imports have been removed ---
+# The following have been removed as their logic is now in the `jobs/` or `services/` directories,
+# or they were part of the decommissioned file-based/Substack workflow:
+#
+# - config.py
+# - headline_pipeline.py
+# - ai_wrappers.py
+# - logger.py (the log_tweet function)
+# - notion_logger.py (the headline and article functions)
+# - mailer.py
+# - rotate_logs.py
+# - rss_fetch.py
+# - scorer.py
+# - substack.py
+# - blob.py
+# - token_helpers.py
+# - base_article_generator.py
+# - publish_substack_article.py

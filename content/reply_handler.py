@@ -7,7 +7,7 @@ from datetime import datetime
 import tweepy
 from dotenv import load_dotenv
 
-from utils import LOG_DIR, generate_gpt_tweet
+from utils import LOG_DIR, generate_ai_tweet
 from utils.config import TWITTER_BEARER_TOKEN
 
 load_dotenv()
@@ -117,7 +117,7 @@ def reply_to_comments(bot_id=None):
         prompt_text = tweet.text.strip()
         logging.info(f"✍️ Generating reply for tweet ID {tweet_id} with text: {prompt_text}")
 
-        reply = generate_gpt_tweet(prompt_text)
+        reply = generate_ai_tweet(prompt_text)
         if not reply:
             logging.warning("⚠️ GPT returned empty reply; skipping")
             continue

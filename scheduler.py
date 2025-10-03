@@ -19,17 +19,22 @@ from typing import Optional, Dict, Any, Callable
 import schedule
 from dotenv import load_dotenv
 
+project_root = os.path.dirname(os.path.abspath(__file__))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
 # Import job registry system
 from jobs.registry import JobRegistry, JobCategory, JobPriority
 from jobs.definitions import setup_all_jobs, print_job_summary
 
 # Import utilities
-from process_http_manager import ProcessHTTPServer
-from utils import rotate_logs
+from hunter_http_server import start_hunter_server
 from utils.tg_notifier import send_telegram_message
 from utils.telegram_log_handler import TelegramHandler
 
 load_dotenv()
+
+http_server_thread = None
 
 # REMOVED: Problematic stdout/stderr wrapping that caused I/O errors
 # sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
@@ -185,15 +190,16 @@ def telegram_job_wrapper(job_name: str):
             monitoring_stats["last_job_time"] = start_time
             
             logger.info(f"Starting job: {job_name}")
-            send_telegram_log(f"Starting job: {job_name}", "START", use_markdown=False)
+            # We can remove the "START" telegram message to reduce noise if you prefer
+            # send_telegram_log(f"Starting job: {job_name}", "START")
             
             try:
                 result = func(*args, **kwargs)
                 monitoring_stats["jobs_executed"] += 1
                 duration = datetime.now() - start_time
                 
-                logger.info(f"Completed job: {job_name} in {str(duration).split('.')[0]}")
-                send_telegram_log(f"Completed job: {job_name}\nDuration: {str(duration).split('.')[0]}s", "COMPLETE", use_markdown=False)
+                logger.info(f"✅ Job {job_name} completed successfully in {str(duration).split('.')[0]}")
+                # No need to send a Telegram message on every success unless you want it
                 
                 return result
                 
@@ -201,106 +207,103 @@ def telegram_job_wrapper(job_name: str):
                 monitoring_stats["jobs_failed"] += 1
                 duration = datetime.now() - start_time
                 
-                error_details = traceback.format_exc()
-                logger.error(f"Job failed: {job_name} - {str(e)}\n{error_details}")
+                # --- THIS IS THE FIX ---
+                # Capture the traceback to an in-memory object first
+                import io
+                string_buffer = io.StringIO()
+                traceback.print_exc(file=string_buffer)
+                error_details = string_buffer.getvalue()
+                # --- END OF FIX ---
+                
+                logger.error(f"❌ Job failed: {job_name} - {str(e)}\n{error_details}")
                 
                 error_msg = (
                     f"Job Failure: {job_name}\n"
-                    f"Duration: {str(duration).split('.')[0]}s\n"
+                    f"Duration: {str(duration).split('.')[0]}\n"
                     f"Error: {str(e)}"
                 )
-                send_telegram_log(error_msg, "ERROR", use_markdown=False)
+                send_telegram_log(error_msg, "ERROR")
 
         return wrapper
     return decorator
 
 # HTTP Server Management Functions
 def start_http_server_with_verification():
-    """Start HTTP server using process management with verification."""
-    global http_server_manager
+    """Start HTTP server in background thread"""
+    global http_server_thread
     
-    logger.info("Starting process-managed HTTP server...")
+    logger.info("Starting Hunter HTTP server...")
     
     try:
-        # Create server manager with notification callback
-        http_server_manager = ProcessHTTPServer(
-            port=3001,
-            health_check_interval=30,
-            notification_callback=send_telegram_log
+        # Start server in daemon thread
+        http_server_thread = threading.Thread(
+            target=start_hunter_server,
+            args=(3001,),
+            daemon=True,
+            name="HunterHTTPServer"
         )
+        http_server_thread.start()
         
-        # Start server process
-        if http_server_manager.start_server_process():
-            # Start monitoring
-            http_server_manager.start_monitoring()
-            
-            # Update monitoring stats
-            monitoring_stats["http_server_status"] = "healthy"
-            monitoring_stats["server_ready"] = True
-            
-            logger.info("Process-managed HTTP server ready")
-            return True
-        else:
-            logger.error("Failed to start process-managed HTTP server")
-            monitoring_stats["http_server_status"] = "failed"
-            return False
-            
+        # Simple health check
+        time.sleep(2)  # Give server time to start
+        
+        try:
+            response = requests.get('http://localhost:3001/health', timeout=5)
+            if response.status_code == 200:
+                monitoring_stats["http_server_status"] = "healthy"
+                monitoring_stats["server_ready"] = True
+                logger.info("✅ Hunter HTTP server ready")
+                return True
+        except:
+            pass
+        
+        logger.error("❌ HTTP server failed to start")
+        monitoring_stats["http_server_status"] = "failed"
+        return False
+        
     except Exception as e:
-        logger.error(f"HTTP server manager error: {e}")
+        logger.error(f"HTTP server error: {e}")
         monitoring_stats["http_server_status"] = "crashed"
-        send_telegram_log(f"HTTP server manager crashed: {e}", "ERROR")
         return False
 
 def get_http_server_status():
-    """Get detailed HTTP server status"""
-    global http_server_manager
-    
-    if not http_server_manager:
-        return {"status": "not_initialized", "details": None}
-    
+    """Simple health check"""
     try:
-        status = http_server_manager.get_status()
-        return {"status": "ok", "details": status}
-    except Exception as e:
-        return {"status": "error", "error": str(e)}
+        response = requests.get('http://localhost:3001/health', timeout=3)
+        return {
+            "status": "ok" if response.status_code == 200 else "unhealthy",
+            "details": {
+                "responsive": response.status_code == 200,
+                "state": "running" if response.status_code == 200 else "unhealthy"
+            }
+        }
+    except:
+        return {
+            "status": "error", 
+            "details": {
+                "responsive": False,
+                "state": "error"
+            }
+        }
 
 def restart_http_server(reason: str = "Manual restart"):
-    """Manually restart the HTTP server"""
-    global http_server_manager
-    
-    if not http_server_manager:
-        logger.error("HTTP server manager not initialized")
-        return False
-    
-    try:
-        return http_server_manager.restart_server(reason)
-    except Exception as e:
-        logger.error(f"Failed to restart server: {e}")
-        return False
+    """Restart requires full scheduler restart"""
+    logger.warning(f"HTTP server restart requested: {reason}")
+    logger.warning("⚠️ Server runs in daemon thread - restart scheduler to restart HTTP server")
+    send_telegram_log(f"HTTP restart requested but requires scheduler restart: {reason}", "WARNING")
+    return False
 
 def stop_http_server():
-    """Stop the HTTP server cleanly"""
-    global http_server_manager
-    
-    if not http_server_manager:
-        return True
-    
-    try:
-        http_server_manager.stop_monitoring()
-        return http_server_manager.stop_server()
-    except Exception as e:
-        logger.error(f"Error stopping HTTP server: {e}")
-        return False
+    """Server will stop when scheduler stops (daemon thread)"""
+    logger.info("HTTP server will stop with scheduler")
+    return True
 
 def graceful_shutdown():
-    """Handle graceful shutdown of all services"""
+    """Handle graceful shutdown"""
     logger.info("Starting graceful shutdown...")
     
-    # Stop HTTP server
-    if stop_http_server():
-        logger.info("HTTP server stopped cleanly")
-    else:
-        logger.warning("HTTP server stop had issues")
+    # HTTP server is daemon thread - will stop automatically
+    logger.info("HTTP server will stop with main process")
     
     logger.info("Graceful shutdown complete")
 
@@ -340,16 +343,11 @@ def send_system_heartbeat():
     total_jobs = len(job_registry.jobs)
     enabled_jobs = sum(1 for job in job_registry.jobs.values() if job['enabled'])
     
-    # HTTP server details
+    # HTTP server details (simplified)
     http_details = health.get('http_details', {})
     if http_details.get('status') == 'ok':
-        server_info = http_details['details']
         server_emoji = "💚" if health['http_responsive'] else "💔"
-        server_text = f"{server_emoji} HTTP: {server_info['state']} (PID: {server_info.get('process_id', 'N/A')})"
-        
-        # Add restart info if there have been restarts
-        if server_info['stats']['total_restarts'] > 0:
-            server_text += f" | Restarts: {server_info['stats']['total_restarts']}"
+        server_text = f"{server_emoji} HTTP: {http_details['details']['state']}"
     else:
         server_text = "❌ HTTP: Error"
     

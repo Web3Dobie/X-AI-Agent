@@ -1,20 +1,39 @@
 # job_definitions.py - Define and register all scheduled jobs with proper logging
 import logging
+from datetime import datetime
 from .registry import JobRegistry, JobCategory, JobPriority
 
 # Import your job functions
-from content.market_summary import post_market_summary_thread
-from content.news_recap import post_news_thread
-from content.random_post import post_random_content
-from content.reply_handler import reply_to_comments
-from content.ta_poster import post_ta_thread
-from content.top_news_or_explainer import post_top_news_or_skip
-from content.explainer_writer import generate_substack_explainer
-from content.ta_substack_generator import generate_ta_substack_article
-from crypto_news_bridge import generate_crypto_news_for_website
-from utils import fetch_and_score_headlines, rotate_logs
+# from content.reply_handler import reply_to_comments
+from jobs.maintenance import run_weekly_maintenance_job
+from jobs.data_ingestion import run_headline_ingestion_job
+from jobs.market_summary import run_market_summary_job
+from jobs.news_recap import run_news_thread_job
+from jobs.opinion_thread import run_opinion_thread_job
+from jobs.random_post import run_random_post_job
+from jobs.ta_thread import run_ta_thread_job
+from jobs.explainer_thread import run_explainer_thread_job
+from jobs.ta_article import run_ta_article_job
 
 logger = logging.getLogger(__name__)
+
+def run_daily_ta_thread_wrapper():
+    """Determines which token to analyze based on the day of the week."""
+    # Monday=0, Tuesday=1, ..., Friday=4
+    weekday = datetime.utcnow().weekday()
+    token_map = {
+        0: "BTC", # Monday
+        1: "ETH", # Tuesday
+        2: "SOL", # Wednesday
+        3: "XRP", # Thursday
+        4: "DOGE"  # Friday
+    }
+    token_to_analyze = token_map.get(weekday)
+    if token_to_analyze:
+        run_ta_thread_job(token_to_analyze)
+    else:
+        logging.info("Not a weekday for TA threads. Skipping.")
+
 
 def setup_all_jobs(job_registry: JobRegistry):
     """
@@ -24,22 +43,11 @@ def setup_all_jobs(job_registry: JobRegistry):
     # ===== DATA INGESTION JOBS =====
     job_registry.register_job(
         name="fetch_headlines",
-        func=fetch_and_score_headlines,
+        func=run_headline_ingestion_job,
         schedule_config={'type': 'hourly', 'minute': ':55'},
         category=JobCategory.DATA_INGESTION,
         priority=JobPriority.CRITICAL,
         description="Fetch and score cryptocurrency news headlines"
-    )
-    
-    # ===== WEBSITE GENERATION JOBS =====
-    job_registry.register_job(
-        name="crypto_news_website",
-        func=generate_crypto_news_for_website,
-        schedule_config={'type': 'hourly', 'minute': ':15'},
-        category=JobCategory.WEBSITE_GENERATION,
-        priority=JobPriority.HIGH,
-        description="Generate crypto news content for website",
-        dependencies=["fetch_headlines"]  # Depends on fresh headlines
     )
     
     # ===== SOCIAL MEDIA POSTING JOBS =====
@@ -47,7 +55,7 @@ def setup_all_jobs(job_registry: JobRegistry):
     # Daily news thread
     job_registry.register_job(
         name="news_thread",
-        func=post_news_thread,
+        func=run_news_thread_job,
         schedule_config={'type': 'daily', 'time': '13:00'},
         category=JobCategory.SOCIAL_POSTING,
         priority=JobPriority.HIGH,
@@ -58,7 +66,7 @@ def setup_all_jobs(job_registry: JobRegistry):
     # Daily market summary
     job_registry.register_job(
         name="market_summary",
-        func=post_market_summary_thread,
+        func=run_market_summary_job,
         schedule_config={'type': 'daily', 'time': '14:00'},
         category=JobCategory.SOCIAL_POSTING,
         priority=JobPriority.HIGH,
@@ -67,41 +75,69 @@ def setup_all_jobs(job_registry: JobRegistry):
     
     # Weekday TA threads (Monday-Friday at 16:00)
     job_registry.register_job(
-        name="ta_thread_weekdays",
-        func=post_ta_thread,
-        schedule_config={'type': 'weekdays', 'time': '16:00'},
-        category=JobCategory.SOCIAL_POSTING,
-        priority=JobPriority.MEDIUM,
-        description="Post technical analysis threads on weekdays"
+    name="ta_thread_weekdays",
+    func=run_daily_ta_thread_wrapper,
+    schedule_config={'type': 'weekdays', 'time': '16:00'},
+    category=JobCategory.SOCIAL_POSTING,
+    priority=JobPriority.MEDIUM,
+    description="Post technical analysis threads on weekdays"
     )
     
     # Evening top news
+    for day in ['saturday', 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday']:
+        job_registry.register_job(
+            name=f"opinion_thread_{day}",
+            func=run_opinion_thread_job,
+            schedule_config={'type': 'weekly', 'day': day, 'time': '23:45'}, # Uses the supported 'weekly' type
+            category=JobCategory.SOCIAL_POSTING,
+            priority=JobPriority.MEDIUM,
+            description=f"Posts 'Hunter Reacts' opinion thread on {day.capitalize()}."
+        )
+
+    # Hunter Explainer on Fridays
     job_registry.register_job(
-        name="top_news_or_skip",
-        func=post_top_news_or_skip,
-        schedule_config={'type': 'daily', 'time': '23:45'},
-        category=JobCategory.SOCIAL_POSTING,
-        priority=JobPriority.MEDIUM,
-        description="Post top news of the day or skip if no major news",
-        dependencies=["fetch_headlines"]
-    )
-    
-    # ===== CONTENT GENERATION JOBS =====
-    
-    # Weekly Substack explainer (Fridays)
-    job_registry.register_job(
-        name="substack_explainer",
-        func=generate_substack_explainer,
+        name="explainer_thread_weekly", # Renamed from "substack_explainer" for clarity
+        func=run_explainer_thread_job,
         schedule_config={'type': 'weekly', 'day': 'friday', 'time': '23:45'},
         category=JobCategory.CONTENT_GENERATION,
         priority=JobPriority.MEDIUM,
-        description="Generate weekly Substack explainer article"
+        description="Generate weekly explainer thread from the week's top headline"
     )
+
+    # ===== WEEKEND ENGAGEMENT JOBS =====
+    # We now create separate jobs for Saturday and Sunday for each time slot.
+    for day in ['saturday', 'sunday']:
+        job_registry.register_job(
+            name=f"random_post_{day}_morning",
+            func=run_random_post_job,
+            schedule_config={'type': 'weekly', 'day': day, 'time': '10:00'}, # Uses 'weekly' type
+            category=JobCategory.SOCIAL_POSTING,
+            priority=JobPriority.LOW,
+            description=f"Posts random engagement content on {day.capitalize()} morning."
+        )
+        job_registry.register_job(
+            name=f"random_post_{day}_afternoon",
+            func=run_random_post_job,
+            schedule_config={'type': 'weekly', 'day': day, 'time': '17:00'}, # Uses 'weekly' type
+            category=JobCategory.SOCIAL_POSTING,
+            priority=JobPriority.LOW,
+            description=f"Posts random engagement content on {day.capitalize()} afternoon."
+        )
+        job_registry.register_job(
+            name=f"random_post_{day}_evening",
+            func=run_random_post_job,
+            schedule_config={'type': 'weekly', 'day': day, 'time': '21:00'}, # Uses 'weekly' type
+            category=JobCategory.SOCIAL_POSTING,
+            priority=JobPriority.LOW,
+            description=f"Posts random engagement content on {day.capitalize()} evening."
+        )
+    
+    # ===== CONTENT GENERATION JOBS =====
     
     # Weekly TA Substack article (Sundays)
     job_registry.register_job(
         name="ta_substack_article",
-        func=generate_ta_substack_article,
+        func=run_ta_article_job,
         schedule_config={'type': 'weekly', 'day': 'sunday', 'time': '18:00'},
         category=JobCategory.CONTENT_GENERATION,
         priority=JobPriority.MEDIUM,
@@ -113,7 +149,7 @@ def setup_all_jobs(job_registry: JobRegistry):
     # Weekly log rotation (Sundays)
     job_registry.register_job(
         name="log_rotation",
-        func=rotate_logs,
+        func=run_weekly_maintenance_job,
         schedule_config={'type': 'weekly', 'day': 'sunday', 'time': '23:50'},
         category=JobCategory.MAINTENANCE,
         priority=JobPriority.LOW,

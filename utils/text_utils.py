@@ -98,3 +98,16 @@ def sanitize_prompt(text: str) -> str:
             .replace("\u200b", "")  # remove zero-width space
             .strip()
     )
+
+def slugify(text: str) -> str:
+    """
+    Convert a string into a URL-friendly "slug".
+    e.g., "Hello World!" -> "hello-world"
+    """
+    if not text:
+        return ""
+    text = text.lower()
+    text = re.sub(r'[^\w\s-]', '', text)  # Remove non-alphanumeric chars
+    text = re.sub(r'[\s_-]+', '-', text)   # Replace spaces and hyphens with a single hyphen
+    text = text.strip('-')
+    return text
