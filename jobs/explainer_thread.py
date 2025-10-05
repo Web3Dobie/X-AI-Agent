@@ -9,6 +9,7 @@ from services.hunter_ai_service import get_hunter_ai_service
 from utils.x_post import post_thread, upload_media
 from utils.text_utils import slugify
 from utils.notion_logger import log_article_to_notion, update_notion_article_with_tweet_url
+from utils.url_helpers import get_article_file_path, get_article_web_url, get_tweet_url, get_image_url
 
 logger = logging.getLogger(__name__)
 
@@ -61,7 +62,7 @@ Use emojis strategically and inject personality throughout.
         
         # 3. Format the full article with header, image, and footer
         article_title = f"Hunter Explains: {topic}"
-        hunter_headshot_url = "https://w3darticles.blob.core.windows.net/w3d-articles/hunter_headshot.png"
+        hunter_headshot_url = get_image_url("hunter_headshot.png")
         
         common_footer = """
 ---
@@ -87,20 +88,22 @@ Hunter the Web3 Dobie
             f.write(final_article_content)
         logger.info(f"Article saved locally to: {article_path}")
 
-        # 5. Construct the public URL for the raw file
-        public_file_url = f"https://dutchbrat.com/articles/explainer/{file_name}"
+        # 5. Construct the API path where the frontend will fetch the markdown file
+        article_file_path = get_article_file_path("explainer", file_name)
+        logger.info(f"Article file path for Notion: {article_file_path}")
 
         # 6. Log the article to Notion to get a Page ID
         notion_page_id = log_article_to_notion(
             headline=article_title,
-            file_url=public_file_url,
+            file_url=article_file_path,  # RENAMED: This is the API path, not a public URL
             tags=["explainer", "crypto", "education"],
             category="Explainer",
             summary=f"Hunter breaks down '{topic}' with wit and insight."
         )
         
-        # 7. Construct the final website URL using the Notion Page ID
-        final_website_url = f"https://dutchbrat.com/articles?articleId={notion_page_id}" if notion_page_id else public_file_url
+        # 7. Construct the public URL that users will click in the tweet
+        public_article_url = get_article_web_url(notion_page_id) if notion_page_id else article_file_path
+        logger.info(f"Public article URL for tweet: {public_article_url}")
 
         # 8. Generate and post the promotional thread
         thread_prompt = f"""
@@ -121,7 +124,7 @@ Do NOT include headers, links, or dates - they will be added separately.
         # Add header to first tweet and link to last tweet
         header = f"Hunter Explains [{today_str}]\n\n"
         thread_parts[0] = header + thread_parts[0].lstrip()
-        thread_parts[-1] = thread_parts[-1].strip() + f"\n\nRead the full deep dive: {final_website_url}"
+        thread_parts[-1] = thread_parts[-1].strip() + f"\n\nRead the full deep dive: {public_article_url}"
 
         # Upload Hunter's explaining image
         img_path = "/app/content/assets/hunter_poses/explaining.png"
@@ -132,7 +135,7 @@ Do NOT include headers, links, or dates - they will be added separately.
         # 9. Log everything and update Notion with the tweet URL
         if post_result and post_result.get("error") is None:
             final_tweet_id = post_result.get("final_tweet_id")
-            tweet_url = f"https://x.com/user/status/{final_tweet_id}"
+            tweet_url = get_tweet_url('user', final_tweet_id)
             
             if notion_page_id:
                 update_notion_article_with_tweet_url(notion_page_id, tweet_url)
@@ -143,7 +146,7 @@ Do NOT include headers, links, or dates - they will be added separately.
                 details=final_article_content, 
                 headline_id=headline_id,
                 ai_provider=hunter_ai.provider.value, 
-                notion_url=final_website_url
+                notion_url=public_article_url  # RENAMED: This is the public URL
             )
             
             db_service.mark_headline_as_used(headline_id)

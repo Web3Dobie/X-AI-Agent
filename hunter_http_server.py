@@ -1,4 +1,4 @@
-# hunter_http_server.py - Simple HTTP server like HTD agent
+# hunter_http_server.py - Enhanced with latest tweet endpoint
 
 import json
 import logging
@@ -7,13 +7,14 @@ from datetime import datetime
 
 from services.database_service import DatabaseService
 from services.hunter_ai_service import get_hunter_ai_service
+from utils.url_helpers import get_tweet_url
 
 logger = logging.getLogger(__name__)
 
 class HunterNewsHandler(BaseHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         self.db_service = DatabaseService()
-        self.hunter_ai = get_hunter_ai_service()  # ← CHANGE THIS
+        self.hunter_ai = get_hunter_ai_service()
         super().__init__(*args, **kwargs)
     
     def do_GET(self):
@@ -24,7 +25,6 @@ class HunterNewsHandler(BaseHTTPRequestHandler):
                 formatted_headlines = []
                 for h in headlines:
                     try:
-                        # ← USE HUNTER-SPECIFIC METHOD
                         comment = self.hunter_ai.generate_headline_comment(h['headline'])
                     except Exception as e:
                         logger.error(f"AI failed: {e}")
@@ -57,6 +57,84 @@ class HunterNewsHandler(BaseHTTPRequestHandler):
                 return
             except Exception as e:
                 logger.error(f"Error: {e}")
+                try:
+                    self._send_error(500, str(e))
+                except BrokenPipeError:
+                    return
+        
+        elif self.path == '/api/latest-tweet':
+            try:
+                # Query the latest tweet from content_log
+                with self.db_service.get_connection() as conn:
+                    with conn.cursor() as cur:
+                        cur.execute("""
+                            SELECT 
+                                content_type,
+                                tweet_id,
+                                details,
+                                created_at
+                            FROM hunter_agent.content_log
+                            WHERE tweet_id IS NOT NULL
+                            ORDER BY created_at DESC
+                            LIMIT 1
+                        """)
+                        result = cur.fetchone()
+                
+                if not result:
+                    self._send_error(404, "No tweets found")
+                    return
+                
+                content_type, tweet_id, details, created_at = result
+                
+                # Calculate "time ago"
+                now = datetime.utcnow()
+                if created_at.tzinfo is not None:
+                    created_at = created_at.replace(tzinfo=None)
+                
+                delta = now - created_at
+                if delta.days > 0:
+                    time_ago = f"{delta.days}d ago"
+                elif delta.seconds >= 3600:
+                    time_ago = f"{delta.seconds // 3600}h ago"
+                elif delta.seconds >= 60:
+                    time_ago = f"{delta.seconds // 60}m ago"
+                else:
+                    time_ago = "just now"
+                
+                # Truncate text for preview (150 chars)
+                preview_text = details[:150] + "..." if len(details) > 150 else details
+                
+                # Construct tweet URL
+                tweet_url = get_tweet_url("Web3_Dobie", tweet_id)
+                
+                response = {
+                    "success": True,
+                    "data": {
+                        "id": tweet_id,
+                        "text": preview_text,
+                        "fullText": details,
+                        "type": content_type,
+                        "createdAt": created_at.isoformat(),
+                        "timeAgo": time_ago,
+                        "url": tweet_url,
+                        "user": {
+                            "id": "web3_dobie",
+                            "username": "Web3_Dobie",
+                            "name": "Web3 Dobie"
+                        }
+                    }
+                }
+                
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(json.dumps(response).encode('utf-8'))
+                
+            except BrokenPipeError:
+                return
+            except Exception as e:
+                logger.error(f"Error fetching latest tweet: {e}", exc_info=True)
                 try:
                     self._send_error(500, str(e))
                 except BrokenPipeError:

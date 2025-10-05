@@ -2,6 +2,7 @@
 
 import logging
 import os
+import re  # ADDED
 import requests
 from datetime import datetime
 
@@ -58,6 +59,9 @@ Create a reaction thread that:
 - Adds witty commentary and insights
 - Ends each tweet with '— Hunter 🐾'
 - Separates tweets with '---'
+- Do NOT add any preamble, introduction, or meta-commentary
+- Do NOT number tweets or use labels like "Tweet 1:", "Tweet 2:"
+- Start directly with the content
 """
         
         thread_parts = hunter_ai.generate_thread(
@@ -70,6 +74,30 @@ Create a reaction thread that:
         if not thread_parts or len(thread_parts) < 3:
             logger.warning("AI returned insufficient parts for opinion thread. Skipping.")
             return
+
+        # ADDED: Clean up AI-added preambles and labels
+        cleaned_parts = []
+        for i, part in enumerate(thread_parts):
+            cleaned = part.strip()
+            
+            # Remove common preambles (only from first part)
+            if i == 0:
+                # Remove introductory phrases
+                cleaned = re.sub(
+                    r'^(Okay,?\s*)?(here\'s|here is)\s*(a|the)\s*\d*-?part\s*.+?(thread|tweet|response).{0,50}?:?\s*',
+                    '',
+                    cleaned,
+                    flags=re.IGNORECASE
+                )
+            
+            # Remove tweet labels from all parts
+            cleaned = re.sub(r'^\*?\*?Tweet\s*\d+:?\*?\*?\s*', '', cleaned, flags=re.IGNORECASE)
+            cleaned = re.sub(r'^(Part|Thread)\s*\d+:?\s*', '', cleaned, flags=re.IGNORECASE)
+            cleaned = re.sub(r'^\d+[\.)]\s*', '', cleaned)  # Remove "1. " or "1) "
+            
+            cleaned_parts.append(cleaned.strip())
+        
+        thread_parts = cleaned_parts
 
         # 3. Format and post the thread
         date_str = datetime.utcnow().strftime("%Y-%m-%d")
@@ -104,7 +132,7 @@ Create a reaction thread that:
                 tweet_id=final_tweet_id,
                 details=full_thread_text,
                 headline_id=headline_id,
-                ai_provider=hunter_ai.provider.value  # Now properly exposed
+                ai_provider=hunter_ai.provider.value
             )
             
             db_service.mark_headline_as_used(headline_id)

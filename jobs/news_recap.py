@@ -2,12 +2,13 @@
 
 import logging
 import os
+import re  # ADDED
 from datetime import datetime
 
 from services.database_service import DatabaseService
-from services.ai_service import get_ai_service
+from services.hunter_ai_service import get_hunter_ai_service  # CHANGED
 from utils.x_post import post_thread, upload_media
-from utils.text_utils import insert_cashtags, insert_mentions # Assuming these are in text_utils
+from utils.text_utils import insert_cashtags, insert_mentions
 
 logger = logging.getLogger(__name__)
 
@@ -18,11 +19,10 @@ def run_news_thread_job():
     """
     logger.info("📰 Starting Daily News Recap Job...")
     db_service = DatabaseService()
-    ai_service = get_ai_service()
+    hunter_ai = get_hunter_ai_service()  # CHANGED
 
     try:
         # 1. Get top 3 headlines FROM THE DATABASE
-        # This replaces the get_today_headlines() function that read from a CSV.
         top_headlines = db_service.get_top_headlines(count=3, days=1)
         
         if not top_headlines or len(top_headlines) < 3:
@@ -42,8 +42,9 @@ def run_news_thread_job():
 - Use relevant emojis and cashtags.
 - End each tweet with '— Hunter 🐾'.
 - Separate each tweet with '---'.
+- Do NOT number the tweets or add labels like "Tweet 1:", "Tweet 2:", etc.
 """
-        thread_parts = ai_service.generate_thread(
+        thread_parts = hunter_ai.generate_thread(  # CHANGED
             prompt=headlines_text,
             system_instruction=task_rules,
             parts=3,
@@ -53,6 +54,17 @@ def run_news_thread_job():
         if not thread_parts or len(thread_parts) < 3:
             logger.warning("AI returned insufficient parts for news recap. Skipping.")
             return
+
+        # ADDED: Clean up AI-added labels like "Tweet 1:", "Tweet 2:", etc.
+        cleaned_parts = []
+        for part in thread_parts:
+            cleaned = part.strip()
+            # Remove patterns like "Tweet 1:", "Part 1:", "1.", "1)", etc.
+            cleaned = re.sub(r'^(Tweet|Part)\s*\d+:\s*', '', cleaned, flags=re.IGNORECASE)
+            cleaned = re.sub(r'^\d+[\.)]\s*', '', cleaned)  # Remove "1. " or "1) "
+            cleaned_parts.append(cleaned)
+        
+        thread_parts = cleaned_parts
 
         # 3. Format and post the thread
         date_str = datetime.utcnow().strftime("%Y-%m-%d")
@@ -75,8 +87,8 @@ def run_news_thread_job():
                 content_type="news_recap_thread",
                 tweet_id=final_tweet_id,
                 details=full_thread_text,
-                headline_id=top_headlines[0]['id'], # Log against the top headline
-                ai_provider=ai_service.provider.value
+                headline_id=top_headlines[0]['id'],
+                ai_provider=hunter_ai.provider.value  # CHANGED
             )
             
             # Mark all used headlines as used to prevent re-use

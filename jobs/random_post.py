@@ -5,7 +5,7 @@ import random
 import os
 
 from services.database_service import DatabaseService
-from services.ai_service import get_ai_service
+from services.hunter_ai_service import get_hunter_ai_service
 from utils.x_post import post_tweet
 from utils.text_utils import insert_cashtags, insert_mentions
 
@@ -20,7 +20,7 @@ def run_random_post_job():
     logger.info("🎲 Starting Random Post Job (Original Tweet Only)...")
     
     db_service = DatabaseService()
-    ai_service = get_ai_service()
+    hunter_ai = get_hunter_ai_service()
 
     try:
         # --- The logic is now only for the "original" tweet path ---
@@ -44,7 +44,7 @@ def run_random_post_job():
             task_rules = "TASK: Write a standalone, engaging, Web3-native crypto tweet. End with '— Hunter 🐾'."
             content_type_log = "random_original_tweet"
 
-        text = ai_service.generate_content(prompt=input_text, system_instruction=task_rules, max_tokens=280)
+        text = hunter_ai.generate_content(input_text=input_text, task_rules=task_rules, max_tokens=280)
         
         if text:
             text = insert_cashtags(insert_mentions(text))
@@ -57,7 +57,7 @@ def run_random_post_job():
                     tweet_id=post_result["final_tweet_id"],
                     details=text,
                     headline_id=xrp_headline['id'] if xrp_headline else None,
-                    ai_provider=ai_service.provider.value
+                    ai_provider=hunter_ai.provider.value
                 )
                 # Mark headline as used if it was an XRP post
                 if xrp_headline:

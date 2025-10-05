@@ -13,6 +13,15 @@ from .x_post import post_quote_tweet, post_thread, post_tweet, upload_media
 # Generic text manipulation helpers
 from .text_utils import insert_cashtags, insert_mentions, slugify
 
+# URL construction helpers
+from .url_helpers import (
+    get_article_file_path, 
+    get_article_web_url, 
+    get_tweet_url, 
+    get_image_url,
+    get_chart_url  # NEW
+)
+
 # Core monitoring and notification system
 from .tg_notifier import send_telegram_message
 from .telegram_log_handler import TelegramHandler

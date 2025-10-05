@@ -48,3 +48,4 @@ if not TWITTER_CONSUMER_KEY or not DATABASE_CONFIG["password"]:
     error_msg = "Critical environment variables are missing. Check that your .env files are correctly referenced in docker-compose.yaml and contain the required values (e.g., X_API_KEY, DB_PASSWORD)."
     logger.critical(error_msg)
     raise ImportError(error_msg)
+
