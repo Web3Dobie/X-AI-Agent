@@ -278,9 +278,9 @@ class DatabaseService:
                 - token: str (e.g., 'BTC', 'ETH')
                 - date: str (ISO date)
                 - close_price: float
-                - sma10: float
-                - sma50: float
-                - sma200: float
+                - sma_10: float
+                - sma_50: float
+                - sma_200: float
                 - rsi: float
                 - macd: float
                 - macd_signal: float
@@ -289,14 +289,14 @@ class DatabaseService:
         """
         sql = """
             INSERT INTO hunter_agent.ta_data 
-            (token, date, close_price, sma10, sma50, sma200, rsi, macd, macd_signal, ai_summary, ai_provider)
+            (token, date, close_price, sma_10, sma_50, sma_200, rsi, macd, macd_signal, ai_summary, ai_provider)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             ON CONFLICT (token, date) 
             DO UPDATE SET
                 close_price = EXCLUDED.close_price,
-                sma10 = EXCLUDED.sma10,
-                sma50 = EXCLUDED.sma50,
-                sma200 = EXCLUDED.sma200,
+                sma_10 = EXCLUDED.sma_10,
+                sma_50 = EXCLUDED.sma_50,
+                sma_200 = EXCLUDED.sma_200,
                 rsi = EXCLUDED.rsi,
                 macd = EXCLUDED.macd,
                 macd_signal = EXCLUDED.macd_signal,
@@ -310,9 +310,9 @@ class DatabaseService:
                         ta_entry_data.get('token', '').upper(),
                         ta_entry_data.get('date'),
                         ta_entry_data.get('close_price'),
-                        ta_entry_data.get('sma10'),
-                        ta_entry_data.get('sma50'),
-                        ta_entry_data.get('sma200'),
+                        ta_entry_data.get('sma_10'),
+                        ta_entry_data.get('sma_50'),
+                        ta_entry_data.get('sma_200'),
                         ta_entry_data.get('rsi'),
                         ta_entry_data.get('macd'),
                         ta_entry_data.get('macd_signal'),
@@ -412,6 +412,210 @@ class DatabaseService:
                 logging.error(f"Error fetching recent headlines for display: {e}")
                 return []
 
+    # ========================================
+    # Job execution tracking operations
+    # ========================================
+
+    def start_job_execution(self, job_name: str, category: str = None, metadata: dict = None):
+        """
+        Records the start of a job execution.
+        Returns the execution_id for tracking.
+        
+        Args:
+            job_name: Name of the job being executed
+            category: Job category (from JobCategory enum)
+            metadata: Optional dict of job-specific data
+        
+        Returns:
+            int: execution_id if successful, None if failed
+        """
+        import json
+        
+        sql = """
+            INSERT INTO hunter_agent.job_executions 
+            (job_name, category, started_at, status, metadata)
+            VALUES (%s, %s, NOW(), 'running', %s)
+            RETURNING id;
+        """
+        with self.get_connection() as conn:
+            try:
+                with conn.cursor() as cursor:
+                    cursor.execute(sql, (
+                        job_name,
+                        category,
+                        json.dumps(metadata) if metadata else None
+                    ))
+                    execution_id = cursor.fetchone()[0]
+                conn.commit()
+                logging.debug(f"Started job execution tracking: {job_name} (ID: {execution_id})")
+                return execution_id
+            except Exception as e:
+                logging.error(f"Failed to start job execution tracking for {job_name}: {e}")
+                conn.rollback()
+                return None
+
+    def complete_job_execution(self, execution_id: int, status: str, 
+                            error_message: str = None, error_traceback: str = None,
+                            duration_seconds: float = None, metadata: dict = None):
+        """
+        Updates a job execution record with completion details.
+        
+        Args:
+            execution_id: ID returned from start_job_execution()
+            status: 'success' or 'failed'
+            error_message: Brief error description if failed
+            error_traceback: Full traceback if failed
+            duration_seconds: How long the job took
+            metadata: Additional job-specific data to merge
+        
+        Returns:
+            bool: True if successful, False if failed
+        """
+        import json
+        
+        sql = """
+            UPDATE hunter_agent.job_executions
+            SET completed_at = NOW(),
+                status = %s,
+                error_message = %s,
+                error_traceback = %s,
+                duration_seconds = %s,
+                metadata = COALESCE(%s::jsonb, metadata)
+            WHERE id = %s;
+        """
+        with self.get_connection() as conn:
+            try:
+                with conn.cursor() as cursor:
+                    cursor.execute(sql, (
+                        status,
+                        error_message,
+                        error_traceback,
+                        duration_seconds,
+                        json.dumps(metadata) if metadata else None,
+                        execution_id
+                    ))
+                conn.commit()
+                logging.debug(f"Completed job execution tracking: ID {execution_id} - {status}")
+                return True
+            except Exception as e:
+                logging.error(f"Failed to complete job execution tracking for ID {execution_id}: {e}")
+                conn.rollback()
+                return False
+
+    def get_recent_job_executions(self, job_name: str = None, limit: int = 10, status: str = None):
+        """
+        Retrieves recent job executions, optionally filtered.
+        
+        Args:
+            job_name: Filter by specific job name (optional)
+            limit: Maximum number of results
+            status: Filter by status: 'success', 'failed', 'running' (optional)
+        
+        Returns:
+            list: List of tuples with job execution data
+        """
+        conditions = []
+        params = []
+        
+        if job_name:
+            conditions.append("job_name = %s")
+            params.append(job_name)
+        
+        if status:
+            conditions.append("status = %s")
+            params.append(status)
+        
+        where_clause = f"WHERE {' AND '.join(conditions)}" if conditions else ""
+        
+        sql = f"""
+            SELECT id, job_name, category, started_at, completed_at, 
+                status, duration_seconds, error_message
+            FROM hunter_agent.job_executions
+            {where_clause}
+            ORDER BY started_at DESC
+            LIMIT %s;
+        """
+        params.append(limit)
+        
+        with self.get_connection() as conn:
+            try:
+                with conn.cursor() as cursor:
+                    cursor.execute(sql, tuple(params))
+                    return cursor.fetchall()
+            except Exception as e:
+                logging.error(f"Failed to fetch job executions: {e}")
+                return []
+
+    def get_failed_jobs(self, hours: int = 24):
+        """
+        Get all failed job executions within the last N hours.
+        Useful for monitoring and alerting.
+        
+        Args:
+            hours: Look back this many hours
+        
+        Returns:
+            list: List of tuples (id, job_name, started_at, error_message)
+        """
+        sql = """
+            SELECT id, job_name, started_at, error_message
+            FROM hunter_agent.job_executions
+            WHERE status = 'failed'
+            AND started_at >= NOW() - INTERVAL '%s hours'
+            ORDER BY started_at DESC;
+        """
+        with self.get_connection() as conn:
+            try:
+                with conn.cursor() as cursor:
+                    cursor.execute(sql, (hours,))
+                    return cursor.fetchall()
+            except Exception as e:
+                logging.error(f"Failed to fetch failed jobs: {e}")
+                return []
+
+    def get_job_statistics(self, job_name: str, days: int = 7):
+        """
+        Get success rate and performance stats for a specific job.
+        
+        Args:
+            job_name: Name of the job to analyze
+            days: Look back this many days
+        
+        Returns:
+            dict: Statistics including success rate, avg duration, etc.
+        """
+        sql = """
+            SELECT 
+                COUNT(*) as total_runs,
+                SUM(CASE WHEN status = 'success' THEN 1 ELSE 0 END) as successful_runs,
+                AVG(duration_seconds) as avg_duration,
+                MAX(duration_seconds) as max_duration,
+                MIN(duration_seconds) as min_duration
+            FROM hunter_agent.job_executions
+            WHERE job_name = %s
+            AND started_at >= NOW() - INTERVAL '%s days'
+            AND status IN ('success', 'failed');
+        """
+        with self.get_connection() as conn:
+            try:
+                with conn.cursor() as cursor:
+                    cursor.execute(sql, (job_name, days))
+                    result = cursor.fetchone()
+                    if result and result[0] > 0:
+                        total, success, avg_dur, max_dur, min_dur = result
+                        return {
+                            'total_runs': total,
+                            'successful_runs': success,
+                            'success_rate': round((success / total * 100), 2) if total > 0 else 0,
+                            'avg_duration': round(float(avg_dur), 2) if avg_dur else 0,
+                            'max_duration': round(float(max_dur), 2) if max_dur else 0,
+                            'min_duration': round(float(min_dur), 2) if min_dur else 0
+                        }
+                    return None
+            except Exception as e:
+                logging.error(f"Failed to fetch job statistics for {job_name}: {e}")
+                return None
+    
     def check_connection(self):
         """
         Performs a simple query to verify that the database connection is live.

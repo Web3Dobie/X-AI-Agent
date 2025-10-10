@@ -15,6 +15,7 @@ from datetime import datetime, timedelta
 from functools import wraps
 from enum import Enum
 from typing import Optional, Dict, Any, Callable
+from logging.handlers import RotatingFileHandler
 
 import schedule
 from dotenv import load_dotenv
@@ -41,16 +42,38 @@ http_server_thread = None
 # sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
 
 # Configure logging with enhanced file handling and directory creation
-os.makedirs('/app/logs', exist_ok=True)  # Ensure logs directory exists
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.StreamHandler(sys.stdout),
-        logging.FileHandler('/app/logs/scheduler.log', encoding='utf-8')
-    ]
+# Ensure logs directory exists
+os.makedirs('/app/logs', exist_ok=True)
+
+# Create enhanced formatter with module names
+log_formatter = logging.Formatter(
+    '%(asctime)s | %(levelname)-8s | %(name)-30s | %(funcName)-25s | %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
 )
+
+# Stdout handler (Docker captures this)
+stdout_handler = logging.StreamHandler(sys.stdout)
+stdout_handler.setFormatter(log_formatter)
+
+# Rotating file handler (safety net, auto-rotates at 50MB)
+file_handler = RotatingFileHandler(
+    '/app/logs/hunter-agent.log',  # ONE unified log file
+    maxBytes=50*1024*1024,  # 50MB
+    backupCount=5,  # Keep 5 old files
+    encoding='utf-8'
+)
+file_handler.setFormatter(log_formatter)
+
+# Configure root logger (affects ALL modules)
+root_logger = logging.getLogger()
+root_logger.setLevel(logging.INFO)
+root_logger.handlers.clear()  # Remove any existing handlers
+root_logger.addHandler(stdout_handler)
+root_logger.addHandler(file_handler)
+
+# Module-specific logger
 logger = logging.getLogger(__name__)
+logger.info("Hunter Agent logging system initialized")
 
 # Global rate limiting state
 _last_telegram_send = 0

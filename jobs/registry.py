@@ -97,10 +97,11 @@ class JobRegistry:
         return wrapped_job
     
     def _create_wrapped_job(self, func: Callable, name: str, category: JobCategory, priority: JobPriority) -> Callable:
-        """Create a properly wrapped job function with enhanced monitoring"""
+        """Create a properly wrapped job function with enhanced monitoring and database tracking"""
         
         # Import here to avoid circular imports
         from scheduler import telegram_job_wrapper, run_in_thread
+        from services.database_service import DatabaseService
         
         @telegram_job_wrapper(name)
         @wraps(func)
@@ -115,22 +116,73 @@ class JobRegistry:
                 logger.warning(f"⚠️ Job {name} dependencies not met, skipping")
                 return None
             
+            # Initialize database service
+            db_service = DatabaseService()
+            execution_id = None
             start_time = time.time()
+            
+            # Start database tracking
+            try:
+                execution_id = db_service.start_job_execution(
+                    job_name=name,
+                    category=category.value,
+                    metadata={
+                        'priority': priority.value,
+                        'description': self.jobs[name].get('description', '')
+                    }
+                )
+            except Exception as e:
+                logger.warning(f"Failed to start database tracking for {name}: {e}")
+                # Continue execution even if tracking fails
             
             try:
                 # Execute the actual function
+                logger.info(f"🚀 Starting job: {name}")
                 result = func()
                 duration = time.time() - start_time
+                
+                # Update in-memory stats (backward compatibility)
                 self._update_success_stats(name, duration)
+                
+                # Complete database tracking
+                if execution_id:
+                    try:
+                        db_service.complete_job_execution(
+                            execution_id=execution_id,
+                            status='success',
+                            duration_seconds=duration
+                        )
+                    except Exception as e:
+                        logger.warning(f"Failed to complete database tracking for {name}: {e}")
                 
                 logger.info(f"✅ Job {name} completed successfully in {duration:.2f}s")
                 return result
                 
             except Exception as e:
                 duration = time.time() - start_time
+                
+                # Update in-memory stats (backward compatibility)
                 self._update_failure_stats(name, duration, str(e))
                 
+                # Get full traceback for database
+                import traceback
+                error_traceback = traceback.format_exc()
+                
+                # Complete database tracking with failure
+                if execution_id:
+                    try:
+                        db_service.complete_job_execution(
+                            execution_id=execution_id,
+                            status='failed',
+                            error_message=str(e),
+                            error_traceback=error_traceback,
+                            duration_seconds=duration
+                        )
+                    except Exception as db_error:
+                        logger.warning(f"Failed to complete database tracking for {name}: {db_error}")
+                
                 logger.error(f"❌ Job {name} failed after {duration:.2f}s: {str(e)}")
+                logger.debug(f"Full traceback:\n{error_traceback}")
                 
                 # Don't re-raise to allow other jobs to continue
                 return None
