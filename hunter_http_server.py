@@ -45,9 +45,14 @@ class HunterNewsHandler(BaseHTTPRequestHandler):
         cls._comment_cache[headline] = (comment, time.time())
         logger.debug(f"Cached comment for: {headline[:50]}...")
     
-    def generate_comment_with_fallback(self, headline):
-        """Generate comment with caching and error handling"""
-        # Check cache first
+    def generate_comment_with_fallback(self, headline, existing_comment=None):
+        """Generate comment with caching and error handling, prefer existing DB comment"""
+        # If we have a comment from the database, use it
+        if existing_comment:
+            logger.debug(f"Using database comment for: {headline[:50]}...")
+            return existing_comment
+        
+        # Check cache
         cached = self.get_cached_comment(headline)
         if cached:
             return cached
@@ -60,7 +65,6 @@ class HunterNewsHandler(BaseHTTPRequestHandler):
         except Exception as e:
             logger.error(f"AI failed for headline '{headline[:50]}...': {e}")
             fallback = "📈 Analysis pending. — Hunter 🐾"
-            # Don't cache fallback comments
             return fallback
     
     def do_GET(self):
@@ -70,7 +74,11 @@ class HunterNewsHandler(BaseHTTPRequestHandler):
                 
                 formatted_headlines = []
                 for h in headlines:
-                    comment = self.generate_comment_with_fallback(h['headline'])
+                    # Prefer database comment, fallback to generation
+                    comment = self.generate_comment_with_fallback(
+                        h['headline'], 
+                        existing_comment=h.get('hunter_comment')
+                    )
                     
                     formatted_headlines.append({
                         "headline": h['headline'],

@@ -79,6 +79,39 @@ class DatabaseService:
                 conn.rollback()
                 return 0
 
+    def batch_insert_headlines_with_comments(self, headlines_data):
+        """
+        Batch inserts headlines with pre-generated AI comments.
+        
+        Args:
+            headlines_data (list of tuples): Each tuple is:
+                (headline, url, source, ticker, score, ai_provider, hunter_comment)
+        """
+        if not headlines_data:
+            return 0
+            
+        sql = """
+            INSERT INTO hunter_agent.headlines 
+            (headline, url, source, ticker, score, ai_provider, hunter_comment)
+            VALUES %s
+            ON CONFLICT (url) DO UPDATE SET
+                score = EXCLUDED.score,
+                ai_provider = EXCLUDED.ai_provider,
+                hunter_comment = EXCLUDED.hunter_comment;
+        """
+        with self.get_connection() as conn:
+            try:
+                with conn.cursor() as cursor:
+                    execute_values(cursor, sql, headlines_data, page_size=100)
+                    inserted_count = cursor.rowcount
+                conn.commit()
+                logging.info(f"Batch insert with comments complete. Inserted/updated {inserted_count} headlines.")
+                return inserted_count
+            except Exception as e:
+                logging.error(f"Error during batch headline insert with comments: {e}")
+                conn.rollback()
+                return 0
+
     def fetch_unscored_headlines(self, limit=100):
         """Fetches headlines from the database that have not yet been scored."""
         sql = "SELECT id, headline, ticker FROM hunter_agent.headlines WHERE score IS NULL LIMIT %s;"
@@ -392,9 +425,10 @@ class DatabaseService:
     def get_recent_headlines_for_display(self, count=4, hours=1):
         """
         Fetches the top N highest-scoring headlines from recent hours for display purposes.
+        Now includes pre-generated hunter_comment if available.
         """
         sql = f"""
-            SELECT id, headline, url FROM hunter_agent.headlines
+            SELECT id, headline, url, hunter_comment FROM hunter_agent.headlines
             WHERE created_at >= NOW() - INTERVAL '{hours} hours'
             AND score IS NOT NULL
             ORDER BY score DESC, created_at DESC
@@ -406,7 +440,7 @@ class DatabaseService:
                     cursor.execute(sql, (count,))
                     results = cursor.fetchall()
                     if results:
-                        return [{"id": r[0], "headline": r[1], "url": r[2]} for r in results]
+                        return [{"id": r[0], "headline": r[1], "url": r[2], "hunter_comment": r[3]} for r in results]
                     return []
             except Exception as e:
                 logging.error(f"Error fetching recent headlines for display: {e}")

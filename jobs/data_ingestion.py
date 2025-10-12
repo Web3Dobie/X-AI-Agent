@@ -144,13 +144,17 @@ CLASSIFICATION:
 
 def _score_and_filter_headlines(items: List[Dict], min_category: str = 'high', batch_size: int = 9) -> List[Dict]:
     """
-    Scores headlines in batches and RETURNS a filtered list of high-scoring headlines.
+    Scores headlines in batches and generates Hunter comments for high-scoring ones.
+    RETURNS a filtered list of high-scoring headlines with comments.
     """
     if not items: return []
     logging.info(f"Starting batch scoring for {len(items)} headlines...")
 
     all_accepted_results = []
     ai_service = get_ai_service()
+    from services.hunter_ai_service import get_hunter_ai_service
+    hunter_ai = get_hunter_ai_service()
+    
     category_levels = {'high': 3, 'moderate': 2, 'low': 1}
     min_level = category_levels.get(min_category.lower(), 3)
     system_instruction = "You are a content curation assistant. Classify headlines as High, Moderate, or Low interest. Your entire response must be only a numbered list of these categories."
@@ -169,10 +173,22 @@ def _score_and_filter_headlines(items: List[Dict], min_category: str = 'high', b
                 elif score >= 5: current_level = 2
 
                 if current_level >= min_level:
+                    # Generate Hunter comment for high-scoring headlines
+                    try:
+                        hunter_comment = hunter_ai.generate_headline_comment(item["headline"])
+                        logging.debug(f"Generated comment for: {item['headline'][:50]}...")
+                    except Exception as e:
+                        logging.warning(f"Failed to generate comment for headline: {e}")
+                        hunter_comment = None  # Will be generated on-demand later
+                    
                     record = {
-                        "headline": item["headline"], "url": item["url"], "ticker": item["ticker"],
-                        "score": score, "source": item.get("source"),
-                        "ai_provider": ai_service.provider.value
+                        "headline": item["headline"], 
+                        "url": item["url"], 
+                        "ticker": item["ticker"],
+                        "score": score, 
+                        "source": item.get("source"),
+                        "ai_provider": ai_service.provider.value,
+                        "hunter_comment": hunter_comment
                     }
                     all_accepted_results.append(record)
         except Exception as e:
@@ -198,22 +214,22 @@ def run_headline_ingestion_job():
         logging.info("No headlines fetched from RSS. Job complete.")
         return
 
-    # 2. Score and filter the headlines in-memory
+    # 2. Score and filter the headlines in-memory (now with comments)
     high_scoring_headlines = _score_and_filter_headlines(raw_headlines, min_category='high')
     
     if not high_scoring_headlines:
         logging.info("No headlines met the minimum score threshold. Job complete.")
         return
         
-    # 3. Prepare and insert the filtered headlines into the database
+    # 3. Prepare and insert the filtered headlines with comments into the database
     db_service = DatabaseService()
     
     headlines_to_insert = [
-        (h['headline'], h['url'], h.get('source'), h.get('ticker'), h['score'], h['ai_provider'])
+        (h['headline'], h['url'], h.get('source'), h.get('ticker'), h['score'], h['ai_provider'], h.get('hunter_comment'))
         for h in high_scoring_headlines
     ]
     
-    inserted_count = db_service.batch_insert_headlines(headlines_to_insert)
+    inserted_count = db_service.batch_insert_headlines_with_comments(headlines_to_insert)
     
     logging.info(f"--- Headline Ingestion Job Complete ---")
-    logging.info(f"Accepted and inserted {inserted_count} new high-scoring headlines into the database.")
+    logging.info(f"Accepted and inserted {inserted_count} new high-scoring headlines with comments into the database.")
