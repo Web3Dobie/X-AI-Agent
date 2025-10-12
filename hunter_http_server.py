@@ -1,7 +1,8 @@
-# hunter_http_server.py - Enhanced with latest tweet endpoint
+# hunter_http_server.py - Enhanced with comment caching
 
 import json
 import logging
+import time
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from datetime import datetime
 
@@ -12,10 +13,55 @@ from utils.url_helpers import get_tweet_url
 logger = logging.getLogger(__name__)
 
 class HunterNewsHandler(BaseHTTPRequestHandler):
+    # Class-level cache (shared across all requests)
+    _comment_cache = {}
+    _cache_ttl = 300  # 5 minutes
+    
     def __init__(self, *args, **kwargs):
         self.db_service = DatabaseService()
         self.hunter_ai = get_hunter_ai_service()
         super().__init__(*args, **kwargs)
+    
+    @classmethod
+    def get_cached_comment(cls, headline):
+        """Get cached comment or return None if expired/missing"""
+        cache_key = headline
+        now = time.time()
+        
+        if cache_key in cls._comment_cache:
+            cached_comment, cached_time = cls._comment_cache[cache_key]
+            if now - cached_time < cls._cache_ttl:
+                logger.debug(f"Cache hit for headline: {headline[:50]}...")
+                return cached_comment
+            else:
+                # Expired, remove from cache
+                del cls._comment_cache[cache_key]
+        
+        return None
+    
+    @classmethod
+    def set_cached_comment(cls, headline, comment):
+        """Store comment in cache with timestamp"""
+        cls._comment_cache[headline] = (comment, time.time())
+        logger.debug(f"Cached comment for: {headline[:50]}...")
+    
+    def generate_comment_with_fallback(self, headline):
+        """Generate comment with caching and error handling"""
+        # Check cache first
+        cached = self.get_cached_comment(headline)
+        if cached:
+            return cached
+        
+        # Generate new comment
+        try:
+            comment = self.hunter_ai.generate_headline_comment(headline)
+            self.set_cached_comment(headline, comment)
+            return comment
+        except Exception as e:
+            logger.error(f"AI failed for headline '{headline[:50]}...': {e}")
+            fallback = "📈 Analysis pending. — Hunter 🐾"
+            # Don't cache fallback comments
+            return fallback
     
     def do_GET(self):
         if self.path == '/crypto-news-data':
@@ -24,11 +70,7 @@ class HunterNewsHandler(BaseHTTPRequestHandler):
                 
                 formatted_headlines = []
                 for h in headlines:
-                    try:
-                        comment = self.hunter_ai.generate_headline_comment(h['headline'])
-                    except Exception as e:
-                        logger.error(f"AI failed: {e}")
-                        comment = "📈 Analysis pending. — Hunter 🐾"
+                    comment = self.generate_comment_with_fallback(h['headline'])
                     
                     formatted_headlines.append({
                         "headline": h['headline'],
@@ -63,6 +105,7 @@ class HunterNewsHandler(BaseHTTPRequestHandler):
                     return
         
         elif self.path == '/api/latest-tweet':
+            # ... existing code ...
             try:
                 # Query the latest tweet from content_log
                 with self.db_service.get_connection() as conn:

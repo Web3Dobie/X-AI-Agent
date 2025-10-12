@@ -36,26 +36,35 @@ def is_rate_limited():
     Checks our internal state to see if the limit is reached.
     Includes a fallback to reset stale state older than 24 hours.
     """
-    # --- START OF ADDED CODE ---
-    # Stale State Check: If the state hasn't been updated from a post or header
-    # in over 24 hours, assume it's stale and reset it to default.
-    if rate_limit_state.last_updated and (time.monotonic() - rate_limit_state.last_updated) > 86400: # 86400 seconds = 24 hours
-        logging.warning("Rate limit state is stale (older than 24 hours). Forcing a reset to default values.")
-        rate_limit_state.remaining = 17  # Reset to the full quota
-        rate_limit_state.reset_timestamp = 0
-        rate_limit_state.last_updated = None
-        return False # The limit is no longer active after a reset
-    # --- END OF ADDED CODE ---
-
-    # Check if the reset time from the API is in the past. If so, we are not limited.
-    if rate_limit_state.reset_timestamp != 0 and time.time() > rate_limit_state.reset_timestamp:
-        logging.info("Rate limit window has reset based on API timestamp.")
+    # FRESH START CHECK: If we've never tracked a post, we're not limited
+    if rate_limit_state.last_updated is None and rate_limit_state.reset_timestamp == 0:
+        logging.info("Rate limit state is fresh (never updated). Not limited.")
         return False
     
-    # If the window has not reset, check if we have any posts left.
+    # Stale State Check: If the state hasn't been updated in over 24 hours
+    if rate_limit_state.last_updated and (time.monotonic() - rate_limit_state.last_updated) > 86400:
+        logging.warning("Rate limit state is stale (older than 24 hours). Forcing a reset to default values.")
+        rate_limit_state.remaining = 17
+        rate_limit_state.reset_timestamp = 0
+        rate_limit_state.last_updated = None
+        return False
+
+    # Check if the reset time from the API is in the past
+    if rate_limit_state.reset_timestamp != 0 and time.time() > rate_limit_state.reset_timestamp:
+        logging.info("Rate limit window has reset based on API timestamp.")
+        # Reset the state since window has passed
+        rate_limit_state.remaining = 17
+        rate_limit_state.reset_timestamp = 0
+        return False
+    
+    # If the window has not reset, check if we have any posts left
     is_limited = rate_limit_state.remaining <= 0
     if is_limited:
-        logging.warning("Local state indicates rate limit is active.")
+        logging.warning(
+            f"Rate limit active: remaining={rate_limit_state.remaining}, "
+            f"reset_at={datetime.fromtimestamp(rate_limit_state.reset_timestamp, tz=timezone.utc).isoformat() if rate_limit_state.reset_timestamp else 'unknown'}, "
+            f"last_updated={rate_limit_state.last_updated}"
+        )
     
     return is_limited
 
@@ -63,7 +72,6 @@ def decrement_rate_limit_counter():
     """Manually decrements the remaining posts counter after a successful post."""
     if rate_limit_state.remaining > 0:
         rate_limit_state.remaining -= 1
-        # --- ADDED LINE ---
         # Update the timestamp on every decrement to prevent the state from becoming stale
         rate_limit_state.last_updated = time.monotonic()
         
