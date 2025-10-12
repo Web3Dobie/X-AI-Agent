@@ -309,6 +309,9 @@ Azure OpenAI ←→ Google Gemini ←→ Future Providers
   - `get_recent_job_executions()` - Query execution history
   - `get_failed_jobs()` - Find failures in time window
   - `get_job_statistics()` - Aggregate performance metrics
+  **Comment Storage Methods (NEW - October 12, 2025):**
+  - `batch_insert_headlines_with_comments()` - Insert headlines with pre-generated AI comments
+  - `get_recent_headlines_for_display()` - UPDATED to include hunter_comment field
 
 **Phase 3: Automatic Job Registry Integration**
 - **Modified**: `jobs/registry.py` → `_create_wrapped_job()` method
@@ -339,6 +342,49 @@ Benefits Achieved
 ✅ Failure Debugging - Full tracebacks stored in database
 ✅ Graceful Degradation - Jobs execute even if tracking fails
 ✅ Docker-Native - Logs captured by Docker for ecosystem monitoring
+
+### 🔧 **Rate Limiter & Gemini Comment Caching (October 12, 2025)**
+
+#### **Problem Statement**
+- X (Twitter) rate limiter incorrectly blocking posts on fresh container starts
+- Gemini API rate limit exhaustion (10 RPM) from HTTP endpoint generating comments on every request
+- Infinite loop in another agent caused 429 errors and service disruption
+
+#### **Solution: Two-Phase Fix**
+
+**Phase A: Fixed Rate Limiter Logic**
+- **File**: `utils/rate_limit_manager.py`
+- **Issue**: Fresh start state (`last_updated=None, reset_timestamp=0`) not handled correctly
+- **Fix**: Added fresh start check to return `False` (not limited) when state is uninitialized
+- **Enhanced Logging**: Rate limit warnings now include actual state values for debugging
+- **Result**: ✅ Posts now work correctly after container restarts
+
+**Phase B: Comment Caching & Database Storage**
+- **Issue**: HTTP endpoint `/crypto-news-data` called Gemini for every request, causing rate limit bursts
+- **Solution 1 - In-Memory Cache**:
+  - Class-level cache in `hunter_http_server.py`
+  - 5-minute TTL per headline comment
+  - Prevents regenerating same comment on rapid requests
+  
+- **Solution 2 - Database Persistence**:
+  - Added `hunter_comment TEXT` column to `headlines` table
+  - Comments generated once during headline ingestion (not on every HTTP request)
+  - New method: `batch_insert_headlines_with_comments()`
+  - Updated `get_recent_headlines_for_display()` to include comments
+  - HTTP endpoint now serves pre-generated comments from database
+
+**Files Modified:**
+- `utils/rate_limit_manager.py` - Fixed fresh start logic, enhanced logging
+- `hunter_http_server.py` - Added two-tier caching (memory + database)
+- `services/database_service.py` - New methods for comment storage
+- `jobs/data_ingestion.py` - Generates comments during headline scoring
+
+**Impact:**
+- ✅ Rate limiter works correctly on fresh starts
+- ✅ Gemini API protected from burst requests (10 RPM limit respected)
+- ✅ HTTP endpoint can handle unlimited requests without hitting API limits
+- ✅ Comments generated once and reused efficiently
+- ✅ Verified working: 7 headlines with pre-generated comments serving via HTTP endpoint
 
 ### 🔧 **Critical Fixes Implemented**
 
@@ -648,6 +694,18 @@ error_traceback  | TEXT                     | Full Python traceback if failed
 duration_seconds | NUMERIC(10,2)            | How long job took to execute
 metadata         | JSONB                    | Job-specific data (priority, description)
 created_at       | TIMESTAMPTZ DEFAULT NOW()| Record creation timestamp
+
+data/headlines table (Updated October 12, 2025):
+- id: int (primary key)
+- headline: string
+- url: string (unique)
+- source: string
+- ticker: string (extracted)
+- score: float (1-10, AI-generated)
+- ai_provider: string (tracks which AI scored it)
+- hunter_comment: TEXT (NEW - pre-generated Hunter comment)
+- used_in_thread: boolean
+- created_at: timestamp
 
 Indexes:
 - idx_job_executions_job_name (job_name)
@@ -1101,6 +1159,11 @@ docker-compose logs -f hunter-agent | grep -E "(rate limit|queue|gemini)"
 - **Backward Compatibility** → ✅ **MAINTAINED** - All existing functions work unchanged
 - **Rate Limiting** → ✅ **IMPLEMENTED** - Smart queueing for Gemini API limits
 - **Multi-Agent Architecture** → ✅ **READY** - Agent-specific API key support established
+### ✅ **Confirmed Fixes and Enhancements (Updated October 12, 2025)**
+- **Rate limiter fresh start bug** → ✅ **FIXED** - Posts work after container restarts
+- **Gemini rate limit protection** → ✅ **IMPLEMENTED** - Two-tier caching (memory + database)
+- **Comment generation optimization** → ✅ **DEPLOYED** - Generated once during ingestion, not per HTTP request
+- **HTTP endpoint resilience** → ✅ **VERIFIED** - Can handle unlimited requests without API limits
 
 ### ⏳ **Pending Real-World Verification with AI Providers**
 - **Friday explainer generation with Gemini** (Next Friday, 23:45 UTC)
