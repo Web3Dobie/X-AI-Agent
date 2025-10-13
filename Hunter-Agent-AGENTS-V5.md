@@ -1141,8 +1141,28 @@ docker-compose exec hunter-agent /bin/bash
 docker-compose exec hunter-agent python -c "from utils.rotate_logs import rotate_logs; rotate_logs()"
 docker-compose exec hunter-agent python -c "from services.ai_service import get_ai_service; ai = get_ai_service(); print(ai.provider)"
 
-# Monitor rate limiting (Gemini)
-docker-compose logs -f hunter-agent | grep -E "(rate limit|queue|gemini)"
+# Check system status
+docker-compose ps hunter-agent
+docker-compose exec hunter-agent python scheduler.py status
+
+# Monitor rate limiting
+docker-compose logs -f hunter-agent | grep -E "🚦|📊|⚠️"
+
+# Check for errors
+docker-compose logs hunter-agent | grep -i error | tail -20
+
+# Verify no 429 errors
+docker-compose logs hunter-agent | grep "429"
+
+# View rate limiter state
+docker-compose exec hunter-agent cat /tmp/gemini_requests.json | python -m json.tool
+
+# Check database health
+docker-compose exec hunter-agent python -c "
+from services.database_service import DatabaseService
+db = DatabaseService()
+print('✅ Database connection working' if db.check_connection() else '❌ Database issue')
+"
 ```
 
 ---
