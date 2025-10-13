@@ -363,29 +363,74 @@ class DatabaseService:
     def purge_old_records(self, table_name: str, days_to_keep: int):
         """
         Deletes records from a specified table that are older than N days.
-    
+        
+        Security features:
+        - Whitelist validation: Only approved tables can be purged
+        - Schema verification: Confirms table exists in hunter_agent schema
+        - Parameterized queries: Prevents SQL injection for the interval
+        
         Args:
             table_name (str): The name of the table to clean (e.g., 'headlines').
             days_to_keep (int): How many days of recent data to keep.
+        
+        Returns:
+            int: Number of records deleted, or 0 if operation failed.
         """
-        if not table_name.isalnum():
-            logging.error(f"Invalid table name provided for purging: {table_name}")
+        # Whitelist of tables that can be purged (security measure)
+        PURGEABLE_TABLES = {'headlines', 'content_log', 'ta_data', 'job_executions'}
+        
+        # Step 1: Whitelist validation
+        if table_name not in PURGEABLE_TABLES:
+            logger.error(
+                f"Security: Invalid table name for purging: '{table_name}'. "
+                f"Only these tables can be purged: {', '.join(sorted(PURGEABLE_TABLES))}"
+            )
             return 0
         
-        sql = f"""
-            DELETE FROM hunter_agent.{table_name}
-            WHERE created_at < NOW() - INTERVAL '%s days';
-        """
         with self.get_connection() as conn:
             try:
                 with conn.cursor() as cursor:
-                    cursor.execute(sql, (days_to_keep,))
+                    # Step 2: Verify table exists in hunter_agent schema
+                    cursor.execute("""
+                        SELECT EXISTS (
+                            SELECT 1 
+                            FROM information_schema.tables 
+                            WHERE table_schema = 'hunter_agent' 
+                            AND table_name = %s
+                        );
+                    """, (table_name,))
+                    
+                    table_exists = cursor.fetchone()[0]
+                    
+                    if not table_exists:
+                        logger.error(
+                            f"Table 'hunter_agent.{table_name}' does not exist in the database. "
+                            f"Skipping purge operation."
+                        )
+                        return 0
+                    
+                    # Step 3: Execute the purge
+                    sql = f"""
+                        DELETE FROM hunter_agent.{table_name}
+                        WHERE created_at < NOW() - INTERVAL %s;
+                    """
+                    
+                    cursor.execute(sql, (f'{days_to_keep} days',))
                     deleted_count = cursor.rowcount
+                
                 conn.commit()
-                logging.info(f"Purged {deleted_count} records older than {days_to_keep} days from '{table_name}'.")
+                
+                logger.info(
+                    f"✅ Purged {deleted_count} records older than {days_to_keep} days "
+                    f"from 'hunter_agent.{table_name}'."
+                )
                 return deleted_count
+                
             except Exception as e:
-                logging.error(f"Error purging old records from {table_name}: {e}")
+                logger.error(
+                    f"❌ Error purging old records from hunter_agent.{table_name}: {e}",
+                    exc_info=True
+                )
                 conn.rollback()
                 return 0
 
