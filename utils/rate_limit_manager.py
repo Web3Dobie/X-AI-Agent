@@ -9,6 +9,9 @@ import logging
 import time
 from datetime import datetime, timezone
 
+# Initialize logger at module level
+logger = logging.getLogger(__name__)
+
 class RateLimitState:
     """A simple class to hold the current rate limit state in memory."""
     def __init__(self):
@@ -32,47 +35,40 @@ def update_rate_limit_state_from_headers(headers):
         )
 
 def is_rate_limited():
-    """
-    Checks our internal state to see if the limit is reached.
-    Includes a fallback to reset stale state older than 24 hours.
-    """
-    # FRESH START CHECK: If we've never tracked a post, we're not limited
-    if rate_limit_state.last_updated is None and rate_limit_state.reset_timestamp == 0:
-        logging.info("Rate limit state is fresh (never updated). Not limited.")
-        return False
+    """Check with calendar-based daily reset"""
     
-    # Stale State Check: If the state hasn't been updated in over 24 hours
-    if rate_limit_state.last_updated and (time.monotonic() - rate_limit_state.last_updated) > 86400:
-        logging.warning("Rate limit state is stale (older than 24 hours). Forcing a reset to default values.")
-        rate_limit_state.remaining = 17
-        rate_limit_state.reset_timestamp = 0
-        rate_limit_state.last_updated = None
-        return False
-
-    # Check if the reset time from the API is in the past
-    if rate_limit_state.reset_timestamp != 0 and time.time() > rate_limit_state.reset_timestamp:
-        logging.info("Rate limit window has reset based on API timestamp.")
-        # Reset the state since window has passed
-        rate_limit_state.remaining = 17
-        rate_limit_state.reset_timestamp = 0
-        return False
+    # Get current UTC date
+    now_utc = datetime.now(timezone.utc)
+    current_day = now_utc.date()
     
-    # If the window has not reset, check if we have any posts left
-    is_limited = rate_limit_state.remaining <= 0
-    if is_limited:
-        logging.warning(
-            f"Rate limit active: remaining={rate_limit_state.remaining}, "
-            f"reset_at={datetime.fromtimestamp(rate_limit_state.reset_timestamp, tz=timezone.utc).isoformat() if rate_limit_state.reset_timestamp else 'unknown'}, "
-            f"last_updated={rate_limit_state.last_updated}"
+    # Check if we need to reset for new day
+    if rate_limit_state.last_updated:
+        last_update_time = datetime.fromtimestamp(rate_limit_state.last_updated, tz=timezone.utc)
+        last_update_day = last_update_time.date()
+        
+        if last_update_day < current_day:
+            # New day! Reset counter
+            logger.info(f"📅 New day detected. Resetting rate limit counter from {rate_limit_state.remaining} to 17")
+            rate_limit_state.remaining = 17
+            rate_limit_state.last_updated = time.time()  # Use real time, not monotonic
+            rate_limit_state.reset_timestamp = 0
+            return False
+    
+    # Check if over limit
+    if rate_limit_state.remaining <= 0:
+        logger.warning(
+            f"Rate limit active: remaining={rate_limit_state.remaining}"
         )
+        return True
     
-    return is_limited
+    return False
 
 def decrement_rate_limit_counter():
-    """Manually decrements the remaining posts counter after a successful post."""
+    """Decrement counter using real timestamps"""
     if rate_limit_state.remaining > 0:
         rate_limit_state.remaining -= 1
-        # Update the timestamp on every decrement to prevent the state from becoming stale
-        rate_limit_state.last_updated = time.monotonic()
+        rate_limit_state.last_updated = time.time()  # Use real time, not monotonic
         
-    logging.info(f"📊 Rate limit counter decremented. Posts remaining (local estimate): {rate_limit_state.remaining}")
+        logger.info(
+            f"📊 Rate limit counter decremented. Posts remaining: {rate_limit_state.remaining}"
+        )

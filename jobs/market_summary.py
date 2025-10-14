@@ -92,9 +92,26 @@ def run_market_summary_job():
 
         post_result = post_thread(thread_parts, category="market_summary", media_id_first=media_id)
         
-        # --- DATABASE LOGGING REMOVED AS PER REQUIREMENT ---
+        # Database logging
         if post_result and post_result.get("error") is None:
             logger.info("✅ Market summary thread posted successfully.")
+            final_tweet_id = post_result.get("final_tweet_id")
+            full_thread_text = "\n---\n".join(thread_parts)
+    
+            db_service.log_content(
+                content_type="market_summary", 
+                tweet_id=final_tweet_id,
+                details=full_thread_text, 
+                headline_id=None, 
+                ai_provider=ai_service.provider.value
+            )
+            
+            # Decrement rate limiter for each tweet in the thread
+            from utils.rate_limit_manager import decrement_rate_limit_counter
+            for i in range(len(thread_parts)):
+                decrement_rate_limit_counter()
+            
+            logger.info(f"✅ Logged market summary and decremented rate limiter by {len(thread_parts)}")
         else:
             logger.error(f"Failed to post market summary thread. Error: {post_result.get('error')}")
 
